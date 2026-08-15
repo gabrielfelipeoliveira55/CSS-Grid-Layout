@@ -1,0 +1,322 @@
+* {
+
+  padding: 0rem;
+  margin: 0rem;
+  border: 0rem;
+  box-sizing: border-box;
+  outline: none;
+  list-style-type: none;
+  text-decoration: none;
+  font-family: "Nunito", sans-serif;
+ 
+}
+
+h1, h2, h3, h4, h5, h6 {
+
+  font-family: "IBM Plex Mono", monospace;
+
+}
+
+:root {
+
+  --background1-color: #0e0e0e;
+  --background2-color: #191919;
+  --background3-color: #212121;
+  --bs-color-medium-dark: #141414;
+
+  --special-color1: #8844ee;
+  --special-color2: #9955ff;
+  --special-color3: #6600ff;
+
+  --text-color: #f0f0f0;
+
+  --border-color-header: #695173;
+
+  --border-style-header: 0.0938rem solid #695173; /* 1.5px solid #695173 var(--border-color-header) */
+  --border-style-grid: 0.0625rem solid var(--special-color1); /* 1px solid #ccccc*/
+
+  --box-shadow-style-header: 0rem 0.375rem 0.625rem 0.75rem var(--bs-color-medium-dark); /* 0px 6px 10px 12px var(--bs-color-medium-dark)*/
+  --box-shadow-style-grid: 0rem 0rem 0.25rem var(--special-color2); /* 0px 0px 4px #9955ff */
+
+}
+
+body {
+
+  width: 100%;
+  min-height: 100dvh;
+  background: var(--background2-color);
+  color: var(--text-color);
+
+}
+
+/* ? Style HEADER */
+
+.header {
+
+  background: var(--background1-color);
+  border-bottom:  var(--border-style); /* 1.5px solid var(--border-color-header) */
+  padding: 1.125rem 1.5rem; /* 18px 24px */
+  box-shadow: var(--box-shadow-style-header); /* 0px 6px 10px 12px var(--bs-color-medium-dark)*/
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem; /* 8px */
+  transition: all 0.5s ease-in-out;
+
+}
+
+.header .logo a {
+
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 1.75rem; /* 28px */
+  font-weight: 800;
+  line-height: 1.5;
+  text-transform: uppercase;
+  padding: 0.25rem 0.5rem; /* 4px 8px */
+
+  color: var(--text-color);
+  transition: all 0.5s ease-in-out;
+
+}
+
+.header .logo a:hover {
+
+  color: var(--special-color1);
+
+}
+
+.header .container-title .title {
+
+  font-size: 1.675rem; /* 26.8px */
+
+}
+
+.accent {
+
+  color: var(--special-color2);
+  cursor: pointer;
+
+}
+
+/* ? Style ICON */
+
+.icon-container-box {
+
+  cursor: pointer;
+  transition: all 0.5s ease-in-out;
+
+}
+
+.icon-container-box:hover {
+
+  transform: rotateY(380deg);
+
+}
+
+/* ? Style MAIN */
+
+.main {
+
+  width: 100%;
+
+}
+
+/* ? Style SECTION */
+
+.section {
+
+  width: 100%;
+  padding: 2.5rem 1.25rem; /* 40px 20px */
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem; /* 20px */
+  
+}
+
+.section:nth-child(2n - 1) {
+
+  background: var(--background2-color);
+
+}
+
+.section:nth-child(2n + 2) {
+
+  background: var(--background3-color);
+
+}
+
+/* ? Style GRID */
+
+.grid {
+
+  display: grid;
+  max-width: 37.5rem; /* 600px */
+  width: 100%;
+  margin: 0 auto;
+  padding: 0.3125rem; /* 5px */
+  gap: 0.3125rem; /* 5px */
+  border: var(--border-style-grid); /* 1px solid #ccccc*/
+  border-radius: 4px; /* 4px */
+  box-shadow: var(--box-shadow-style-grid); /* 0px 0px 4px #9955ff */
+
+}
+
+.item {
+
+  background: var(--special-color3);
+  font-size: 1.5rem; /* 24px */
+  border-radius: 0.25rem; /* 4px */
+  text-align: center;
+ 
+
+}
+
+.title-section {
+
+  text-align: center;
+  font-size: 1.125rem; /* 18px */
+  font-weight: 600;
+
+}
+
+/* ? Using grid-tamplete-areas-1 */
+
+.grid-template-areas-1 {
+
+  grid-template-areas: "logo nav nav"
+                       "sidenav content advert"
+                       "sidenav footer footer";
+
+}
+
+.logo {
+
+  grid-area: logo;
+
+}
+
+.nav {
+
+  grid-area: nav;
+
+}
+
+.content {
+
+  grid-area: content;
+
+}
+
+.sidenav {
+
+  grid-area: sidenav;
+
+}
+
+.advert {
+
+  grid-area: advert;
+
+}
+
+.footer {
+
+  grid-area: footer;
+
+}
+
+/* ? Using grid-tamplete-areas-2 */
+
+.grid-template-areas-2 {
+
+  grid-template-areas: "sidenav logo nav"
+                       "sidenav content advert"
+                       "sidenav content footer" 
+  ;
+
+}
+
+/* ? Using grid-tamplete-areas-3 */
+
+.grid-template-areas-3 {
+
+  grid-template-areas: "logo logo"
+                       "nav nav"
+                       "content content"
+                       "sidenav advert"
+                       "footer footer"  
+  ;
+
+}
+
+/* ? Using grid-tamplete-areas-4 */
+
+.grid-template-areas-4 {
+
+  grid-template-columns: 20% 50% 28.5%;
+  grid-template-rows: 50px 150px 50px;
+  grid-template-areas: "logo nav nav"
+                       "sidenav content advert"
+                       "sidenav content advert"
+                       "sidenav footer footer"
+  ;
+
+}
+
+/* ? Using grid-tamplete-areas-5 */
+
+.grid-template-areas-5 {
+
+  grid-template-areas: "logo content nav"
+                       ". content advert"
+                       "sidenav footer ."
+  ;
+
+}
+
+/* ? Style FOOTER */
+
+.container-footer {
+
+  padding: 2.5rem 1.25rem; /* 40px 20px */
+  background: var(--background1-color);
+  font-size: 1.25rem; /* 20px */
+  font-weight: 400;
+  line-height: 1.4;
+
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.link-github {
+
+  position: relative;
+  transition: 0.5s ease-in-out;
+
+}
+
+.link-github::before {
+
+  position: absolute;
+  content: "";
+  width: 20%;
+  height: 0.25rem; /* 4px */
+  bottom: -0.125rem; /* -2px */
+  left: 0rem;
+  background: var(--special-color1);
+  border-radius: 0.125rem; /* 2px */
+  transition: all 0.5s ease-in-out;
+  
+}
+
+.link-github:hover::before {
+
+  width: 100%;
+
+}
