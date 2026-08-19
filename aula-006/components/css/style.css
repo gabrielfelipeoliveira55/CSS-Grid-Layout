@@ -183,33 +183,14 @@ body {
 
 /* ? Using grid-tamplete-areas-1 */
 
-.grid-template-1 {
+.grid-template {
   
-  /* ? É um atalho para definir: [grid-template-areas] - [grid-template-rows] - [grid-template-columns] */
-  /* * A Ordem dos valores é a segunte: 1.[grid-template-rows] / 2.[grid-template-columns] */
-  grid-template: 50px 1fr / 100px 1fr 100px;
+  grid-template:
 
-}
-
-/* ? Using grid-tamplete-areas-2 */
-
-.grid-template-2 {
- 
-  /* ? Denition: É um atalho para definir: [grid-template-areas] - [grid-template-rows] - [grid-template-columns]  */
-  /* * Sitaxy: A Ordem dos valores é a segunte: 
-  
-    * 1.[grid-template-areas] acada linha do area definido use uma unidade de medida para definir o 2.[ grid-template-rows ]
-  
-    * / 3.[grid-template-columns] 
-  
-  * */
-
-  grid-template: 
-  
     "logo nav nav" 50px
     "sidenav content advert" 150px
     "sidenav footer footer" 100px
-    / 100px 1fr 50px 
+    / 100px 1fr 50px
 
   ;
 
@@ -251,6 +232,31 @@ body {
 
 }
 
+/* ? GAP */
+
+.gap {
+
+  gap: 1.25rem; /* 20px */
+
+}
+
+.column-gap {
+
+  column-gap: 1.25rem; /* 20px */
+
+}
+
+.row-gap {
+
+  row-gap: 1.25rem; /* 20px */
+
+}
+
+.margin {
+
+  margin: 0.625rem 0rem 1.25rem 1.875rem; /* 10px 0px 20px 30px */
+
+}
 
 /* ? Style FOOTER */
 
