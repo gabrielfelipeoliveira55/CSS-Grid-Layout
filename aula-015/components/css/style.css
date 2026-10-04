@@ -135,6 +135,18 @@ body {
   
 }
 
+.image {
+  
+  max-width: 39rem; /* 624px */
+  margin: 0rem auto;
+  margin-top: 1.125rem; /* 18px */
+  object-fit: contain;
+  object-position: center;
+  border-radius: 8px;
+  box-shadow: var(--box-shadow-style-grid); /* 0px 0px 4px #9955ff */
+
+}
+
 .section:nth-child(2n - 1) {
 
   background: var(--background2-color);
@@ -162,7 +174,8 @@ body {
   
   
   display: grid;
-  grid-template: repeat(2, 8.75rem) / repeat(3, 12.5rem); /* 140px 200px */
+  grid: auto-flow 6.25rem / repeat(3, 12.5rem); /* 100px 200px */
+  
   
 }
 
@@ -184,34 +197,198 @@ body {
 
 }
 
-/* ? Using align-items */
+/* ? Using grid-column */
 
-/* ? Using align-items in start */
-.start {
+/* ? Using grid-column-1 item-1*/
+.grid-column-1 .item-1 {
 
-  align-items: start;
-
-}
-
-/* ? Using align-items in end */
-.end {
-
-  align-items: end;
- 
-}
-
-/* ? Using align-items in center */
-.center {
-
-  align-items: center;
+  grid-column: 3;
+  /* grid-column: 3 / 4; */
+  /* grid-column: 3 / span 1; */ /* o valor (span) ele faz com que o elemento se espanda apartir de onde estiver*/
+  /* grid-column: 3 / -1; */ /* se ouver mais colunas adicionadas essa celula irá se posicionar até o final do container, a ultima linha de coluna definida pelo grid.*/
 
 }
 
-/* ? Using align-items in stretch */
-.stretch {
+/* ? Using grid-column-1 item-3*/
+.grid-column-1 .item-3 {
 
-  align-items: stretch;
+  grid-column: 1;
+  /* grid-column: 1 / 2; */
+  /* grid-column: 1 / span 1; */
+  /* grid-column: 1 / -4; */
 
+}
+
+/* ? Using grid-column-2 item-3 */
+.grid-column-2  .item-3{
+
+  grid-column: 1 / span 3;
+
+}
+
+/* ? Using grid-column-2 item-5 */
+.grid-column-2 .item-5 {
+
+  grid-column: span 2;
+
+}
+
+/* ? Using grid-column-2 item-6 */
+.grid-column-2 .item-6 {
+
+  grid-column: 2 / span 2;
+
+}
+
+/* ? Using grid-column-3 item-2 */
+.grid-column-3 .item-2 {
+
+  grid-column: 1 / 3;
+
+}
+
+/* ? Using grid-column-3 item-4 */
+.grid-column-3 .item-4{
+
+  grid-column-start: 1;
+  grid-column-end: 3;
+
+}
+
+/* ? Using grid-column-3 item-1 */
+.grid-column-3 .item-1 {
+
+  grid-column-start: 2;
+  grid-column-end: 4;
+
+}
+
+/* ? Using grid-column-4 */
+.grid-column-4 {
+
+  grid-template-columns: [col1-inicio] 1fr [col1-final] 1fr ;
+
+}
+
+/* ? Using grid-column-4 item-2 */
+.grid-column-4 .item-2 {
+
+  grid-column: col1-inicio / col1-final;
+
+}
+
+/* ? Using grid-column-5 grid-tamplate-areas */
+.grid-column-5 {
+
+  grid-template-areas: "header header header"
+                       "sidenav content ads"
+                       "sidenav footer footer";
+
+}
+
+/* ? Using grid-column-5 header-1: grid-column-start | grid-column-end */
+.grid-column-5 .header-1 {
+
+  grid-column-start: header;
+  grid-column-end: ads;
+
+}
+
+/* ? Using grid-column-5 sidenav-2: grid-column-start | grid-column-end | grid-row-start | grid-row-end */
+.grid-column-5 .sidenav-2 {
+
+  grid-column-start: sidenav;
+  grid-column-end: sidenav;
+  grid-row-start: sidenav;
+  grid-row-end: sidenav;
+
+} 
+
+/* ? Using grid-column-5 content-3: grid-column */
+.grid-column-5 .content-3 {
+
+  grid-column: content / content;
+  
+}
+
+/* ? Using grid-column-5 ads-4: grid-column-start */
+.grid-column-5 .ads-4 {
+
+  grid-column-start: ads;
+
+}
+
+/* ? Using grid-column-5 footer-5: grid-column */
+.grid-column-5 .footer-5 {
+
+  grid-column: footer;
+
+}
+
+/* ? Using grid-column-5 header-1: definido como area. */
+.header-1 {
+
+  grid-area: header;
+
+}
+
+/* ? Using grid-column-5 sidenav-2: definido como area. */
+.sidenav-2 {
+
+  grid-area: sidenav;
+
+}
+
+/* ? Using grid-column-5 content-3: definido como area. */
+.content-3 {
+
+  grid-area: content;
+
+}
+
+/* ? Using grid-column-5 ads-4: definido como area. */
+.ads-4 {
+
+  grid-area: ads;
+
+}
+
+/* ? Using grid-column-5 footer-4: definido como area. */
+.footer-5 {
+
+  grid-area: footer;
+
+}
+
+/* ? Using grid-column-6 como definir um template do grid-tamplate-areas com o grid-column normal */
+.grid-column-6 .item-1 {
+
+  grid-column: 1 / -1;
+
+}
+
+.grid-column-6 .item-2 {
+
+  grid-column: 1;
+  grid-row: 2 / 4;
+
+}
+
+.grid-column-6 .item-3 {
+
+  grid-column: 2;
+
+}
+
+.grid-column-6 .item-4 {
+
+  grid-column: 3;
+
+}
+
+.grid-column-6 .item-5 {
+
+  grid-column: 2 / -1;
 
 }
 
