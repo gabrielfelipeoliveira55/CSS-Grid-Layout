@@ -1,6 +1,43 @@
 # CSS Grid — `grid-template`
 
-## 1. O que é `grid-template`?
+## Índice
+
+1. [O que é `grid-template`?](#1-o-que-é-grid-template)
+2. [A sintaxe básica](#2-a-sintaxe-básica)
+3. [Exemplo simples](#3-exemplo-simples)
+4. [A barra `/` é fundamental](#4-a-barra--é-fundamental)
+5. [Sem a barra, a declaração fica incorreta](#5-sem-a-barra-a-declaração-fica-incorreta)
+6. [`grid-template` x propriedades individuais](#6-grid-template-x-propriedades-individuais)
+7. [Exemplo equivalente](#7-exemplo-equivalente)
+8. [Podemos utilizar `fr`](#8-podemos-utilizar-fr)
+9. [Valores diferentes para as linhas](#9-valores-diferentes-para-as-linhas)
+10. [Podemos deixar algumas linhas automáticas](#10-podemos-deixar-algumas-linhas-automáticas)
+11. [Definindo as colunas depois da `/`](#11-definindo-as-colunas-depois-da-)
+12. [`repeat()` também pode ser utilizado](#12-repeat-também-pode-ser-utilizado)
+13. [`repeat()` facilita estruturas repetitivas](#13-repeat-facilita-estruturas-repetitivas)
+14. [Podemos combinar valores diferentes](#14-podemos-combinar-valores-diferentes)
+15. [Onde entra `grid-template-areas`?](#15-onde-entra-grid-template-areas)
+16. [Diferença entre `grid-template` e `grid-template-areas`](#16-diferença-entre-grid-template-e-grid-template-areas)
+17. [Uma visão geral dos shorthands](#17-uma-visão-geral-dos-shorthands)
+18. [Por que utilizar `grid-template`?](#18-por-que-utilizar-grid-template)
+19. [Legibilidade é importante](#19-legibilidade-é-importante)
+20. [Comparação direta](#20-comparação-direta)
+21. [Exemplo de layout completo](#21-exemplo-de-layout-completo)
+22. [Mapa mental — `grid-template`](#22-mapa-mental--grid-template)
+23. [Mapa mental — leitura da declaração](#23-mapa-mental--leitura-da-declaração)
+24. [Mapa mental — shorthand](#24-mapa-mental--shorthand)
+25. [Uma observação importante sobre `grid-template`](#25-uma-observação-importante-sobre-grid-template)
+26. [⚠️ Não confundir com `grid`](#26-️-não-confundir-com-grid)
+27. [Exemplo com `repeat()`](#27-exemplo-com-repeat)
+28. [Exemplo com `auto`](#28-exemplo-com-auto)
+29. [Mapa mental para revisão rápida](#29-mapa-mental-para-revisão-rápida)
+30. [🧠 Regra para memorizar](#30-🧠-regra-para-memorizar)
+31. [Exemplo final](#31-exemplo-final)
+32. [📌 Resumo final](#32-📌-resumo-final)
+
+---
+
+# 1. O que é `grid-template`?
 
 A propriedade:
 
@@ -14,7 +51,9 @@ Ela pode reunir:
 
 ```text
 grid-template-rows
+
 grid-template-columns
+
 grid-template-areas
 ```
 
@@ -25,12 +64,12 @@ A ideia é facilitar a configuração de um layout quando queremos definir essas
 ```text
                  grid-template
                        │
-        ┌──────────────┼──────────────┐
-        ↓              ↓              ↓
-      areas          rows          columns
-        │              │              │
-        ↓              ↓              ↓
-      áreas          linhas         colunas
+       ┌───────────────┼───────────────┐
+       ↓               ↓               ↓
+     areas            rows          columns
+       │               │               │
+       ↓               ↓               ↓
+     áreas           linhas         colunas
 ```
 
 ---
@@ -48,9 +87,11 @@ Ou seja:
 
 ```text
 ANTES da /
+
 → linhas
 
 DEPOIS da /
+
 → colunas
 ```
 
@@ -58,6 +99,7 @@ DEPOIS da /
 
 ```text
 grid-template:
+
     LINHAS / COLUNAS;
 ```
 
@@ -82,12 +124,14 @@ Isso significa:
 
 ```text
 LINHAS
+
 100px
 50px
 
       /
 
 COLUNAS
+
 1fr
 1fr
 ```
@@ -117,9 +161,13 @@ separa:
 
 ```text
 linhas
+
    ↓
+
 /
+
    ↓
+
 colunas
 ```
 
@@ -133,11 +181,13 @@ deve ser lido como:
 
 ```text
 100px 50px
+
 → tamanho das linhas
 
 /
 
 1fr 1fr
+
 → tamanho das colunas
 ```
 
@@ -145,10 +195,15 @@ deve ser lido como:
 
 ```text
 grid-template:
+
      ROWS
+
       ↓
+
       /
+
       ↓
+
    COLUMNS
 ```
 
@@ -180,7 +235,7 @@ A estrutura correta utiliza:
 grid-template: 100px 50px / 1fr 1fr;
 ```
 
-### Memorize:
+### Memorize
 
 > **`/` = separador entre linhas e colunas.**
 
@@ -271,10 +326,12 @@ Temos:
 
 ```text
 LINHAS
+
 1fr
 2fr
 
 COLUNAS
+
 1fr
 1fr
 ```
@@ -313,11 +370,13 @@ Temos:
 
 ```text
 LINHAS
+
 200px
 150px
 100px
 
 COLUNAS
+
 1fr
 1fr
 ```
@@ -355,7 +414,9 @@ Aqui:
 
 ```text
 Linha 1 → 200px
+
 Linha 2 → auto
+
 Linha 3 → 100px
 ```
 
@@ -365,15 +426,21 @@ A linha `auto` pode ser dimensionada de acordo com as necessidades do layout e d
 
 ```text
 200px
+
  ↓
+
 fixo
 
 auto
+
  ↓
+
 automático
 
 100px
+
  ↓
+
 fixo
 ```
 
@@ -396,11 +463,15 @@ Temos:
 
 ```text
 ANTES da /
+
 → 100px 50px
+
 → linhas
 
 DEPOIS da /
+
 → 1fr 1fr
+
 → colunas
 ```
 
@@ -417,6 +488,7 @@ Agora:
 
 ```text
 Coluna 1 → 1fr
+
 Coluna 2 → 2fr
 ```
 
@@ -429,7 +501,7 @@ Visualmente:
 ├──────────┼──────────────────┤
 │          │                  │
 └──────────┴──────────────────┘
-    1fr           2fr
+    1fr            2fr
 ```
 
 ---
@@ -449,10 +521,12 @@ Isso significa:
 
 ```text
 LINHAS
+
 100px
 50px
 
 COLUNAS
+
 1fr
 1fr
 1fr
@@ -496,7 +570,9 @@ A segunda forma é mais compacta.
 
 ```text
 repeat(3, 1fr)
+
        ↓
+
 "repita 1fr três vezes"
 ```
 
@@ -531,9 +607,13 @@ Em termos conceituais, o shorthand pode representar:
 
 ```text
 areas
+
 +
+
 rows
+
 +
+
 columns
 ```
 
@@ -543,9 +623,13 @@ A ideia principal é:
 
 ```text
 grid-template
+
    │
+
    ├── rows
+
    ├── columns
+
    └── areas
 ```
 
@@ -585,24 +669,30 @@ Enquanto o `grid-template` é um **shorthand** que pode reunir diferentes aspect
 Podemos visualizar:
 
 ```text
-                 CSS GRID
-                    │
-                    ↓
-             PROPRIEDADES
-                    │
-         ┌──────────┼──────────┐
-         ↓          ↓          ↓
-       rows      columns      areas
-         │          │          │
-         └──────────┼──────────┘
-                    ↓
-             grid-template
+                  CSS GRID
+
+                     │
+
+                     ↓
+
+               PROPRIEDADES
+
+                     │
+
+          ┌──────────┼──────────┐
+          ↓          ↓          ↓
+        rows      columns      areas
+          │          │          │
+          └──────────┼──────────┘
+                     ↓
+              grid-template
 ```
 
 ### Corte mental
 
 ```text
 grid-template
+
 → "atalho para definir a estrutura principal"
 ```
 
@@ -662,11 +752,13 @@ Essa forma continua representando:
 
 ```text
 LINHAS
+
 100px
 50px
 200px
 
 COLUNAS
+
 100px
 1fr
 50px
@@ -698,11 +790,15 @@ COLUNAS
 
 ```text
 rows
+
  ↓
+
 100px / 50px
 
 columns
+
  ↓
+
 1fr / 1fr
 ```
 
@@ -723,9 +819,11 @@ columns
 
 ```text
 antes da /
+
 → rows
 
 depois da /
+
 → columns
 ```
 
@@ -750,11 +848,13 @@ Podemos interpretar:
 
 ```text
 LINHAS
+
 60px
 1fr
 50px
 
 COLUNAS
+
 200px
 1fr
 100px
@@ -781,16 +881,24 @@ Visualmente:
 
 ```text
                     grid-template
+
                           │
+
                ┌──────────┴──────────┐
                ↓                     ↓
-            ANTES DA /          DEPOIS DA /
+
+           ANTES DA /          DEPOIS DA /
+
                │                     │
                ↓                     ↓
-             ROWS                 COLUMNS
+
+             ROWS                COLUMNS
+
                │                     │
                ↓                     ↓
-          linhas/altura         colunas/largura
+
+         linhas/altura         colunas/largura
+
                │                     │
                ├── px                ├── px
                ├── %                 ├── %
@@ -803,6 +911,7 @@ Visualmente:
 
 ```text
 grid-template:
+
     [ROWS] / [COLUMNS]
 ```
 
@@ -825,19 +934,25 @@ Leia assim:
 
 ```text
 ANTES DA /
+
 100px
 1fr
 auto
- ↓
+
+↓
+
 LINHAS
 ```
 
 ```text
 DEPOIS DA /
+
 200px
 1fr
 50px
- ↓
+
+↓
+
 COLUNAS
 ```
 
@@ -846,8 +961,7 @@ COLUNAS
 ```text
            /
           / \
-         /   \
-      ROWS   COLUMNS
+        ROWS COLUMNS
 ```
 
 ---
@@ -856,10 +970,15 @@ COLUNAS
 
 ```text
              grid-template
+
                     │
+
                     ↓
+
                 SHORTHAND
+
                     │
+
          ┌──────────┼──────────┐
          ↓          ↓          ↓
        areas       rows      columns
@@ -878,6 +997,7 @@ Embora o conceito geral seja:
 
 ```text
 grid-template
+
 → shorthand relacionado a rows, columns e areas
 ```
 
@@ -893,7 +1013,9 @@ e as propriedades individuais:
 
 ```css
 grid-template-rows:
+
 grid-template-columns:
+
 grid-template-areas:
 ```
 
@@ -959,10 +1081,12 @@ Interpretação:
 
 ```text
 LINHAS
+
 100px
 200px
 
 COLUNAS
+
 1fr
 1fr
 1fr
@@ -997,11 +1121,13 @@ Temos:
 
 ```text
 LINHAS
+
 auto
 200px
 auto
 
 COLUNAS
+
 100px
 1fr
 100px
@@ -1015,12 +1141,12 @@ Isso permite misturar tamanhos fixos e automáticos.
 
 ```text
 ┌───────────────────────────────────────┐
-│           GRID-TEMPLATE               │
+│            GRID-TEMPLATE              │
 ├───────────────────────────────────────┤
 │                                       │
-│        grid-template:                 │
+│       grid-template:                  │
 │                                       │
-│          ROWS / COLUMNS               │
+│         ROWS / COLUMNS                │
 │                                       │
 ├───────────────────────────────────────┤
 │ ROWS                                  │
@@ -1055,7 +1181,9 @@ Depois:
 
 ```text
 ANTES
+
 ↓
+
 ROWS
 ```
 
@@ -1063,7 +1191,9 @@ e:
 
 ```text
 DEPOIS
+
 ↓
+
 COLUMNS
 ```
 
@@ -1076,9 +1206,9 @@ grid-template: ROWS / COLUMNS;
 Ou simplesmente:
 
 ```text
-             /
-            / \
-         LINHAS COLUNAS
+          /
+         / \
+      LINHAS COLUNAS
 ```
 
 ---
@@ -1100,16 +1230,23 @@ Leia assim:
 
 ```text
                  GRID
+
                   │
+
                   ↓
+
            grid-template
+
                   │
+
         ┌─────────┴─────────┐
         ↓                   ↓
-      ROWS               COLUMNS
+
+      ROWS                COLUMNS
         │                   │
         ↓                   ↓
-60px  1fr  40px       150px  2fr  100px
+
+60px  1fr  40px      150px  2fr  100px
 ```
 
 Estrutura:
@@ -1123,7 +1260,7 @@ Estrutura:
 ├─────────┼────────────────────┼─────────┤
 │         │                    │         │ 40px
 └─────────┴────────────────────┴─────────┘
-  150px          2fr              100px
+  150px            2fr             100px
 ```
 
 ---
@@ -1132,9 +1269,13 @@ Estrutura:
 
 ```text
 grid-template
+
       ↓
+
 shorthand
+
       ↓
+
 estrutura do Grid
 ```
 
@@ -1151,9 +1292,11 @@ Ou:
 
 ```text
 ANTES DA /
+
 → linhas
 
 DEPOIS DA /
+
 → colunas
 ```
 
@@ -1184,11 +1327,13 @@ Leitura:
 
 ```text
 LINHAS
+
 100px
 1fr
 50px
 
 COLUNAS
+
 200px
 1fr
 1fr

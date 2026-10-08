@@ -1,5 +1,25 @@
 # CSS Grid — `justify-content`
 
+## Índice
+
+1. [O que é `justify-content`?](#1-o-que-é-justify-content)
+2. [Onde `justify-content` atua?](#2-onde-justify-content-atua)
+3. [Estrutura usada no exemplo](#3-estrutura-usada-no-exemplo)
+4. [Sintaxe](#4-sintaxe)
+5. [Valores demonstrados](#5-valores-demonstrados)
+6. [O caso mais importante: `stretch`](#6-o-caso-mais-importante-stretch)
+7. [Relação entre `justify-content` e `grid-template-columns`](#7-relação-entre-justify-content-e-grid-template-columns)
+8. [Ajuste aplicado no exemplo](#8-ajuste-aplicado-no-exemplo)
+9. [Comparação direta](#9-comparação-direta)
+10. [Fluxo de raciocínio](#10-fluxo-de-raciocínio)
+11. [Regras mentais para memorizar](#11-regras-mentais-para-memorizar)
+12. [Erros e confusões comuns](#12-erros-e-confusões-comuns)
+13. [Mapa mental final](#13-mapa-mental-final)
+14. [Resumo final](#14-resumo-final)
+15. [Regra mental definitiva](#15-regra-mental-definitiva)
+
+---
+
 ## 1. O que é `justify-content`?
 
 A propriedade:
@@ -8,14 +28,14 @@ A propriedade:
 justify-content
 ```
 
-controla o alinhamento horizontal do conjunto de colunas do Grid dentro do espaço disponível do container.
+controla o alinhamento do conjunto de colunas do Grid dentro do espaço disponível do container, ao longo do eixo horizontal (o eixo inline, em idiomas escritos na horizontal).
 
 Ela não reorganiza o HTML e não muda a ordem dos itens. O que ela faz é decidir **como a estrutura do Grid se posiciona no eixo horizontal** quando sobra espaço dentro do container.
 
-No contexto deste exemplo, o foco está em entender:
+Os pontos centrais desta documentação são:
 
 - como o Grid se desloca para a esquerda, direita ou centro;
-- como o espaço pode ser distribuído entre as colunas;
+- como o espaço livre pode ser distribuído entre as colunas;
 - por que `stretch` depende do tipo de tamanho definido nas tracks.
 
 ---
@@ -30,7 +50,7 @@ Primeiro existe o Grid Container:
 }
 ```
 
-Depois existe a estrutura das colunas:
+Depois existe a estrutura das tracks (linhas e colunas):
 
 ```css
 grid-template: repeat(3, 8.75rem) / repeat(3, 8.75rem);
@@ -48,7 +68,7 @@ repeat(3, 8.75rem)
 → 3 colunas com 8.75rem
 ```
 
-Ou seja, o Grid deste exemplo cria uma grade com tamanho fixo:
+Ou seja, a grade deste exemplo tem tamanho fixo:
 
 ```text
 3 colunas fixas
@@ -67,7 +87,7 @@ Visualmente:
 └──────────┴──────────┴──────────┘
 ```
 
-O `justify-content` atua sobre esse bloco de colunas.
+O `justify-content` atua sobre esse bloco de colunas. Ele só tem efeito visível quando **sobra espaço horizontal** dentro do Grid Container.
 
 ### Regra mental
 
@@ -77,10 +97,31 @@ O `justify-content` atua sobre esse bloco de colunas.
 
 ## 3. Estrutura usada no exemplo
 
-O HTML repete a mesma grade com valores diferentes de `justify-content`:
+Todas as grades compartilham a mesma base:
+
+```css
+.grid {
+  display: grid;
+  grid-template: repeat(3, 8.75rem) / repeat(3, 8.75rem);
+}
+```
+
+O HTML repete essa grade com uma classe diferente para cada valor de `justify-content`:
 
 ```html
-<div class="grid start">...</div>
+<div class="grid start">
+  <div>1</div>
+  <div>2</div>
+  <div>3</div>
+  <div>4</div>
+  <div>5</div>
+  <div>6</div>
+</div>
+```
+
+As demais grades seguem o mesmo modelo, trocando apenas a classe:
+
+```html
 <div class="grid end">...</div>
 <div class="grid center">...</div>
 <div class="grid stretch">...</div>
@@ -94,8 +135,6 @@ Cada classe altera apenas a forma como o Grid se alinha horizontalmente.
 ---
 
 ## 4. Sintaxe
-
-Exemplo geral:
 
 ```css
 justify-content: start;
@@ -111,7 +150,7 @@ start
 → encosta a grade no início do eixo horizontal
 ```
 
-Outros valores usados neste material:
+Outros valores demonstrados:
 
 ```css
 justify-content: end;
@@ -186,9 +225,13 @@ Centraliza a grade horizontalmente.
 justify-content: space-around;
 ```
 
-Distribui espaço ao redor da grade no eixo horizontal.
+Distribui o espaço livre **entre as colunas**, reservando metade desse espaço em cada extremidade.
 
-O espaço das extremidades tende a ficar menor do que o espaço entre os blocos internos.
+```text
+[½][col][1][col][1][col][½]
+```
+
+O espaço entre duas colunas é o dobro do espaço em cada extremidade.
 
 ---
 
@@ -198,19 +241,10 @@ O espaço das extremidades tende a ficar menor do que o espaço entre os blocos 
 justify-content: space-between;
 ```
 
-Distribui o espaço horizontal entre os extremos.
-
-Em termos mentais:
+Encosta a primeira coluna no início, a última no fim, e divide o espaço livre igualmente entre as colunas.
 
 ```text
-primeira coluna
-→ encosta no início
-
-última coluna
-→ encosta no fim
-
-espaço livre
-→ fica entre as colunas
+[col][1][col][1][col]
 ```
 
 ---
@@ -221,48 +255,53 @@ espaço livre
 justify-content: space-evenly;
 ```
 
-Distribui o espaço horizontal de forma mais uniforme.
+Divide o espaço livre em partes exatamente iguais: entre as colunas e também nas extremidades.
+
+```text
+[1][col][1][col][1][col][1]
+```
+
+> No Grid, os valores `space-*` distribuem espaço entre as **tracks** (colunas), e não ao redor da grade como um bloco único.
 
 ### 🧠 Corte mental
 
 ```text
 space-around
-→ espaço ao redor
+→ metade do espaço nas pontas
 
 space-between
-→ espaço entre os extremos
+→ nenhum espaço nas pontas
 
 space-evenly
-→ espaço uniforme
+→ espaço igual em todos os intervalos
 ```
 
 ---
 
 ## 6. O caso mais importante: `stretch`
 
-### 6.1 O que `stretch` tenta fazer?
+### 6.1 O que `stretch` faz?
 
 ```css
 justify-content: stretch;
 ```
 
-O objetivo do `stretch` é fazer as tracks ocuparem o espaço horizontal disponível.
-
-Em outras palavras:
+O `stretch` aumenta as tracks de tamanho `auto` para que ocupem o espaço livre do container. Tracks com tamanho fixo não são alteradas.
 
 ```text
 há espaço sobrando no container
         ↓
-as colunas podem crescer?
+existem tracks `auto`?
         ↓
-se puderem crescer, o Grid pode esticar
+sim → o espaço livre é dividido entre elas
+não → nada cresce
 ```
 
 ---
 
-### 6.2 Por que `stretch` não funcionou como esperado?
+### 6.2 Por que `stretch` não funciona com colunas fixas?
 
-No exemplo original, a grade foi definida assim:
+A grade do exemplo foi definida assim:
 
 ```css
 .grid {
@@ -278,7 +317,7 @@ Isso cria colunas com largura fixa:
 8.75rem
 ```
 
-Quando as colunas já têm tamanho fixo, o `stretch` não tem liberdade para expandi-las.
+Colunas fixas não crescem, então o `stretch` não tem o que esticar.
 
 ### 🧠 Corte mental
 
@@ -287,20 +326,16 @@ coluna fixa
 → não cresce
 
 stretch
-→ precisa de espaço livre + track com possibilidade de crescer
+→ precisa de espaço livre + tracks `auto`
 ```
 
-Então o problema não está na sintaxe do `justify-content`.
-
-O problema está na relação entre:
+O problema não está na sintaxe do `justify-content`. Está na combinação entre:
 
 ```text
 justify-content: stretch
         +
 grid-template-columns com tamanho fixo
 ```
-
-Essa combinação impede o efeito visual esperado.
 
 ---
 
@@ -316,15 +351,25 @@ grid-template-columns
 → define como as colunas são construídas
 ```
 
-Se as colunas forem fixas:
+Existem três situações principais.
+
+### Colunas fixas
 
 ```css
 grid-template-columns: repeat(3, 8.75rem);
 ```
 
-o alinhamento horizontal pode mover a grade, mas não consegue transformar colunas fixas em colunas elásticas.
+O alinhamento horizontal move a grade (`start`, `end`, `center`, `space-*`), mas não altera a largura das colunas. O `stretch` não tem efeito.
 
-Se as colunas forem flexíveis:
+### Colunas `auto`
+
+```css
+grid-template-columns: repeat(3, auto);
+```
+
+As colunas começam com o tamanho do conteúdo. Com `stretch`, elas crescem e dividem o espaço livre.
+
+### Colunas flexíveis (`fr`)
 
 ```css
 grid-template-columns: repeat(3, 1fr);
@@ -336,13 +381,7 @@ ou:
 grid-template-columns: repeat(3, minmax(0, 1fr));
 ```
 
-ou ainda:
-
-```css
-grid-template-columns: auto auto auto;
-```
-
-passa a existir margem para expansão horizontal das tracks.
+As colunas com `fr` já consomem todo o espaço livre do container. Como não sobra espaço, `justify-content` deixa de ter efeito visível.
 
 ### Mapa mental
 
@@ -352,52 +391,45 @@ passa a existir margem para expansão horizontal das tracks.
                         ↓
           "Como a grade se comporta no eixo horizontal?"
                         │
-        ┌───────────────┴───────────────┐
-        ↓                               ↓
-   tracks fixas                    tracks flexíveis
-        │                               │
-        ↓                               ↓
- stretch quase não                stretch pode
- mostra efeito                   expandir tracks
+        ┌───────────────┼───────────────┐
+        ↓               ↓               ↓
+   tracks fixas    tracks `auto`    tracks `fr`
+        │               │               │
+        ↓               ↓               ↓
+  só desloca a     stretch faz      não sobra espaço
+  grade            as tracks        livre para
+                   crescerem        alinhar
 ```
 
 ---
 
 ## 8. Ajuste aplicado no exemplo
 
-Na classe `.stretch`, foi usado:
+Para que o `stretch` tenha efeito visível, a classe `.stretch` troca as colunas fixas por colunas `auto`:
 
 ```css
 .stretch {
-  grid-template-columns: auto;
+  grid-template-columns: repeat(3, auto);
   justify-content: stretch;
 }
 ```
 
-A intenção desse ajuste é remover a rigidez anterior das colunas para permitir que o `stretch` tenha efeito visível.
+A grade continua com 3 colunas, mas agora elas podem crescer e dividir o espaço livre do container.
 
-### Observação importante
-
-```css
-grid-template-columns: auto;
-```
-
-altera a estrutura horizontal da grade para uma configuração diferente da base original.
-
-Isso resolve a limitação do exemplo anterior, mas muda a construção das colunas daquela demonstração específica.
-
-> **Importante:** o ponto principal não é decorar esse ajuste isolado, mas entender que `stretch` depende do tipo de dimensionamento usado nas tracks.
+> **⚠️ Atenção**
+>
+> Usar `grid-template-columns: auto;` (sem `repeat`) cria **uma única coluna**. Os itens passam a ser empilhados em uma coluna só, e a grade deixa de representar o layout 3×3 do exemplo. Para manter 3 colunas, use `repeat(3, auto)` ou `auto auto auto`.
 
 ---
 
 ## 9. Comparação direta
 
-| Situação | Resultado esperado com `stretch` |
+| Situação | Resultado com `stretch` |
 | --- | --- |
-| `grid-template-columns: repeat(3, 8.75rem);` | pouco ou nenhum efeito visual de expansão |
-| `grid-template-columns: auto auto auto;` | pode haver expansão conforme o espaço disponível |
-| `grid-template-columns: repeat(3, 1fr);` | as colunas já ocupam o espaço de forma flexível |
-| `grid-template-columns: repeat(3, minmax(0, 1fr));` | expansão flexível com controle melhor do tamanho |
+| `grid-template-columns: repeat(3, 8.75rem);` | sem efeito: colunas fixas não crescem |
+| `grid-template-columns: repeat(3, auto);` | as colunas crescem e dividem o espaço livre |
+| `grid-template-columns: repeat(3, 1fr);` | sem efeito visível: `fr` já ocupa todo o espaço |
+| `grid-template-columns: repeat(3, minmax(0, 1fr));` | igual a `1fr`, mas as colunas podem encolher abaixo do tamanho mínimo do conteúdo, o que evita overflow |
 
 ---
 
@@ -410,11 +442,11 @@ Isso resolve a limitação do exemplo anterior, mas muda a construção das colu
         ↓
 3. grid-template-columns define as colunas
         ↓
-4. justify-content tenta alinhar a grade no eixo horizontal
+4. sobra espaço horizontal no container?
         ↓
-5. se as tracks forem fixas, stretch quase não atua
+5. justify-content decide como esse espaço é usado
         ↓
-6. se as tracks puderem crescer, stretch passa a ter efeito
+6. stretch só atua sobre tracks `auto`
 ```
 
 ---
@@ -423,13 +455,13 @@ Isso resolve a limitação do exemplo anterior, mas muda a construção das colu
 
 > **Regra mental:** `justify-content` não corrige uma estrutura rígida. Ele trabalha sobre a estrutura que já foi criada.
 
-> **Regra mental:** colunas fixas favorecem diferenças visuais entre `start`, `end` e `center`, mas limitam o efeito de `stretch`.
+> **Regra mental:** colunas fixas favorecem diferenças visuais entre `start`, `end` e `center`, mas não permitem que `stretch` tenha efeito.
 
 > **Regra mental:** se a ideia é expandir colunas, olhe primeiro para `grid-template-columns`, não apenas para `justify-content`.
 
 ---
 
-## 12. ⚠️ Erros e confusões comuns
+## 12. Erros e confusões comuns
 
 Não confunda:
 
@@ -450,10 +482,16 @@ Também não é uma boa leitura pensar:
 O comportamento mais correto é:
 
 ```text
-"stretch depende de tracks que possam crescer"
+"stretch só estica tracks `auto`"
 ```
 
-> **Atenção:** quando a grade é construída com medidas fixas, muitos efeitos de alinhamento aparecem apenas como deslocamento horizontal, não como expansão.
+> **⚠️ Atenção**
+>
+> Quando a grade é construída com medidas fixas, muitos efeitos de alinhamento aparecem apenas como deslocamento horizontal, não como expansão.
+
+> **⚠️ Atenção**
+>
+> Em Grid, o valor padrão de `justify-content` é `normal`, que se comporta como `stretch`. Por isso, tracks `auto` já crescem mesmo sem declarar a propriedade.
 
 ---
 
@@ -475,17 +513,17 @@ O comportamento mais correto é:
                                          ↓
                          depende do tamanho das tracks
                                          │
-                      ┌──────────────────┴──────────────────┐
-                      ↓                                     ↓
-                 tracks fixas                         tracks flexíveis
-                      │                                     │
-                      ↓                                     ↓
-                 pouco efeito                         efeito visível
+                 ┌───────────────────────┼───────────────────────┐
+                 ↓                       ↓                       ↓
+            tracks fixas            tracks `auto`            tracks `fr`
+                 │                       │                       │
+                 ↓                       ↓                       ↓
+           sem expansão           expandem com stretch    já ocupam o espaço
 ```
 
 ---
 
-## 14. 📌 Resumo final
+## 14. Resumo final
 
 ```text
 CONCEITO
@@ -508,22 +546,22 @@ No exemplo estudado:
 → deslocam visualmente a grade
 
 `space-*`
-→ distribuem o espaço horizontal
+→ distribuem o espaço horizontal entre as colunas
 
 `stretch`
-→ só mostra o efeito esperado quando as tracks podem crescer
+→ só tem efeito sobre tracks `auto`
 ```
 
 ---
 
-## 15. 🧠 Regra mental definitiva
+## 15. Regra mental definitiva
 
 ```text
 justify-content
 → "como a grade se alinha no eixo horizontal?"
 
 grid-template-columns
-→ "essas colunas são rígidas ou flexíveis?"
+→ "essas colunas são fixas, auto ou flexíveis?"
 
 stretch
 → "só estica o que pode crescer"

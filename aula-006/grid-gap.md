@@ -1,6 +1,51 @@
 # CSS Grid — `gap`, `row-gap` e `column-gap`
 
-## 1. O que é `gap`?
+## Índice
+
+1. [O que é `gap`?](#1-o-que-é-gap)
+2. [`grid-gap` x `gap`](#2-grid-gap-x-gap)
+3. [Por que `gap` substituiu `grid-gap`?](#3-por-que-gap-substituiu-grid-gap)
+4. [`gap` pertence ao container](#4-gap-pertence-ao-container)
+5. [Sem `gap`](#5-sem-gap)
+6. [Com `gap`](#6-com-gap)
+7. [`gap` é diferente de `margin`](#7-gap-é-diferente-de-margin)
+8. [`gap` + `margin`](#8-gap--margin)
+9. [`gap` é interno ao Grid](#9-gap-é-interno-ao-grid)
+10. [`padding` no Grid Container](#10-padding-no-grid-container)
+11. [`margin` no container](#11-margin-no-container)
+12. [`row-gap`](#12-row-gap)
+13. [`column-gap`](#13-column-gap)
+14. [`row-gap` x `column-gap`](#14-row-gap-x-column-gap)
+15. [`gap` com um único valor](#15-gap-com-um-único-valor)
+16. [`gap` com dois valores](#16-gap-com-dois-valores)
+17. [Exemplo de `gap` com dois valores](#17-exemplo-de-gap-com-dois-valores)
+18. [`column-gap` individual](#18-column-gap-individual)
+19. [`row-gap` individual](#19-row-gap-individual)
+20. [`gap` não significa "20px para cada lado"](#!20-gap-não-significa-20px-para-cada-lado)
+21. [Diferença entre `gap` e margem nos itens](#21-diferença-entre-gap-e-margem-nos-itens)
+22. [O `gap` não altera a margem do item](#22-o-gap-não-altera-a-margem-do-item)
+23. [Margem pode reduzir o espaço disponível dentro da célula](#23-margem-pode-reduzir-o-espaço-disponível-dentro-da-célula)
+24. [Margens grandes podem fazer o item desaparecer](#24-margens-grandes-podem-fazer-o-item-desaparecer)
+25. [A margem não modifica as outras células](#25-a-margem-não-modifica-as-outras-células)
+26. [Mapa mental — `gap`](#26-mapa-mental--gap)
+27. [Mapa mental — sintaxe](#27-mapa-mental--sintaxe)
+28. [Mapa mental — espaçamento](#28-mapa-mental--espaçamento)
+29. [Mapa mental — Grid Container](#29-mapa-mental--grid-container)
+30. [Exemplo completo](#30-exemplo-completo)
+31. [Exemplo com linhas e colunas diferentes](#31-exemplo-com-linhas-e-colunas-diferentes)
+32. [Unidades](#32-unidades)
+33. [`gap` em Grid](#33-gap-em-grid)
+34. [Quando usar `gap`](#34-quando-usar-gap)
+35. [Quando usar `margin`](#35-quando-usar-margin)
+36. [Quando usar `padding`](#36-quando-usar-padding)
+37. [Comparação definitiva](#37-comparação-definitiva)
+38. [⚠️ Não confunda `gap` com `margin`](#38-️-não-confunda-gap-com-margin)
+39. [📌 Resumo final](#39-📌-resumo-final)
+40. [🧠 Regra mental definitiva](#40-🧠-regra-mental-definitiva)
+
+---
+
+# 1. O que é `gap`?
 
 A propriedade:
 
@@ -35,7 +80,7 @@ Visualmente:
 
 A ideia principal é:
 
-> **`gap` cria espaço entre as células/itens do Grid.**
+> **`gap` cria espaço entre os itens do Grid.**
 
 ---
 
@@ -58,14 +103,14 @@ Portanto:
 ```text
 grid-gap
    ↓
-nome antigo
+nome legado
 
 gap
    ↓
 nome atual
 ```
 
-`grid-gap` continua sendo reconhecido por navegadores por questões de compatibilidade com códigos existentes.
+`grid-gap` permanece como um **alias legado** de `gap`, podendo ser encontrado em códigos existentes.
 
 ### Para escrever código novo
 
@@ -126,11 +171,13 @@ A estrutura mental é:
 
 ```text
 Grid Container
-      │
+
       ↓
+
      gap
-      │
+
       ↓
+
 espaço entre os Grid Items
 ```
 
@@ -205,9 +252,13 @@ Mas o mecanismo é diferente.
 
 ```text
 Grid Container
+
       ↓
+
      gap
+
       ↓
+
 espaço entre os itens
 ```
 
@@ -215,9 +266,13 @@ espaço entre os itens
 
 ```text
 Item
+
  ↓
+
 margin
+
  ↓
+
 espaço ao redor do próprio item
 ```
 
@@ -241,20 +296,29 @@ Podemos utilizar ambos ao mesmo tempo:
 }
 ```
 
-Nesse caso, os espaços podem se somar.
+Nesse caso, os espaços podem se combinar.
 
 Podemos visualizar:
 
 ```text
 [ Item ]
+
    ↑
+
   5px
+
    ↑
+
   gap
+
  20px
+
    ↓
+
   5px
+
    ↓
+
 [ Item ]
 ```
 
@@ -272,16 +336,16 @@ Uma característica importante é que:
 gap: 20px;
 ```
 
-atua **entre os itens**, não necessariamente nas bordas externas do container.
+atua **entre os itens**, e não como um espaçamento externo nas bordas do container.
 
 Exemplo:
 
 ```text
 ┌───────────────────────────────────────┐
 │                                       │
-│  ┌─────────┐   20px   ┌─────────┐    │
-│  │  Item   │          │  Item   │    │
-│  └─────────┘          └─────────┘    │
+│  ┌─────────┐   20px   ┌─────────┐     │
+│  │  Item   │          │  Item   │     │
+│  └─────────┘          └─────────┘     │
 │                                       │
 └───────────────────────────────────────┘
 ```
@@ -331,9 +395,9 @@ Agora temos:
 ```text
 ┌────────────────────────────────────────┐
 │  padding                               │
-│   ┌─────────┐   20px   ┌─────────┐    │
-│   │  Item   │          │  Item   │    │
-│   └─────────┘          └─────────┘    │
+│   ┌─────────┐   20px   ┌─────────┐     │
+│   │  Item   │          │  Item   │     │
+│   └─────────┘          └─────────┘     │
 │                                        │
 └────────────────────────────────────────┘
 ```
@@ -342,9 +406,11 @@ Podemos separar mentalmente:
 
 ```text
 padding
+
 → borda do container até o conteúdo
 
 gap
+
 → um item até outro item
 ```
 
@@ -377,12 +443,15 @@ Portanto:
 
 ```text
 margin
+
 → externo ao elemento
 
 padding
+
 → interno ao elemento
 
 gap
+
 → entre os itens
 ```
 
@@ -405,7 +474,7 @@ Exemplo:
 │  Item 1  │  Item 2  │
 └──────────┴──────────┘
 
-          20px
+        20px
 
 ┌──────────┬──────────┐
 │  Item 3  │  Item 4  │
@@ -416,8 +485,10 @@ Portanto:
 
 ```text
 row-gap
+
    ↓
-espaço vertical entre as linhas
+
+espaço entre as linhas
 ```
 
 ---
@@ -436,7 +507,7 @@ Visualmente:
 
 ```text
 ┌──────────┐   20px   ┌──────────┐
-│  Coluna 1│          │ Coluna 2 │
+│ Coluna 1 │          │ Coluna 2 │
 └──────────┘          └──────────┘
 ```
 
@@ -444,8 +515,10 @@ Portanto:
 
 ```text
 column-gap
-    ↓
-espaço horizontal entre as colunas
+
+     ↓
+
+espaço entre as colunas
 ```
 
 ---
@@ -454,13 +527,17 @@ espaço horizontal entre as colunas
 
 ```text
 row-gap
+
    ↓
+
 entre linhas
 ```
 
 ```text
 column-gap
-   ↓
+
+     ↓
+
 entre colunas
 ```
 
@@ -468,20 +545,23 @@ Visualmente:
 
 ```text
              COLUMN GAP
-                ↓
+                  ↓
+
 ┌────────────┐       ┌────────────┐
 │            │       │            │
-│   Item     │       │   Item     │
+│    Item    │       │    Item    │
 │            │       │            │
 └────────────┘       └────────────┘
-       ↑
-       │
-    ROW GAP
-       │
-       ↓
+
+        ↑
+        │
+     ROW GAP
+        │
+        ↓
+
 ┌────────────┐       ┌────────────┐
 │            │       │            │
-│   Item     │       │   Item     │
+│    Item    │       │    Item    │
 │            │       │            │
 └────────────┘       └────────────┘
 ```
@@ -500,11 +580,17 @@ Nesse caso, o valor é aplicado nas duas direções:
 
 ```text
 row-gap
-   ↓
-20px
 
-column-gap
    ↓
+
+20px
+```
+
+```text
+column-gap
+
+     ↓
+
 20px
 ```
 
@@ -514,7 +600,7 @@ Ou seja:
 gap: 20px;
 ```
 
-equivale conceitualmente a:
+é equivalente a:
 
 ```css
 row-gap: 20px;
@@ -569,23 +655,27 @@ Temos:
 
 ```text
 entre linhas:
+
 10px
 
 entre colunas:
+
 30px
 ```
 
 Visualmente:
 
 ```text
-┌─────────┐      30px      ┌─────────┐
-│         │                 │         │
+┌─────────┐                 ┌─────────┐
+│         │       30px      │         │
 └─────────┘                 └─────────┘
-       ↕
-      10px
-       ↕
-┌─────────┐      30px      ┌─────────┐
-│         │                 │         │
+
+                   ↕
+                 10px
+                   ↕
+
+┌─────────┐                 ┌─────────┐
+│         │      30px       │         │
 └─────────┘                 └─────────┘
 ```
 
@@ -653,21 +743,27 @@ como:
 
 ```text
 20px do item 1
+
 +
+
 20px do item 2
+
 =
+
 40px
 ```
 
 Não é assim.
 
-O `column-gap` representa o **espaço total entre as duas colunas**.
+O `column-gap` representa o **espaço entre as duas faixas de coluna**.
 
 ```text
 ┌──────────┐
 │ Coluna 1 │
 └──────────┘
-      ← 20px →
+
+     ← 20px →
+
 ┌──────────┐
 │ Coluna 2 │
 └──────────┘
@@ -706,9 +802,13 @@ Agora existem três mecanismos:
 
 ```text
 margem do item 1
+
       +
+
 gap
+
       +
+
 margem do item 2
 ```
 
@@ -782,15 +882,15 @@ Podemos imaginar:
 │       CÉLULA          │
 │                       │
 │      margin-top       │
-│        50px            │
-│         ↓             │
+│         50px          │
+│          ↓            │
 │      ┌───────┐        │
 │      │ item  │        │
 │      └───────┘        │
 └───────────────────────┘
 ```
 
-O `gap` continua existindo entre as células.
+O `gap` continua existindo entre as faixas.
 
 ---
 
@@ -814,9 +914,13 @@ Podemos pensar:
 
 ```text
 Grid Cell
+
 │
+
 ├── espaço da margem
+
 │
+
 └── espaço restante para o conteúdo
 ```
 
@@ -824,9 +928,13 @@ Se a margem consumir praticamente todo o espaço:
 
 ```text
 Grid Cell
+
 │
+
 ├── margem enorme
+
 │
+
 └── quase nenhum espaço para conteúdo
 ```
 
@@ -849,10 +957,10 @@ O que está sendo reduzido é o espaço disponível **dentro daquela própria c�
 Visualmente:
 
 ```text
-┌──────────────┐ ┌──────────────┐
-│     Item     │ │    Item      │
-│   ← margem   │ │              │
-└──────────────┘ └──────────────┘
+┌──────────────┐   ┌──────────────┐
+│     Item     │   │    Item      │
+│   ← margem   │   │              │
+└──────────────┘   └──────────────┘
 ```
 
 A estrutura do Grid continua:
@@ -866,19 +974,22 @@ Coluna 1 | Coluna 2
 # 26. Mapa mental — `gap`
 
 ```text
-                      GAP
-                       │
-            ┌──────────┴──────────┐
-            ↓                     ↓
-         row-gap              column-gap
-            │                     │
-            ↓                     ↓
-      entre linhas          entre colunas
-            │                     │
-            └──────────┬──────────┘
-                       ↓
-               espaço entre
-                  os itens
+                       GAP
+
+                        │
+
+          ┌─────────────┴─────────────┐
+          ↓                           ↓
+
+       row-gap                  column-gap
+          │                           │
+          ↓                           ↓
+      entre linhas               entre colunas
+          │                           │
+          └─────────────┬─────────────┘
+                        ↓
+                espaço entre
+                   os itens
 ```
 
 ---
@@ -887,27 +998,35 @@ Coluna 1 | Coluna 2
 
 ```text
                     gap
+
                      │
+
         ┌────────────┴────────────┐
         ↓                         ↓
-  1 valor                    2 valores
+
+    1 valor                   2 valores
         │                         │
         ↓                         ↓
+
 gap: 20px;                gap: 10px 20px;
         │                         │
         ↓                  ┌──────┴──────┐
-   linhas = 20px           ↓             ↓
-   colunas = 20px       row-gap       column-gap
-                          10px           20px
+  linhas = 20px            ↓             ↓
+  colunas = 20px        row-gap      column-gap
+                         10px          20px
 ```
 
 ### Corte mental ①
 
 ```text
 gap: 20px
-→ tudo 20px
 
+→ tudo 20px
+```
+
+```text
 gap: 10px 20px
+
 → linhas 10px
 → colunas 20px
 ```
@@ -918,26 +1037,32 @@ gap: 10px 20px
 
 ```text
                     ESPAÇAMENTO
+
                          │
+
           ┌──────────────┼──────────────┐
           ↓              ↓              ↓
+
        margin          padding          gap
           │              │              │
           ↓              ↓              ↓
-      ao redor       dentro do       entre os
-      do item        container       itens
+       ao redor      dentro do       entre os
+       do item       container       itens
 ```
 
 Uma maneira muito simples de lembrar:
 
 ```text
 margin
+
 → FORA
 
 padding
+
 → DENTRO
 
 gap
+
 → ENTRE
 ```
 
@@ -946,11 +1071,14 @@ gap
 # 29. Mapa mental — Grid Container
 
 ```text
-                 GRID CONTAINER
+                GRID CONTAINER
+
                        │
+
           ┌────────────┼────────────┐
           ↓            ↓            ↓
-     columns       rows          padding
+
+      columns        rows       padding
           │            │
           ↓            ↓
     column-gap      row-gap
@@ -989,13 +1117,13 @@ gap
 Resultado:
 
 ```text
-┌──────────────┐   20px   ┌──────────────┐
-│    Item 1    │           │    Item 2    │
-└──────────────┘           └──────────────┘
+┌──────────────┐     20px     ┌──────────────┐
+│    Item 1    │              │    Item 2    │
+└──────────────┘              └──────────────┘
 
-┌──────────────┐   20px   ┌──────────────┐
-│    Item 3    │           │    Item 4    │
-└──────────────┘           └──────────────┘
+┌──────────────┐     20px     ┌──────────────┐
+│    Item 3    │              │    Item 4    │
+└──────────────┘              └──────────────┘
 ```
 
 ---
@@ -1018,22 +1146,24 @@ Interpretando:
 
 ```text
 LINHAS
+
 10px
 
 COLUNAS
+
 30px
 ```
 
 Visualmente:
 
 ```text
-┌───────┐      30px      ┌───────┐      30px      ┌───────┐
+┌───────┐      30px       ┌───────┐      30px       ┌───────┐
 │ Item  │                 │ Item  │                 │ Item  │
 └───────┘                 └───────┘                 └───────┘
 
-                         10px
+                              10px
 
-┌───────┐      30px      ┌───────┐      30px      ┌───────┐
+┌───────┐      30px       ┌───────┐      30px       ┌───────┐
 │ Item  │                 │ Item  │                 │ Item  │
 └───────┘                 └───────┘                 └───────┘
 ```
@@ -1087,12 +1217,18 @@ pode ser resumida como:
 
 ```text
 Grid
+
  ↓
-cria células
+
+cria células/faixas
+
  ↓
+
 gap
+
  ↓
-separa as células
+
+separa as faixas
 ```
 
 Não precisamos adicionar margem individualmente a cada item para obter o espaçamento entre eles.
@@ -1105,8 +1241,11 @@ Use `gap` quando o objetivo for:
 
 ```text
 separar cards
+
 separar colunas
+
 separar linhas
+
 criar espaçamento uniforme entre elementos
 ```
 
@@ -1123,7 +1262,7 @@ Exemplo:
 
 # 35. Quando usar `margin`
 
-Use `margin` quando o espaçamento fizer parte da relação do próprio elemento com outros elementos ou com o fluxo externo.
+Use `margin` quando o espaçamento fizer parte da relação do próprio elemento com outros elementos ou com o espaço externo.
 
 Exemplo:
 
@@ -1159,7 +1298,7 @@ Isso cria:
 
 ```text
 ┌─────────────────────────┐
-│   padding               │
+│      padding            │
 │   ┌─────────────────┐   │
 │   │    conteúdo     │   │
 │   └─────────────────┘   │
@@ -1172,9 +1311,9 @@ Isso cria:
 
 ```text
 ┌─────────────────────────────────────┐
-│              margin                 │
+│               margin                │
 │  ┌───────────────────────────────┐  │
-│  │           padding             │  │
+│  │            padding            │  │
 │  │   ┌───────────────────────┐   │  │
 │  │   │       conteúdo        │   │  │
 │  │   └───────────────────────┘   │  │
@@ -1192,12 +1331,15 @@ Portanto:
 
 ```text
 margin
+
 → ao redor do elemento
 
 padding
+
 → entre conteúdo e borda
 
 gap
+
 → entre itens do layout
 ```
 
@@ -1217,9 +1359,11 @@ não significa:
 
 ```text
 Item 1
+
 margin: 20px
 
 Item 2
+
 margin: 20px
 ```
 
@@ -1243,13 +1387,16 @@ Essa diferença é fundamental.
 
 ```text
                        GAP
+
                         │
-        ┌───────────────┼───────────────┐
-        ↓               ↓               ↓
+
+       ┌────────────────┼────────────────┐
+       ↓                ↓                ↓
+
       gap            row-gap        column-gap
-        │               │               │
-        ↓               ↓               ↓
-   linhas +          linhas          colunas
+       │                │                │
+       ↓                ↓                ↓
+   linhas +         linhas          colunas
    colunas
 ```
 
@@ -1261,6 +1408,7 @@ gap: 20px;
 
 ```text
 20px entre linhas
+
 20px entre colunas
 ```
 
@@ -1292,6 +1440,7 @@ gap: 10px 20px;
 
 ```text
 10px → row-gap
+
 20px → column-gap
 ```
 
@@ -1301,15 +1450,21 @@ gap: 10px 20px;
 
 ```text
 MARGIN
+
 ↓
+
 ao redor do elemento
 
 PADDING
+
 ↓
+
 dentro do elemento/container
 
 GAP
+
 ↓
+
 entre os itens
 ```
 
@@ -1317,16 +1472,20 @@ E:
 
 ```text
 row-gap
+
 ↓
+
 entre LINHAS
 
 column-gap
+
 ↓
+
 entre COLUNAS
 ```
 
 ### Para memorizar
 
-> **`gap` é o espaçamento estrutural entre os itens do layout. `row-gap` controla a distância entre linhas e `column-gap` controla a distância entre colunas.**
+> **`gap` é o espaçamento estrutural entre as faixas do layout. `row-gap` controla a separação entre linhas e `column-gap` controla a separação entre colunas.**
 
-> **`grid-gap` é a nomenclatura antiga que você pode encontrar em códigos existentes; para código atual, prefira `gap`.**
+> **`grid-gap` é um nome legado que pode aparecer em códigos existentes; para código novo, prefira `gap`.**

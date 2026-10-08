@@ -1,6 +1,41 @@
 # CSS Grid — `grid-auto-rows`
 
-## 1. O que é `grid-auto-rows`?
+## Índice
+
+1. [O que é `grid-auto-rows`?](#1-o-que-é-grid-auto-rows)
+2. [Linhas explícitas x linhas implícitas](#2-linhas-explícitas-x-linhas-implícitas)
+3. [Exemplo básico](#3-exemplo-básico)
+4. [Removendo `grid-template-rows`](#4-removendo-grid-template-rows)
+5. [`grid-auto-rows` x `grid-template-rows`](#5-grid-auto-rows-x-grid-template-rows)
+6. [Exemplo completo](#6-exemplo-completo)
+7. [O valor `auto`](#7-o-valor-auto)
+8. [`grid-auto-rows: 100px`](#8-grid-auto-rows-100px)
+9. [`grid-auto-rows: 1fr`](#9-grid-auto-rows-1fr)
+10. [Vários valores em `grid-auto-rows`](#10-vários-valores-em-grid-auto-rows)
+11. [Exemplo com `50px 100px`](#11-exemplo-com-50px-100px)
+12. [Se utilizarmos apenas `100px`](#12-se-utilizarmos-apenas-100px)
+13. [`grid-auto-rows` e um layout completo](#13-grid-auto-rows-e-um-layout-completo)
+14. [Exemplo de estrutura de página](#14-exemplo-de-estrutura-de-página)
+15. [O que acontece quando novos itens aparecem?](#15-o-que-acontece-quando-novos-itens-aparecem)
+16. [`grid-auto-rows` funciona como um padrão](#16-grid-auto-rows-funciona-como-um-padrão)
+17. [Comparação com `grid-auto-columns`](#17-comparação-com-grid-auto-columns)
+18. [Mapa mental — `grid-auto-rows`](#18-mapa-mental--grid-auto-rows)
+19. [Mapa mental — explícito x implícito](#19-mapa-mental--explícito-x-implícito)
+20. [Mapa mental — fluxo da criação](#20-mapa-mental--fluxo-da-criação)
+21. [Mapa mental — padrão](#21-mapa-mental--padrão)
+22. [`repeat()` também pode ser usado](#22-repeat-também-pode-ser-usado)
+23. [`minmax()` também pode ser utilizado](#23-minmax-também-pode-ser-utilizado)
+24. [Exemplo completo](#24-exemplo-completo)
+25. [Diferença em uma frase](#25-diferença-em-uma-frase)
+26. [Exemplo lado a lado](#26-exemplo-lado-a-lado)
+27. [⚠️ Não confundir com `grid-template-rows`](#27-️-não-confundir-com-grid-template-rows)
+28. [Relação com `grid-auto-columns`](#28-relação-com-grid-auto-columns)
+29. [📌 Resumo final](#29-📌-resumo-final)
+30. [🧠 Regras para memorizar](#30-🧠-regras-para-memorizar)
+
+---
+
+# 1. O que é `grid-auto-rows`?
 
 A propriedade:
 
@@ -16,9 +51,11 @@ Podemos pensar em:
 
 ```text
 Grid explícito
+
 → aquilo que definimos
 
 Grid implícito
+
 → aquilo que o Grid cria automaticamente
 ```
 
@@ -32,9 +69,11 @@ A diferença é:
 
 ```text
 grid-auto-columns
+
 → colunas implícitas
 
 grid-auto-rows
+
 → linhas implícitas
 ```
 
@@ -58,6 +97,7 @@ Temos duas linhas explícitas:
 
 ```text
 Linha 1 → 100px
+
 Linha 2 → 100px
 ```
 
@@ -65,9 +105,13 @@ Se novos itens exigirem mais linhas:
 
 ```text
 Linha 1 → explícita
+
 Linha 2 → explícita
+
 Linha 3 → implícita
+
 Linha 4 → implícita
+
 ...
 ```
 
@@ -101,7 +145,9 @@ Temos:
 
 ```text
 Linhas explícitas:
+
 1fr
+
 1fr
 ```
 
@@ -109,9 +155,13 @@ E quando forem necessárias novas linhas:
 
 ```text
 Linhas implícitas:
+
 100px
+
 100px
+
 100px
+
 ...
 ```
 
@@ -182,13 +232,17 @@ Essa comparação é fundamental.
 
 ```text
 grid-template-rows
+
 → linhas explícitas
+
 → "eu defini"
 ```
 
 ```text
 grid-auto-rows
+
 → linhas implícitas
+
 → "o Grid criou"
 ```
 
@@ -196,9 +250,11 @@ grid-auto-rows
 
 ```text
 TEMPLATE
+
 → estrutura planejada
 
 AUTO
+
 → estrutura criada automaticamente
 ```
 
@@ -293,9 +349,13 @@ Exemplo:
 
 ```text
 Linha 1 → 100px
+
 Linha 2 → 100px
+
 Linha 3 → 100px
+
 Linha 4 → 100px
+
 ...
 ```
 
@@ -315,8 +375,11 @@ Agora cada linha implícita utilizará uma unidade fracional.
 
 ```text
 1fr
+
 1fr
+
 1fr
+
 ...
 ```
 
@@ -346,11 +409,17 @@ Isso cria um padrão:
 
 ```text
 50px
+
 100px
+
 50px
+
 100px
+
 50px
+
 100px
+
 ...
 ```
 
@@ -386,11 +455,17 @@ As linhas implícitas serão:
 
 ```text
 Linha 1 → 50px
+
 Linha 2 → 100px
+
 Linha 3 → 50px
+
 Linha 4 → 100px
+
 Linha 5 → 50px
+
 Linha 6 → 100px
+
 ...
 ```
 
@@ -455,7 +530,9 @@ Temos:
 
 ```text
 50px
+
 150px
+
 100px
 ```
 
@@ -463,9 +540,13 @@ Temos:
 
 ```text
 50px
+
 100px
+
 50px
+
 100px
+
 ...
 ```
 
@@ -534,10 +615,15 @@ O Grid poderá criar novas linhas automaticamente:
 
 ```text
 Linha 1
+
 Linha 2
+
 Linha 3
+
 Linha 4 ← implícita
+
 Linha 5 ← implícita
+
 Linha 6 ← implícita
 ```
 
@@ -551,8 +637,11 @@ essas novas linhas seguem o padrão:
 
 ```text
 Linha 4 → 50px
+
 Linha 5 → 100px
+
 Linha 6 → 50px
+
 ...
 ```
 
@@ -570,14 +659,16 @@ como:
 
 ```text
         PADRÃO
+
           │
+
      ┌────┴────┐
      ↓         ↓
    50px       100px
      │         │
      └────┬────┘
           ↓
-       repete
+        repete
           ↓
 50 → 100 → 50 → 100 → ...
 ```
@@ -602,6 +693,7 @@ Controla:
 
 ```text
 COLUNAS
+
 50 → 100 → 50 → 100 → ...
 ```
 
@@ -615,6 +707,7 @@ Controla:
 
 ```text
 LINHAS
+
 50 → 100 → 50 → 100 → ...
 ```
 
@@ -622,9 +715,11 @@ LINHAS
 
 ```text
 AUTO-COLUMNS
+
 → colunas implícitas
 
 AUTO-ROWS
+
 → linhas implícitas
 ```
 
@@ -634,16 +729,22 @@ AUTO-ROWS
 
 ```text
                  GRID AUTO-ROWS
+
                        │
+
                        ↓
-               LINHAS IMPLÍCITAS
+
+              LINHAS IMPLÍCITAS
+
                        │
-            ┌──────────┼──────────┐
-            ↓          ↓          ↓
-          auto        100px      1fr
-            │           │          │
-            ↓           ↓          ↓
-       automático      fixo    proporcional
+
+          ┌────────────┼────────────┐
+          ↓            ↓            ↓
+
+        auto          100px        1fr
+          │             │            │
+          ↓             ↓            ↓
+      automático       fixo     proporcional
 ```
 
 ---
@@ -651,27 +752,38 @@ AUTO-ROWS
 # 19. Mapa mental — explícito x implícito
 
 ```text
-                     GRID
-                      │
-          ┌───────────┴───────────┐
-          ↓                       ↓
-      EXPLÍCITO                IMPLÍCITO
-          │                       │
-          ↓                       ↓
-grid-template-rows         grid-auto-rows
-          │                       │
-          ↓                       ↓
-    linhas definidas        linhas criadas
-       por você              pelo Grid
+                    GRID
+
+                     │
+
+         ┌───────────┴───────────┐
+         ↓                       ↓
+
+     EXPLÍCITO                IMPLÍCITO
+
+         │                       │
+
+         ↓                       ↓
+
+grid-template-rows        grid-auto-rows
+
+         │                       │
+
+         ↓                       ↓
+
+   linhas definidas        linhas criadas
+      por você               pelo Grid
 ```
 
 ### Corte mental ④
 
 ```text
 template
+
 → "eu defini"
 
 auto
+
 → "o Grid criou"
 ```
 
@@ -680,28 +792,47 @@ auto
 # 20. Mapa mental — fluxo da criação
 
 ```text
-          GRID CONTAINER
-                │
-                ↓
-      grid-template-rows
-                │
-                ↓
-       linhas explícitas
-                │
-                ↓
-      novas linhas são
-          necessárias?
-                │
-              SIM
-                ↓
-       linhas implícitas
-                │
-                ↓
-         grid-auto-rows
-                │
-        ┌───────┼────────┐
-        ↓       ↓        ↓
-       auto    50px     1fr
+             GRID CONTAINER
+
+                    │
+
+                    ↓
+
+          grid-template-rows
+
+                    │
+
+                    ↓
+
+             linhas explícitas
+
+                    │
+
+                    ↓
+
+             novas linhas são
+
+                necessárias?
+
+                    │
+
+                   SIM
+
+                    ↓
+
+             linhas implícitas
+
+                    │
+
+                    ↓
+
+              grid-auto-rows
+
+                    │
+
+             ┌──────┼────────┐
+             ↓      ↓        ↓
+            auto   50px      1fr
 ```
 
 ---
@@ -710,18 +841,31 @@ auto
 
 ```text
 grid-auto-rows:
+
 50px 100px;
+
         │
+
         ↓
-     sequência
+
+    sequência
+
         │
+
         ↓
+
 50 → 100
+
         │
+
         ↓
+
 50 → 100
+
         │
+
         ↓
+
 50 → 100
 ```
 
@@ -742,6 +886,7 @@ Isso significa:
 
 ```text
 50px
+
 50px
 ```
 
@@ -768,6 +913,7 @@ Isso significa:
 
 ```text
 mínimo → 100px
+
 máximo → 1fr
 ```
 
@@ -801,20 +947,29 @@ Interpretação:
 
 ```text
              GRID
-               │
-      ┌────────┴────────┐
-      ↓                 ↓
-  EXPLÍCITO          IMPLÍCITO
-      │                 │
-      ↓                 ↓
-   ROWS               AUTO-ROWS
-      │                 │
-      ↓                 ↓
+
+              │
+
+      ┌───────┴───────┐
+      ↓               ↓
+
+  EXPLÍCITO         IMPLÍCITO
+
+      │               │
+
+      ↓               ↓
+
+   ROWS             AUTO-ROWS
+
+      │               │
+
+      ↓               ↓
+
 50px                 50px
-150px               100px
-100px                50px
-                    100px
-                    ...
+150px                100px
+100px                 50px
+                      100px
+                      ...
 ```
 
 ---
@@ -823,9 +978,11 @@ Interpretação:
 
 ```text
 grid-template-rows
+
 → "Quais linhas eu quero definir?"
 
 grid-auto-rows
+
 → "Como devem ser as linhas que o Grid criar sozinho?"
 ```
 
@@ -852,6 +1009,7 @@ Temos:
 LINHAS EXPLÍCITAS
 
 50px
+
 150px
 ```
 
@@ -861,9 +1019,13 @@ Depois, se forem necessárias novas linhas:
 LINHAS IMPLÍCITAS
 
 50px
+
 100px
+
 50px
+
 100px
+
 ...
 ```
 
@@ -922,14 +1084,20 @@ Uma maneira simples de memorizar:
 
 ```text
              GRID
+
               │
+
       ┌───────┴───────┐
       ↓               ↓
+
    COLUMNS           ROWS
+
       │               │
+
   ┌───┴───┐       ┌───┴───┐
   ↓       ↓       ↓       ↓
-template auto  template auto
+
+template auto   template auto
   ↓       ↓       ↓       ↓
 explícito implícito explícito implícito
 ```
@@ -940,11 +1108,17 @@ explícito implícito explícito implícito
 
 ```text
 grid-auto-rows
+
       ↓
+
 controla linhas implícitas
+
       ↓
+
 linhas criadas automaticamente
+
       ↓
+
 quando o Grid precisa de mais linhas
 ```
 
@@ -976,6 +1150,7 @@ grid-auto-rows: auto;
 
 ```text
 tamanho automático
+
 conforme as necessidades do conteúdo/layout
 ```
 
@@ -997,12 +1172,17 @@ conforme as necessidades do conteúdo/layout
 
 ```text
 grid-template-rows
+
         ↓
+
 "EU DEFINO AS LINHAS"
 
 grid-auto-rows
+
         ↓
+
 "EU DEFINO COMO O GRID
+
 DEVE CRIAR AS NOVAS LINHAS"
 ```
 
@@ -1010,8 +1190,10 @@ E a relação completa:
 
 ```text
 grid-template-columns → colunas explícitas
+
 grid-auto-columns     → colunas implícitas
 
 grid-template-rows    → linhas explícitas
+
 grid-auto-rows        → linhas implícitas
 ```

@@ -1,5 +1,51 @@
 # CSS Grid — `grid-auto-columns`
 
+## Índice
+
+1. [O que é `grid-auto-columns`?](#1-o-que-é-grid-auto-columns)
+2. [Colunas explícitas](#2-colunas-explícitas)
+3. [Colunas implícitas](#3-colunas-implícitas)
+4. [Explícito x implícito](#4-explícito-x-implícito)
+5. [Exemplo simples](#5-exemplo-simples)
+6. [Por que precisamos de `grid-auto-columns`?](#6-por-que-precisamos-de-grid-auto-columns)
+7. [Sem `grid-auto-columns`](#7-sem-grid-auto-columns)
+8. [`auto` em `grid-auto-columns`](#8-auto-em-grid-auto-columns)
+9. [`grid-auto-columns: 100px`](#9-grid-auto-columns-100px)
+10. [`grid-auto-columns: 1fr`](#10-grid-auto-columns-1fr)
+11. [Exemplo completo](#11-exemplo-completo)
+12. [Quando as colunas implícitas aparecem?](#12-quando-as-colunas-implícitas-aparecem)
+13. [Forçando uma posição ainda mais distante](#13-forçando-uma-posição-ainda-mais-distante)
+14. [Visualizando as colunas implícitas](#14-visualizando-as-colunas-implícitas)
+15. [O padrão das colunas implícitas pode se repetir](#15-o-padrão-das-colunas-implícitas-pode-se-repetir)
+16. [Exemplo com `50px 75px`](#16-exemplo-com-50px-75px)
+17. [`grid-auto-columns` não altera as colunas explícitas](#17-grid-auto-columns-não-altera-as-colunas-explícitas)
+18. [Mapa mental — explícitas x implícitas](#18-mapa-mental--explícitas-x-implícitas)
+19. [`grid-auto-columns` e `grid-column`](#19-grid-auto-columns-e-grid-column)
+20. [Exemplo](#20-exemplo)
+21. [O Grid cria tantas colunas quanto necessário](#21-o-grid-cria-tantas-colunas-quanto-necessário)
+22. [E se o item for para a coluna 9?](#22-e-se-o-item-for-para-a-coluna-9)
+23. [Adicionando novos itens](#23-adicionando-novos-itens)
+24. [Quando as colunas implícitas não são necessárias](#24-quando-as-colunas-implícitas-não-são-necessárias)
+25. [`grid-auto-columns` só controla as colunas automáticas](#25-grid-auto-columns-só-controla-as-colunas-automáticas)
+26. [Valor padrão](#26-valor-padrão)
+27. [`auto` x `100px`](#27-auto-x-100px)
+28. [`auto` x `1fr`](#28-auto-x-1fr)
+29. [`grid-auto-columns` + `grid-template-columns`](#29-grid-auto-columns--grid-template-columns)
+30. [Mapa mental — fluxo completo](#30-mapa-mental--fluxo-completo)
+31. [Mapa mental — `grid-column`](#31-mapa-mental--grid-column)
+32. [Mapa mental — padrão repetitivo](#32-mapa-mental--padrão-repetitivo)
+33. [Exemplo com `repeat()`](#33-exemplo-com-repeat)
+34. [`minmax()` também pode ser utilizado](#34-minmax-também-pode-ser-utilizado)
+35. [Exemplos de valores](#35-exemplos-de-valores)
+36. [`grid-auto-columns` x `grid-template-columns`](#36-grid-auto-columns-x-grid-template-columns)
+37. [Exemplo visual definitivo](#37-exemplo-visual-definitivo)
+38. [⚠️ Não confundir com `grid-template-columns`](#38-️-não-confundir-com-grid-template-columns)
+39. [Exemplo completo](#39-exemplo-completo)
+40. [📌 Resumo final](#40-📌-resumo-final)
+41. [🧠 Regras para memorizar](#41-🧠-regras-para-memorizar)
+
+---
+
 ## 1. O que é `grid-auto-columns`?
 
 A propriedade:
@@ -24,7 +70,7 @@ colunas implícitas
 
 ---
 
-# 2. Colunas explícitas
+## 2. Colunas explícitas
 
 São as colunas que definimos diretamente através de:
 
@@ -45,6 +91,7 @@ Aqui estamos dizendo explicitamente:
 
 ```text
 Coluna 1 → 1fr
+
 Coluna 2 → 1fr
 ```
 
@@ -52,7 +99,7 @@ Visualmente:
 
 ```text
 ┌──────────────┬──────────────┐
-│   1fr        │     1fr      │
+│     1fr      │     1fr      │
 └──────────────┴──────────────┘
 ```
 
@@ -60,7 +107,7 @@ Essas são **colunas explícitas** porque foram definidas diretamente no código
 
 ---
 
-# 3. Colunas implícitas
+## 3. Colunas implícitas
 
 As colunas **implícitas** são criadas automaticamente quando o Grid precisa de mais colunas do que aquelas que foram definidas explicitamente.
 
@@ -87,8 +134,10 @@ Mas podemos determinar que um item deve ficar na coluna `3`.
 Agora o Grid precisa criar uma nova coluna:
 
 ```text
-1        2        3
-↓        ↓        ↓
+1       2       3
+
+↓       ↓       ↓
+
 ┌────────┬────────┬────────┐
 │        │        │        │
 └────────┴────────┴────────┘
@@ -102,15 +151,19 @@ grid-template-columns
 
 ---
 
-# 4. Explícito x implícito
+## 4. Explícito x implícito
 
 Podemos memorizar assim:
 
 ```text
 grid-template-columns
+
         ↓
+
 DEFINE
+
         ↓
+
 COLUNAS EXPLÍCITAS
 ```
 
@@ -118,9 +171,13 @@ Enquanto:
 
 ```text
 necessidade do Grid
+
         ↓
+
 CRIA
+
         ↓
+
 COLUNAS IMPLÍCITAS
 ```
 
@@ -128,15 +185,17 @@ COLUNAS IMPLÍCITAS
 
 ```text
 EXPLÍCITA
+
 → "Eu defini."
 
 IMPLÍCITA
+
 → "O Grid criou porque precisou."
 ```
 
 ---
 
-# 5. Exemplo simples
+## 5. Exemplo simples
 
 Considere:
 
@@ -167,13 +226,15 @@ Como a terceira coluna não existia explicitamente:
 
 ```text
 Coluna 1 → explícita
+
 Coluna 2 → explícita
+
 Coluna 3 → implícita
 ```
 
 ---
 
-# 6. Por que precisamos de `grid-auto-columns`?
+## 6. Por que precisamos de `grid-auto-columns`?
 
 Agora surge a pergunta:
 
@@ -192,9 +253,7 @@ Exemplo:
 ```css
 .grid {
   display: grid;
-
   grid-template-columns: 1fr 1fr;
-
   grid-auto-columns: 100px;
 }
 ```
@@ -203,7 +262,9 @@ Agora:
 
 ```text
 Coluna 1 → 1fr
+
 Coluna 2 → 1fr
+
 Coluna 3 → 100px
 ```
 
@@ -215,7 +276,7 @@ A terceira coluna foi criada automaticamente e recebeu:
 
 ---
 
-# 7. Sem `grid-auto-columns`
+## 7. Sem `grid-auto-columns`
 
 Se não definirmos:
 
@@ -237,7 +298,7 @@ Ou seja:
 
 ---
 
-# 8. `auto` em `grid-auto-columns`
+## 8. `auto` em `grid-auto-columns`
 
 Podemos escrever explicitamente:
 
@@ -277,13 +338,15 @@ a coluna pode crescer para acomodá-lo.
 
 ```text
 auto
+
 ↓
+
 "deixe o tamanho ser determinado automaticamente"
 ```
 
 ---
 
-# 9. `grid-auto-columns: 100px`
+## 9. `grid-auto-columns: 100px`
 
 Podemos definir:
 
@@ -303,15 +366,17 @@ Exemplo:
 
 ```text
 Colunas explícitas:
+
 1fr | 1fr
 
 Colunas implícitas:
+
 100px | 100px | 100px | ...
 ```
 
 ---
 
-# 10. `grid-auto-columns: 1fr`
+## 10. `grid-auto-columns: 1fr`
 
 Também podemos utilizar:
 
@@ -335,14 +400,12 @@ As colunas automáticas participam da divisão proporcional do espaço.
 
 ---
 
-# 11. Exemplo completo
+## 11. Exemplo completo
 
 ```css
 .grid {
   display: grid;
-
   grid-template-columns: 1fr 1fr;
-
   grid-auto-columns: 100px;
 }
 ```
@@ -365,12 +428,13 @@ Portanto:
 
 ```text
 grid-auto-columns
+
 → ainda não teve efeito visível
 ```
 
 ---
 
-# 12. Quando as colunas implícitas aparecem?
+## 12. Quando as colunas implícitas aparecem?
 
 Elas aparecem quando alguma regra do Grid exige mais colunas.
 
@@ -392,7 +456,9 @@ A terceira coluna precisa existir.
 
 ```text
 1 → explícita
+
 2 → explícita
+
 3 → implícita
 ```
 
@@ -406,7 +472,7 @@ define o tamanho dessa terceira coluna.
 
 ---
 
-# 13. Forçando uma posição ainda mais distante
+## 13. Forçando uma posição ainda mais distante
 
 Imagine:
 
@@ -438,10 +504,15 @@ Temos:
 
 ```text
 1 → explícita
+
 2 → explícita
+
 3 → implícita
+
 4 → implícita
+
 5 → implícita
+
 6 → implícita
 ```
 
@@ -449,14 +520,17 @@ Agora `grid-auto-columns` será aplicada às colunas criadas automaticamente.
 
 ---
 
-# 14. Visualizando as colunas implícitas
+## 14. Visualizando as colunas implícitas
 
 ```text
 grid-template-columns
+
         ↓
+
 ┌────────┬────────┐
 │   1    │   2    │
 └────────┴────────┘
+
    1fr      1fr
 
         ↓ item precisa da coluna 6
@@ -464,7 +538,8 @@ grid-template-columns
 ┌────────┬────────┬───────┬───────┬───────┬───────┐
 │   1    │   2    │   3   │   4   │   5   │   6   │
 └────────┴────────┴───────┴───────┴───────┴───────┘
-   1fr      1fr     auto    auto    auto    auto
+
+   1fr      1fr      auto     auto    auto    auto
 ```
 
 Se tivermos:
@@ -481,7 +556,7 @@ as colunas implícitas serão:
 
 ---
 
-# 15. O padrão das colunas implícitas pode se repetir
+## 15. O padrão das colunas implícitas pode se repetir
 
 Podemos definir mais de um tamanho:
 
@@ -493,11 +568,17 @@ Agora temos um padrão:
 
 ```text
 50px
+
 100px
+
 50px
+
 100px
+
 50px
+
 100px
+
 ...
 ```
 
@@ -515,7 +596,7 @@ Visualmente:
 
 ---
 
-# 16. Exemplo com `50px 75px`
+## 16. Exemplo com `50px 75px`
 
 ```css
 .grid {
@@ -527,10 +608,15 @@ As colunas implícitas serão:
 
 ```text
 Coluna implícita 1 → 50px
+
 Coluna implícita 2 → 75px
+
 Coluna implícita 3 → 50px
+
 Coluna implícita 4 → 75px
+
 Coluna implícita 5 → 50px
+
 Coluna implícita 6 → 75px
 ```
 
@@ -542,7 +628,7 @@ Ou:
 
 ---
 
-# 17. `grid-auto-columns` não altera as colunas explícitas
+## 17. `grid-auto-columns` não altera as colunas explícitas
 
 Considere:
 
@@ -557,10 +643,15 @@ Temos:
 
 ```text
 Coluna 1 → 100px
+
 Coluna 2 → 100px
+
 Coluna 3 → 50px
+
 Coluna 4 → 50px
+
 Coluna 5 → 50px
+
 ...
 ```
 
@@ -576,44 +667,55 @@ Ele controla as colunas **criadas automaticamente**.
 
 ```text
 grid-template-columns
+
 → colunas que EU DEFINI
 
 grid-auto-columns
+
 → colunas que o GRID CRIOU
 ```
 
 ---
 
-# 18. Mapa mental — explícitas x implícitas
+## 18. Mapa mental — explícitas x implícitas
 
 ```text
                          GRID
+
                           │
-             ┌────────────┴────────────┐
-             ↓                         ↓
-        EXPLÍCITAS                 IMPLÍCITAS
-             │                         │
-             ↓                         ↓
-grid-template-columns         grid-auto-columns
-             │                         │
-             ↓                         ↓
-       eu defini                 Grid criou
-       diretamente               automaticamente
+
+            ┌─────────────┴─────────────┐
+            ↓                           ↓
+
+       EXPLÍCITAS                   IMPLÍCITAS
+
+            │                           │
+            ↓                           ↓
+
+grid-template-columns          grid-auto-columns
+
+            │                           │
+            ↓                           ↓
+
+      eu defini                   Grid criou
+      diretamente                automaticamente
 ```
 
 ### Regra mental
 
 ```text
 template
+
 → "eu desenho"
 
 auto
+
 → "o Grid completa"
 ```
 
 ---
 
-# 19. `grid-auto-columns` e `grid-column`
+## 19. `grid-auto-columns` e `grid-column`
 
 Uma forma simples de demonstrar a propriedade é usar:
 
@@ -633,17 +735,23 @@ Então:
 
 ```text
 grid-column: 6
+
         ↓
+
 o Grid precisa criar até a coluna 6
+
         ↓
+
 colunas implícitas
+
         ↓
+
 grid-auto-columns
 ```
 
 ---
 
-# 20. Exemplo
+## 20. Exemplo
 
 ```html
 <div class="grid">
@@ -676,13 +784,13 @@ Resultado conceitual:
 
 ```text
 ┌──────┬──────┬─────┬─────┬─────┬─────┐
-│  1fr │ 1fr  │100px│100px│100px│100px│
+│ 1fr  │ 1fr  │100px│100px│100px│100px│
 └──────┴──────┴─────┴─────┴─────┴─────┘
 ```
 
 ---
 
-# 21. O Grid cria tantas colunas quanto necessário
+## 21. O Grid cria tantas colunas quanto necessário
 
 Se temos:
 
@@ -708,7 +816,7 @@ O Grid terá que criar as restantes para atender ao posicionamento.
 
 ---
 
-# 22. E se o item for para a coluna 9?
+## 22. E se o item for para a coluna 9?
 
 Considere:
 
@@ -728,7 +836,9 @@ Portanto:
 
 ```text
 2 explícitas
+
 +
+
 7 implícitas
 ```
 
@@ -740,7 +850,7 @@ grid-auto-columns
 
 ---
 
-# 23. Adicionando novos itens
+## 23. Adicionando novos itens
 
 Depois que criamos uma estrutura com várias colunas implícitas, novos itens podem continuar sendo distribuídos pelo Grid de acordo com o fluxo estabelecido.
 
@@ -754,9 +864,13 @@ Quando adicionamos elementos:
 
 ```text
 Item 1
+
 Item 2
+
 Item 3
+
 Item 4
+
 ...
 ```
 
@@ -764,7 +878,7 @@ o Grid utiliza as colunas disponíveis e cria novas linhas conforme necessário.
 
 ---
 
-# 24. Quando as colunas implícitas não são necessárias
+## 24. Quando as colunas implícitas não são necessárias
 
 Considere:
 
@@ -776,10 +890,15 @@ e seis itens:
 
 ```text
 1
+
 2
+
 3
+
 4
+
 5
+
 6
 ```
 
@@ -805,7 +924,7 @@ As novas colunas surgem quando a estrutura do Grid exige isso.
 
 ---
 
-# 25. `grid-auto-columns` só controla as colunas automáticas
+## 25. `grid-auto-columns` só controla as colunas automáticas
 
 Imagine:
 
@@ -824,15 +943,17 @@ Portanto:
 
 ```text
 grid-template-columns
+
 → primeiras colunas
 
 grid-auto-columns
+
 → próximas colunas implícitas
 ```
 
 ---
 
-# 26. Valor padrão
+## 26. Valor padrão
 
 Quando não especificamos:
 
@@ -850,7 +971,9 @@ De forma simplificada:
 
 ```text
 auto
+
 ↓
+
 tamanho determinado automaticamente
 ```
 
@@ -858,7 +981,7 @@ O conteúdo pode influenciar esse tamanho.
 
 ---
 
-# 27. `auto` x `100px`
+## 27. `auto` x `100px`
 
 ### `auto`
 
@@ -870,6 +993,7 @@ A largura pode acompanhar as necessidades do conteúdo.
 
 ```text
 [A]
+
 [Conteúdo maior]
 ```
 
@@ -889,7 +1013,7 @@ As colunas implícitas possuem uma faixa definida de `100px`.
 
 ---
 
-# 28. `auto` x `1fr`
+## 28. `auto` x `1fr`
 
 ### `auto`
 
@@ -899,7 +1023,9 @@ grid-auto-columns: auto;
 
 ```text
 conteúdo
+
    ↓
+
 tamanho automático
 ```
 
@@ -911,7 +1037,9 @@ grid-auto-columns: 1fr;
 
 ```text
 espaço disponível
+
    ↓
+
 distribuição proporcional
 ```
 
@@ -919,7 +1047,7 @@ As duas propostas são diferentes.
 
 ---
 
-# 29. `grid-auto-columns` + `grid-template-columns`
+## 29. `grid-auto-columns` + `grid-template-columns`
 
 Um padrão comum de entender é:
 
@@ -944,68 +1072,98 @@ As seguintes são automáticas.
 
 ---
 
-# 30. Mapa mental — fluxo completo
+## 30. Mapa mental — fluxo completo
 
 ```text
               ITEM PRECISA DE
+
              UMA NOVA COLUNA
-                     │
-                     ↓
-          GRID NÃO POSSUI A COLUNA
-                     │
-                     ↓
-           CRIA COLUNA IMPLÍCITA
-                     │
-                     ↓
+
+                    │
+
+                    ↓
+
+         GRID NÃO POSSUI A COLUNA
+
+                    │
+
+                    ↓
+
+          CRIA COLUNA IMPLÍCITA
+
+                    │
+
+                    ↓
+
             grid-auto-columns
-                     │
-            ┌────────┼────────┐
-            ↓        ↓        ↓
-           auto     100px     1fr
-            │        │        │
-            ↓        ↓        ↓
-       automático   fixo    proporcional
+
+                    │
+
+          ┌─────────┼─────────┐
+          ↓         ↓         ↓
+         auto      100px      1fr
+          │         │         │
+          ↓         ↓         ↓
+      automático   fixo   proporcional
 ```
 
 ---
 
-# 31. Mapa mental — `grid-column`
+## 31. Mapa mental — `grid-column`
 
 ```text
-              grid-column
-                   │
-                   ↓
+             grid-column
+
+                  │
+
+                  ↓
+
           "Quero este item
+
            nesta coluna"
-                   │
-             ┌─────┴─────┐
-             ↓           ↓
+
+                  │
+
+            ┌─────┴─────┐
+            ↓           ↓
+
        coluna existe   coluna não existe
-             │           │
-             ↓           ↓
-        usa a coluna   Grid cria
-                       implícitas
-                          │
-                          ↓
+            │           │
+            ↓           ↓
+       usa a coluna    Grid cria
+                      implícitas
+                         │
+                         ↓
                   grid-auto-columns
 ```
 
 ---
 
-# 32. Mapa mental — padrão repetitivo
+## 32. Mapa mental — padrão repetitivo
 
 ```text
 grid-auto-columns:
+
 50px 75px;
+
         │
+
         ↓
-padrão
-50 → 75
+
+      padrão
+
+    50 → 75
+
         │
+
         ↓
-repete
+
+      repete
+
         │
+
         ↓
+
 50 → 75 → 50 → 75 → 50 → 75
 ```
 
@@ -1015,7 +1173,7 @@ repete
 
 ---
 
-# 33. Exemplo com `repeat()`
+## 33. Exemplo com `repeat()`
 
 Também podemos utilizar:
 
@@ -1039,7 +1197,7 @@ Conforme novas colunas surgem:
 
 ---
 
-# 34. `minmax()` também pode ser utilizado
+## 34. `minmax()` também pode ser utilizado
 
 Podemos definir:
 
@@ -1051,6 +1209,7 @@ Isso significa:
 
 ```text
 mínimo → 100px
+
 máximo → 1fr
 ```
 
@@ -1058,7 +1217,7 @@ Portanto, as colunas implícitas terão uma estrutura mais flexível.
 
 ---
 
-# 35. Exemplos de valores
+## 35. Exemplos de valores
 
 ```css
 grid-auto-columns: auto;
@@ -1084,23 +1243,31 @@ A propriedade pode utilizar diferentes formas de dimensionamento.
 
 ---
 
-# 36. `grid-auto-columns` x `grid-template-columns`
+## 36. `grid-auto-columns` x `grid-template-columns`
 
 Essa é provavelmente a distinção mais importante desta etapa.
 
 ```text
 grid-template-columns
+
         ↓
+
 colunas EXPLÍCITAS
+
         ↓
+
 "Eu defini essas colunas."
 ```
 
 ```text
 grid-auto-columns
+
         ↓
+
 colunas IMPLÍCITAS
+
         ↓
+
 "O Grid precisou criar essas colunas."
 ```
 
@@ -1108,15 +1275,17 @@ colunas IMPLÍCITAS
 
 ```text
 TEMPLATE
+
 → planejado
 
 AUTO
+
 → criado conforme necessário
 ```
 
 ---
 
-# 37. Exemplo visual definitivo
+## 37. Exemplo visual definitivo
 
 ```css
 .grid {
@@ -1140,12 +1309,12 @@ Se o Grid precisar de seis colunas:
    │      │      └──────┴──────┴──────┘
    │      │             implícitas
    └──────┘
-    explícitas
+   explícitas
 ```
 
 ---
 
-# 38. ⚠️ Não confundir com `grid-template-columns`
+## 38. ⚠️ Não confundir com `grid-template-columns`
 
 Se você escrever:
 
@@ -1155,7 +1324,7 @@ grid-template-columns: 1fr 1fr;
 
 você está dizendo:
 
-> "Crie explicitamente duas colunas."
+> **"Crie explicitamente duas colunas."**
 
 Se escrever:
 
@@ -1165,13 +1334,13 @@ grid-auto-columns: 100px;
 
 você está dizendo:
 
-> "Quando surgir uma coluna implícita, ela deve ter 100px."
+> **"Quando surgir uma coluna implícita, ela deve ter 100px."**
 
 São responsabilidades diferentes.
 
 ---
 
-# 39. Exemplo completo
+## 39. Exemplo completo
 
 ### HTML
 
@@ -1214,19 +1383,26 @@ Resultado conceitual:
 
 ---
 
-# 40. 📌 Resumo final
+## 40. 📌 Resumo final
 
 ```text
                     GRID
+
                      │
-          ┌──────────┴──────────┐
-          ↓                     ↓
-      EXPLÍCITO              IMPLÍCITO
-          │                     │
-          ↓                     ↓
+
+         ┌───────────┴───────────┐
+         ↓                       ↓
+
+     EXPLÍCITO                IMPLÍCITO
+
+         │                       │
+         ↓                       ↓
+
 grid-template-columns    grid-auto-columns
-          │                     │
-          ↓                     ↓
+
+         │                       │
+         ↓                       ↓
+
     você define          Grid cria quando
                          necessário
 ```
@@ -1271,7 +1447,7 @@ grid-auto-columns: 50px 75px;
 
 ---
 
-# 41. 🧠 Regras para memorizar
+## 41. 🧠 Regras para memorizar
 
 > **`grid-template-columns` define as colunas explícitas.**
 
@@ -1287,11 +1463,15 @@ grid-auto-columns: 50px 75px;
 
 ```text
 grid-template-columns
+
         ↓
+
 "EU DEFINO"
 
 grid-auto-columns
+
         ↓
+
 "O GRID CRIA"
 ```
 
@@ -1305,10 +1485,16 @@ pense:
 
 ```text
 "Preciso da coluna 6."
+
         ↓
+
 Se ela não existir
+
         ↓
+
 o Grid cria colunas implícitas
+
         ↓
+
 grid-auto-columns define seus tamanhos.
 ```

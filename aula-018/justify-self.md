@@ -1,8 +1,56 @@
-````markdown
 # CSS Grid Layout — `justify-self`
 
 > [!NOTE]
 > Esta documentação apresenta o funcionamento da propriedade `justify-self`, com foco principal no **CSS Grid Layout**, relacionando o conceito com `justify-items`, `justify-content`, `align-self` e `place-self`.
+
+## Índice
+
+1. [Objetivo](#1-objetivo)
+2. [Antes de entender `justify-self`](#2-antes-de-entender-justify-self)
+3. [O que significa `self`?](#3-o-que-significa-self)
+4. [`justify-items` × `justify-self`](#4-justify-items--justify-self)
+5. [Onde `justify-self` atua?](#5-onde-justify-self-atua)
+6. [O que exatamente é alinhado?](#6-o-que-exatamente-é-alinhado)
+7. [Sintaxe](#7-sintaxe)
+8. [`justify-self: start`](#8-justify-self-start)
+9. [`justify-self: center`](#9-justify-self-center)
+10. [`justify-self: end`](#10-justify-self-end)
+11. [Visualizando os três principais valores](#11-visualizando-os-três-principais-valores)
+12. [`justify-self: stretch`](#12-justify-self-stretch)
+13. [Por que `stretch` parece ser o padrão?](#13-por-que-stretch-parece-ser-o-padrão)
+14. [`justify-self: auto`](#14-justify-self-auto)
+15. [`justify-self: normal`](#15-justify-self-normal)
+16. [`start` e `self-start`](#16-start-e-self-start)
+17. [`self-end`](#17-self-end)
+18. [`left` e `right`](#18-left-e-right)
+19. [`baseline`](#19-baseline)
+20. [`safe` e `unsafe`](#20-safe-e-unsafe)
+21. [Exemplo completo](#21-exemplo-completo)
+22. [`justify-self` não altera o posicionamento do Grid](#22-justify-self-não-altera-o-posicionamento-do-grid)
+23. [`justify-self` × `justify-items` × `justify-content`](#23-justify-self--justify-items--justify-content)
+24. [Exemplo para diferenciar `justify-content`](#24-exemplo-para-diferenciar-justify-content)
+25. [`justify-self` × `align-self`](#25-justify-self--align-self)
+26. [`place-self`](#26-place-self)
+27. [Um detalhe importante sobre `stretch`](#27-um-detalhe-importante-sobre-stretch)
+28. [Quando `stretch` não funciona como esperado?](#28-quando-stretch-não-funciona-como-esperado)
+29. [Exemplo prático: botão dentro de uma célula](#29-exemplo-prático-botão-dentro-de-uma-célula)
+30. [Exemplo com imagem](#30-exemplo-com-imagem)
+31. [Relação com `grid-area`](#31-relação-com-grid-area)
+32. [Relação com `span`](#32-relação-com-span)
+33. [Erro comum: pensar que `justify-self` move a coluna](#33-erro-comum-pensar-que-justify-self-move-a-coluna)
+34. [Erro comum: confundir com `text-align`](#34-erro-comum-confundir-com-text-align)
+35. [Erro comum: confundir `justify-items` com `justify-self`](#35-erro-comum-confundir-justify-items-com-justify-self)
+36. [Erro comum: pensar somente em "horizontal"](#36-erro-comum-pensar-somente-em-horizontal)
+37. [Fluxo mental definitivo](#37-fluxo-mental-definitivo)
+38. [Mapa mental](#38-mapa-mental)
+39. [Regra de ouro](#39-regra-de-ouro)
+40. [Tabela de fixação](#40-tabela-de-fixação)
+41. [Tabela de comparação das propriedades](#41-tabela-de-comparação-das-propriedades)
+42. [Código de referência](#42-código-de-referência)
+43. [Perguntas para verificar a compreensão](#43-perguntas-para-verificar-a-compreensão)
+44. [Resumo técnico](#44-resumo-técnico)
+45. [Referências oficiais](#45-referências-oficiais)
+46. [GitHub](#46-github)
 
 ---
 
@@ -10,19 +58,17 @@
 
 A propriedade `justify-self` controla **como um único item é alinhado dentro do espaço que foi reservado para ele**.
 
-No CSS Grid, esse espaço normalmente é a **grid area** ocupada pelo item.
-
-A ideia fundamental é:
+No CSS Grid, esse espaço é a **grid area** ocupada pelo item.
 
 ```text
 GRID CONTAINER
 └── GRID AREA DO ITEM
     └── ITEM
-````
+```
 
-O `justify-self` decide **onde o item ficará dentro dessa área no eixo inline**.
+O `justify-self` decide **onde o item ficará dentro dessa área, no eixo inline**.
 
-Em uma escrita horizontal comum, como a utilizada normalmente em português:
+Em uma escrita horizontal comum, como a do português:
 
 ```text
 Eixo inline
@@ -38,18 +84,15 @@ Eixo inline
 └──────────────────────────────┘
 ```
 
-Portanto:
+> `justify-self` não move a célula do Grid. Ele posiciona o **item dentro da área que esse item já ocupa**.
 
-> `justify-self` não move a célula do Grid.
-> Ele posiciona o **item dentro da área que esse item já ocupa**.
-
-A especificação de CSS Box Alignment define `justify-self` como uma propriedade de **self-alignment**, isto é, alinhamento da própria caixa dentro de seu container de alinhamento.
+A especificação CSS Box Alignment define `justify-self` como uma propriedade de **self-alignment**: o alinhamento da própria caixa dentro do seu container de alinhamento.
 
 ---
 
-# 2. Antes de entender `justify-self`
+## 2. Antes de entender `justify-self`
 
-Para compreender completamente essa propriedade, precisamos separar quatro conceitos.
+Para compreender essa propriedade, é preciso separar quatro conceitos.
 
 ```text
 ┌─────────────────────────────────────────────┐
@@ -69,48 +112,32 @@ Para compreender completamente essa propriedade, precisamos separar quatro conce
 
 ### Grid Container
 
-É o elemento que possui:
-
-```css
-display: grid;
-```
-
-Exemplo:
+É o elemento que possui `display: grid`. Ele cria o contexto de Grid.
 
 ```css
 .container {
-    display: grid;
+  display: grid;
 }
 ```
-
-Ele cria o contexto de Grid.
-
----
 
 ### Grid Track
 
 É uma coluna ou uma linha criada pelo Grid.
 
 ```text
-COLUNAS
-
       coluna 1        coluna 2
          ↓               ↓
 
       ┌───────┬───────────┐
 linha │       │           │
- 1    │       │           │
+  1   │       │           │
       ├───────┼───────────┤
 linha │       │           │
- 2    │       │           │
+  2   │       │           │
       └───────┴───────────┘
 ```
 
-Uma coluna é um **column track**.
-
-Uma linha é um **row track**.
-
----
+Uma coluna é um **column track**. Uma linha é um **row track**.
 
 ### Grid Area
 
@@ -118,7 +145,7 @@ Uma linha é um **row track**.
 
 ```css
 .item {
-    grid-column: 1 / 3;
+  grid-column: 1 / 3;
 }
 ```
 
@@ -126,17 +153,13 @@ Nesse caso, o item ocupa duas colunas.
 
 ```text
 ┌───────────────┬───────────────┐
-│               │               │
-│      ITEM ----------------→   │
-│               │               │
+│                               │
+│      ÁREA DO ITEM (2 colunas) │
+│                               │
 └───────────────┴───────────────┘
 ```
 
-A área disponível para o item é maior do que o próprio conteúdo necessariamente precisa.
-
-É justamente nesse espaço que `justify-self` atua.
-
----
+A área disponível pode ser maior do que o conteúdo do item precisa. É nesse espaço que `justify-self` atua.
 
 ### Grid Item
 
@@ -144,7 +167,7 @@ A área disponível para o item é maior do que o próprio conteúdo necessariam
 
 ```html
 <div class="container">
-    <div class="item"></div>
+  <div class="item"></div>
 </div>
 ```
 
@@ -152,22 +175,12 @@ Como `.item` é filho direto do elemento com `display: grid`, ele é um grid ite
 
 ---
 
-# 3. O que significa `self`?
-
-O nome da propriedade ajuda bastante:
-
-```css
-justify-self
-```
-
-Podemos separar assim:
+## 3. O que significa `self`?
 
 ```text
 justify → alinhar no eixo inline
 self    → o próprio item
 ```
-
-Ou seja:
 
 ```text
 justify-items → define uma regra para os itens
@@ -179,90 +192,68 @@ Essa diferença é essencial.
 
 ---
 
-# 4. `justify-items` × `justify-self`
+## 4. `justify-items` × `justify-self`
 
-## `justify-items`
+### `justify-items`
 
-É definido no **Grid Container**.
-
-Ele estabelece a regra padrão de alinhamento para os itens.
+É definido no **Grid Container** e estabelece a regra padrão de alinhamento para os itens.
 
 ```css
 .container {
-    display: grid;
-    justify-items: center;
+  display: grid;
+  justify-items: center;
 }
 ```
 
-Todos os itens passam a utilizar esse alinhamento como padrão.
+### `justify-self`
 
----
-
-## `justify-self`
-
-É definido diretamente no **Grid Item**.
+É definido diretamente no **Grid Item**. Só esse item passa a ter uma regra própria.
 
 ```css
 .item {
-    justify-self: end;
+  justify-self: end;
 }
 ```
 
-Agora somente esse item possui uma regra própria.
+A MDN descreve `justify-items` como a propriedade que define o comportamento padrão de `justify-self` para os itens, enquanto `justify-self` altera o alinhamento de um item individualmente.
 
-A documentação do MDN descreve `justify-items` como a propriedade que define o comportamento padrão de `justify-self` para os itens, enquanto `justify-self` permite alterar o alinhamento de um item individualmente.
-
-Visualmente:
+Com `justify-items: center` e duas colunas:
 
 ```text
-┌────────────────────────────────────┐
-│           GRID CONTAINER           │
-│                                    │
-│  ┌────────────┐  ┌────────────┐    │
-│  │   ITEM 1   │  │   ITEM 2   │    │
-│  │   center   │  │   center   │    │
-│  └────────────┘  └────────────┘    │
-│                                    │
-└────────────────────────────────────┘
+┌──────────────────┬──────────────────┐
+│    ┌────────┐    │    ┌────────┐    │
+│    │ ITEM 1 │    │    │ ITEM 2 │    │
+│    └────────┘    │    └────────┘    │
+└──────────────────┴──────────────────┘
+       center              center
 ```
 
 Se o segundo item receber:
 
 ```css
 .item-2 {
-    justify-self: end;
+  justify-self: end;
 }
 ```
 
-Temos:
+o item continua **na mesma célula e na mesma linha**. Só muda a posição horizontal dentro dela:
 
 ```text
-┌────────────────────────────────────┐
-│           GRID CONTAINER           │
-│                                    │
-│  ┌────────────┐                    │
-│  │   ITEM 1   │                    │
-│  │   center   │                    │
-│  └────────────┘                    │
-│                          ┌───────┐ │
-│                          │ITEM 2 │ │
-│                          │  end  │ │
-│                          └───────┘ │
-└────────────────────────────────────┘
+┌──────────────────┬──────────────────┐
+│    ┌────────┐    │        ┌────────┐│
+│    │ ITEM 1 │    │        │ ITEM 2 ││
+│    └────────┘    │        └────────┘│
+└──────────────────┴──────────────────┘
+       center                end
 ```
 
-Portanto:
-
-> `justify-items` define o padrão para todos.
-> `justify-self` permite que um item tenha seu próprio alinhamento.
+> `justify-items` define o padrão para todos. `justify-self` permite que um item tenha o seu próprio alinhamento.
 
 ---
 
-# 5. Onde `justify-self` atua?
+## 5. Onde `justify-self` atua?
 
-No Grid, `justify-self` atua no **eixo inline**.
-
-Em um documento com `writing-mode` horizontal tradicional:
+No Grid, `justify-self` atua no **eixo inline**. Em um documento com `writing-mode` horizontal tradicional:
 
 ```text
 EIXO INLINE
@@ -271,45 +262,26 @@ EIXO INLINE
 EIXO BLOCK
 ↑
 │
-│
 ↓
 ```
-
-Por isso, em um layout tradicional:
 
 ```text
 justify-self → direção horizontal
 align-self   → direção vertical
 ```
 
-Mas existe uma observação técnica importante:
-
-`justify-self` é definido em termos do **eixo inline**, e não simplesmente como "horizontal".
-
-Isso significa que o comportamento depende do **writing mode**.
-
-Por exemplo, em diferentes modos de escrita, o eixo inline pode ter outra orientação.
-
-Portanto, a forma tecnicamente correta de pensar é:
+Mas `justify-self` é definido em termos do **eixo inline**, e não simplesmente como "horizontal". O comportamento depende do `writing-mode`. A forma tecnicamente correta de pensar é:
 
 ```text
 justify-self → eixo inline
 align-self   → eixo block
 ```
 
-O MDN e a especificação de CSS Box Alignment descrevem `justify-self` dessa forma.
-
 ---
 
-# 6. O que exatamente é alinhado?
+## 6. O que exatamente é alinhado?
 
-Essa é uma das partes mais importantes da propriedade.
-
-`justify-self` não está alinhando o texto.
-
-Ele está alinhando a **caixa do elemento** dentro do seu espaço de alinhamento.
-
-Imagine:
+`justify-self` não alinha o texto. Ele alinha a **caixa do elemento** dentro do seu espaço de alinhamento.
 
 ```text
 GRID AREA
@@ -323,11 +295,7 @@ GRID AREA
 └──────────────────────────────────┘
 ```
 
-O Grid possui uma área disponível.
-
-O elemento possui sua própria caixa.
-
-`justify-self` decide onde essa caixa ficará.
+O Grid possui uma área disponível. O elemento possui a sua própria caixa. `justify-self` decide onde essa caixa ficará.
 
 Isso é diferente de:
 
@@ -335,24 +303,17 @@ Isso é diferente de:
 text-align: center;
 ```
 
-### `justify-self`
-
-Move/alinha a **caixa do elemento**.
-
-### `text-align`
-
-Alinha o **conteúdo textual dentro da caixa**.
-
-Exemplo:
+```text
+justify-self → alinha a CAIXA do elemento
+text-align   → alinha o CONTEÚDO TEXTUAL dentro da caixa
+```
 
 ```css
 .item {
-    justify-self: center;
-    text-align: center;
+  justify-self: center;
+  text-align: center;
 }
 ```
-
-As duas propriedades estão fazendo coisas diferentes.
 
 ```text
 GRID AREA
@@ -376,27 +337,21 @@ alinha o texto dentro da caixa
 
 ---
 
-# 7. Sintaxe
-
-A forma básica é:
+## 7. Sintaxe
 
 ```css
 .item {
-    justify-self: valor;
+  justify-self: valor;
 }
 ```
-
-Exemplo:
 
 ```css
 .item {
-    justify-self: center;
+  justify-self: center;
 }
 ```
 
-A propriedade possui diversos tipos de valores.
-
-Os principais para aprender primeiro são:
+Os principais valores para aprender primeiro:
 
 ```css
 justify-self: auto;
@@ -408,7 +363,7 @@ justify-self: center;
 justify-self: end;
 ```
 
-Também existem valores como:
+Também existem:
 
 ```css
 justify-self: self-start;
@@ -422,21 +377,19 @@ justify-self: safe center;
 justify-self: unsafe center;
 ```
 
-A sintaxe atual da especificação também inclui `anchor-center`, relacionado a posicionamento por âncora. Nem todos os valores mais recentes possuem o mesmo nível de suporte em todos os navegadores.
+A sintaxe atual da especificação também inclui `anchor-center`, relacionado ao posicionamento por âncora. Nem todos os valores mais recentes têm o mesmo suporte nos navegadores.
 
 ---
 
-# 8. `justify-self: start`
+## 8. `justify-self: start`
 
 ```css
 .item {
-    justify-self: start;
+  justify-self: start;
 }
 ```
 
-Coloca o item junto ao início do eixo inline.
-
-Em uma escrita horizontal tradicional:
+Coloca o item junto ao início do eixo inline. Em uma escrita horizontal da esquerda para a direita:
 
 ```text
 INÍCIO →                                     FIM
@@ -448,21 +401,17 @@ INÍCIO →                                     FIM
 └──────────────────────────────────────────────┘
 ```
 
-Mentalmente:
-
 ```text
 start = começo
 ```
 
-O item vai para o início da área de alinhamento.
-
 ---
 
-# 9. `justify-self: center`
+## 9. `justify-self: center`
 
 ```css
 .item {
-    justify-self: center;
+  justify-self: center;
 }
 ```
 
@@ -478,25 +427,21 @@ Centraliza o item dentro da sua área de alinhamento.
 └──────────────────────────────────────────────┘
 ```
 
-Mentalmente:
-
 ```text
 center = meio
 ```
 
 ---
 
-# 10. `justify-self: end`
+## 10. `justify-self: end`
 
 ```css
 .item {
-    justify-self: end;
+  justify-self: end;
 }
 ```
 
 Coloca o item junto ao final do eixo inline.
-
-Em uma escrita horizontal tradicional:
 
 ```text
 INÍCIO                                     FIM
@@ -509,17 +454,13 @@ INÍCIO                                     FIM
 └──────────────────────────────────────────────┘
 ```
 
-Mentalmente:
-
 ```text
 end = final
 ```
 
 ---
 
-# 11. Visualizando os três principais valores
-
-Podemos imaginar a mesma Grid Area três vezes:
+## 11. Visualizando os três principais valores
 
 ```text
 start
@@ -551,39 +492,33 @@ end
 └──────────────────────────────────┘
 ```
 
-A área não mudou.
-
-O item não mudou de célula.
-
-Apenas sua posição **dentro da área** mudou.
+A área não mudou. O item não mudou de célula. Apenas a posição **dentro da área** mudou.
 
 ---
 
-# 12. `justify-self: stretch`
+## 12. `justify-self: stretch`
 
-Esse valor é extremamente importante porque possui uma diferença fundamental em relação aos valores de posicionamento.
+Esse valor tem uma diferença fundamental em relação aos valores de posicionamento.
 
 ```css
 .item {
-    justify-self: stretch;
+  justify-self: stretch;
 }
 ```
 
 O item pode ocupar o espaço disponível no eixo de alinhamento.
 
-Visualmente:
-
 ```text
+stretch
+
 ┌─────────────────────────────────────┐
-│                                     │
 │ ┌─────────────────────────────────┐ │
 │ │              ITEM               │ │
 │ └─────────────────────────────────┘ │
-│                                     │
 └─────────────────────────────────────┘
 ```
 
-Compare:
+Compare com:
 
 ```text
 start
@@ -615,46 +550,18 @@ end
 └─────────────────────────────────────┘
 ```
 
-```text
-stretch
-
-┌─────────────────────────────────────┐
-│ ┌─────────────────────────────────┐ │
-│ │              ITEM               │ │
-│ └─────────────────────────────────┘ │
-└─────────────────────────────────────┘
-```
-
-A especificação explica `stretch` como o comportamento que aumenta o tamanho de itens dimensionados como `auto` para preencher o espaço disponível, respeitando restrições como `min-width`, `max-width` e equivalentes.
+A especificação explica `stretch` como o comportamento que aumenta o tamanho de itens dimensionados como `auto` para preencher o espaço disponível, respeitando restrições como `min-width` e `max-width`.
 
 ---
 
-# 13. Por que `stretch` pode parecer o padrão?
+## 13. Por que `stretch` parece ser o padrão?
 
-No Grid:
-
-```css
-justify-items: stretch;
-```
-
-é o valor inicial de `justify-items`.
-
-Ao mesmo tempo:
-
-```css
-justify-self: auto;
-```
-
-é o valor inicial de `justify-self`.
-
-O `auto` pode utilizar o valor de `justify-items` do elemento pai.
-
-Assim:
+O valor inicial de `justify-items` é `normal`, que no Grid se comporta como `stretch`. O valor inicial de `justify-self` é `auto`, que usa o `justify-items` do elemento pai.
 
 ```text
 GRID CONTAINER
     │
-    │ justify-items: stretch
+    │ justify-items: normal  (comporta-se como stretch)
     ↓
 GRID ITEM
     │
@@ -665,44 +572,34 @@ usa o padrão do pai
 stretch
 ```
 
-Por isso é muito comum observar os itens ocupando todo o espaço disponível na célula.
-
-O MDN descreve exatamente essa relação entre `justify-items`, `justify-self` e os valores iniciais dessas propriedades.
+Por isso é comum ver os itens ocupando todo o espaço disponível na célula.
 
 ---
 
-# 14. `justify-self: auto`
+## 14. `justify-self: auto`
 
 ```css
 .item {
-    justify-self: auto;
+  justify-self: auto;
 }
 ```
 
-`auto` não significa simplesmente "centralizar", "esticar" ou "não fazer nada".
+`auto` não significa "centralizar", "esticar" ou "não fazer nada". Significa:
 
-Ele significa, essencialmente:
-
-> Use a configuração de `justify-items` fornecida pelo elemento pai, quando aplicável.
-
-Exemplo:
+> use o valor de `justify-items` do elemento pai.
 
 ```css
 .container {
-    display: grid;
-    justify-items: center;
+  display: grid;
+  justify-items: center;
 }
 ```
-
-E:
 
 ```css
 .item {
-    justify-self: auto;
+  justify-self: auto;
 }
 ```
-
-O item utiliza o alinhamento definido pelo pai:
 
 ```text
 justify-items: center
@@ -712,23 +609,19 @@ justify-items: center
       ITEM 3 → center
 ```
 
-Agora imagine:
+Se um item receber uma regra própria:
 
 ```css
 .item-2 {
-    justify-self: end;
+  justify-self: end;
 }
 ```
-
-Resultado:
 
 ```text
 ITEM 1 → center
 ITEM 2 → end
 ITEM 3 → center
 ```
-
-Temos, portanto:
 
 ```text
 justify-items = regra padrão
@@ -737,44 +630,36 @@ justify-self  = regra específica
 
 ---
 
-# 15. `justify-self: normal`
-
-Também existe:
+## 15. `justify-self: normal`
 
 ```css
 .item {
-    justify-self: normal;
+  justify-self: normal;
 }
 ```
 
 O significado de `normal` depende do modelo de layout.
 
-No Grid, seu comportamento é semelhante ao `stretch`, com uma exceção importante para caixas com **aspect ratio** (proporção intrínseca) ou tamanho intrínseco, nas quais o comportamento tende a ser `start`.
-
-Isso é especialmente relevante para elementos como imagens.
-
-Exemplo:
+No Grid, `normal` se comporta como `stretch`, com uma exceção: em caixas com **proporção intrínseca** (aspect ratio), como imagens, ele se comporta como `start`.
 
 ```html
 <div class="container">
-    <img src="imagem.jpg" alt="">
+  <img src="imagem.jpg" alt="">
 </div>
 ```
 
-Uma imagem pode possuir uma proporção natural, como:
+Uma imagem tem uma proporção natural, por exemplo:
 
 ```text
 largura : altura
    16   :   9
 ```
 
-Forçar o elemento a preencher o espaço sem respeitar essa proporção poderia produzir distorção.
-
-Por isso, o comportamento relacionado a itens com proporção intrínseca merece atenção.
+Esticá-la sem respeitar essa proporção produziria distorção.
 
 ---
 
-# 16. `start` e `self-start`
+## 16. `start` e `self-start`
 
 À primeira vista:
 
@@ -782,65 +667,43 @@ Por isso, o comportamento relacionado a itens com proporção intrínseca merece
 justify-self: start;
 ```
 
-e:
-
 ```css
 justify-self: self-start;
 ```
 
-parecem iguais.
-
-Mas existe uma diferença conceitual.
-
-### `start`
-
-Refere-se ao início do **container de alinhamento** no eixo correspondente.
-
-### `self-start`
-
-Refere-se ao lado do container correspondente ao **início lógico do próprio item**.
-
-Visualmente, em situações simples:
+parecem iguais. Mas há uma diferença conceitual.
 
 ```text
 start
-↓
-┌────────────────────────────┐
-│ ITEM                       │
-└────────────────────────────┘
+→ lado inicial do container de alinhamento,
+  segundo o modo de escrita do container
+
+self-start
+→ lado do container correspondente ao início do próprio item,
+  segundo o modo de escrita do item
 ```
 
-e:
+Em situações simples, ambos produzem o mesmo resultado:
 
 ```text
-self-start
-↓
 ┌────────────────────────────┐
 │ ITEM                       │
 └────────────────────────────┘
 ```
 
-podem produzir o mesmo resultado.
-
-A diferença aparece principalmente quando existem diferentes **writing modes** ou direções de escrita.
-
-Isso acontece porque `start` e `end` são valores lógicos relacionados ao fluxo de escrita, enquanto `self-start` e `self-end` levam em consideração o lado inicial e final do próprio item.
+A diferença aparece quando o item e o container têm **writing modes** ou direções de escrita diferentes.
 
 ---
 
-# 17. `self-end`
-
-Seguindo a mesma lógica:
+## 17. `self-end`
 
 ```css
 .item {
-    justify-self: self-end;
+  justify-self: self-end;
 }
 ```
 
-alinha o item ao lado do container correspondente ao lado final do próprio item.
-
-Em layouts simples:
+Alinha o item ao lado do container correspondente ao fim do próprio item. Em layouts simples:
 
 ```text
 ┌──────────────────────────────────┐
@@ -850,42 +713,28 @@ Em layouts simples:
 └──────────────────────────────────┘
 ```
 
-Mas seu valor fica mais interessante quando lidamos com diferentes sistemas de escrita.
+Ele fica mais interessante com diferentes sistemas de escrita.
 
 ---
 
-# 18. `left` e `right`
-
-Também existem:
+## 18. `left` e `right`
 
 ```css
 justify-self: left;
 justify-self: right;
 ```
 
-Esses valores são físicos.
-
-Ou seja:
+Esses valores são **físicos**:
 
 ```text
 left  → esquerda física
 right → direita física
 ```
 
-Isso é diferente de:
-
-```css
-start
-end
-```
-
-que são valores lógicos.
-
-Exemplo:
+Isso é diferente de `start` e `end`, que são valores **lógicos**.
 
 ```text
 left
-↓
 ┌────────────────────────────────┐
 │ ITEM                           │
 └────────────────────────────────┘
@@ -893,38 +742,24 @@ left
 
 ```text
 right
-↓
 ┌────────────────────────────────┐
 │                           ITEM │
 └────────────────────────────────┘
 ```
 
-Em interfaces modernas, `start` e `end` normalmente são mais adequados quando queremos que o layout respeite diferentes direções e modos de escrita.
-
-O CSS Box Alignment define `left` e `right` como valores físicos, enquanto `start`, `end`, `self-start` e `self-end` são valores lógicos.
+Em interfaces modernas, `start` e `end` costumam ser mais adequados, porque respeitam diferentes direções e modos de escrita.
 
 ---
 
-# 19. `baseline`
-
-Também é possível utilizar alinhamento por linha de base:
+## 19. `baseline`
 
 ```css
 justify-self: baseline;
-```
-
-Existem ainda:
-
-```css
 justify-self: first baseline;
 justify-self: last baseline;
 ```
 
-Esse tipo de alinhamento é mais avançado.
-
-Em vez de simplesmente colocar a caixa no início, meio ou fim, o navegador considera a **baseline**, ou linha de base tipográfica utilizada para alinhar conteúdo.
-
-Um modelo mental simplificado:
+Esse alinhamento é mais avançado. Em vez de colocar a caixa no início, meio ou fim, o navegador considera a **baseline**, a linha de base tipográfica.
 
 ```text
 ITEM 1          ITEM 2
@@ -934,175 +769,121 @@ Texto grande    Texto pequeno
           baseline
 ```
 
-A baseline é muito importante quando diferentes conteúdos precisam compartilhar um alinhamento tipográfico consistente.
-
-A especificação de CSS Box Alignment define `baseline`, `first baseline` e `last baseline` como formas de alinhamento por linha de base.
+A especificação CSS Box Alignment define `baseline`, `first baseline` e `last baseline` como formas de alinhamento por linha de base.
 
 ---
 
-# 20. `safe` e `unsafe`
+## 20. `safe` e `unsafe`
 
-Também podemos combinar alguns valores posicionais com:
-
-```css
-safe
-```
-
-ou:
-
-```css
-unsafe
-```
-
-Exemplo:
+Alguns valores posicionais podem ser combinados com `safe` ou `unsafe`:
 
 ```css
 .item {
-    justify-self: safe center;
+  justify-self: safe center;
 }
 ```
 
 ### `safe`
 
-Se a posição escolhida causar overflow do item em relação ao container de alinhamento, o navegador poderá optar por um alinhamento equivalente a `start`.
-
-### `unsafe`
-
-O alinhamento solicitado é mantido mesmo que possa ocorrer overflow.
-
-Visualmente:
+Se o alinhamento escolhido fizer o item ultrapassar o container de alinhamento, o navegador usa um alinhamento equivalente a `start`, para que o conteúdo não fique inacessível.
 
 ```text
 SAFE
 
 ┌──────────────────────────────┐
-│ ITEM                         │
+│ ITEM██████████████           │
 └──────────────────────────────┘
 
-evita deixar o item
-em uma posição problemática
+o item ultrapassaria o espaço,
+então fica alinhado ao início
 ```
 
-Enquanto:
+### `unsafe`
+
+O alinhamento solicitado é mantido, mesmo que haja overflow.
 
 ```text
 UNSAFE
 
-┌──────────────────────────────┐
-│        ITEM██████████→       │
-└──────────────────────────────┘
+   ┌──────────────────────────────┐
+ ██│█████████ ITEM ██████████████│██
+   └──────────────────────────────┘
 
-mantém o alinhamento solicitado
-mesmo que ultrapasse o espaço
+o item continua centralizado e
+ultrapassa o espaço nos dois lados
 ```
-
-Esses valores existem para lidar com situações em que a posição desejada pode gerar conteúdo fora da área disponível.
 
 ---
 
-# 21. Exemplo completo
-
-HTML:
+## 21. Exemplo completo
 
 ```html
 <div class="container">
-    <div class="item item-1">1</div>
-    <div class="item item-2">2</div>
-    <div class="item item-3">3</div>
-    <div class="item item-4">4</div>
+  <div class="item item-1">1</div>
+  <div class="item item-2">2</div>
+  <div class="item item-3">3</div>
+  <div class="item item-4">4</div>
 </div>
 ```
 
-CSS:
-
 ```css
 .container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-
-    justify-items: stretch;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
 }
 
 .item {
-    padding: 20px;
+  padding: 20px;
 }
 
 .item-1 {
-    justify-self: start;
+  justify-self: start;
 }
 
 .item-2 {
-    justify-self: center;
+  justify-self: center;
 }
 
 .item-3 {
-    justify-self: end;
+  justify-self: end;
 }
 
 .item-4 {
-    justify-self: stretch;
+  justify-self: stretch;
 }
 ```
 
-Mentalmente:
-
 ```text
-┌─────────────────────┬─────────────────────┐
-│ ┌──────┐            │      ┌──────┐       │
-│ │  1   │            │      │  2   │       │
-│ └──────┘            │      └──────┘       │
-├─────────────────────┼─────────────────────┤
-│            ┌──────┐ │ ┌──────────────────┐│
-│            │  3   │ │ │        4         ││
-│            └──────┘ │ └──────────────────┘│
-└─────────────────────┴─────────────────────┘
-   start                center
+┌─────────────────────┐   ┌─────────────────────┐
+│ ┌──────┐            │   │      ┌──────┐       │
+│ │  1   │            │   │      │  2   │       │
+│ └──────┘            │   │      └──────┘       │
+└─────────────────────┘   └─────────────────────┘
+        start                    center
 
-end                    stretch
+┌─────────────────────┐   ┌─────────────────────┐
+│            ┌──────┐ │   │ ┌───────────────────┐│
+│            │  3   │ │   │ │         4         ││
+│            └──────┘ │   │ └───────────────────┘│
+└─────────────────────┘   └─────────────────────┘
+         end                    stretch
 ```
 
-Cada item continua em sua própria célula.
-
-O que muda é a posição ou o tamanho da caixa do item dentro da respectiva área.
+Cada item continua na sua própria célula. O que muda é a posição ou o tamanho da caixa do item dentro da respectiva área.
 
 ---
 
-# 22. `justify-self` não altera o posicionamento do Grid
+## 22. `justify-self` não altera o posicionamento do Grid
 
-É importante não confundir:
+Não confunda `justify-self` com `grid-column`, `grid-row` e `grid-area`.
 
-```css
-justify-self
+```text
+grid-column → onde o item é colocado nas colunas
+grid-row    → onde o item é colocado nas rows
+grid-area   → a região ocupada pelo item
+justify-self → como o item é alinhado dentro dessa área
 ```
-
-com:
-
-```css
-grid-column
-grid-row
-grid-area
-```
-
-Essas propriedades têm funções diferentes.
-
-### `grid-column`
-
-Determina **onde o item será colocado em relação às colunas e linhas do Grid**.
-
-### `grid-row`
-
-Determina **onde o item será colocado em relação às linhas**.
-
-### `grid-area`
-
-Pode determinar a região ocupada pelo item.
-
-### `justify-self`
-
-Determina **como o item será alinhado dentro da área que ele ocupa**.
-
-Mental model:
 
 ```text
 1. Primeiro descubra ONDE o item está.
@@ -1126,21 +907,17 @@ justify-self
 └───────────────────────┘
 ```
 
-Essa separação é extremamente importante para entender CSS Grid.
-
 ---
 
-# 23. `justify-self` × `justify-items` × `justify-content`
+## 23. `justify-self` × `justify-items` × `justify-content`
 
-Essas três propriedades possuem nomes parecidos, mas trabalham em níveis diferentes.
+Essas três propriedades têm nomes parecidos, mas trabalham em níveis diferentes.
 
-| Propriedade       | Definida em    | Atua sobre                             | Ideia principal                         |
-| ----------------- | -------------- | -------------------------------------- | --------------------------------------- |
-| `justify-content` | Grid Container | o conjunto dos tracks/conteúdo do Grid | distribui o Grid dentro do container    |
-| `justify-items`   | Grid Container | todos os Grid Items                    | define o alinhamento padrão dos itens   |
-| `justify-self`    | Grid Item      | um único Grid Item                     | define o alinhamento individual do item |
-
-Visualização:
+| Propriedade | Definida em | Atua sobre | Ideia principal |
+| --- | --- | --- | --- |
+| `justify-content` | Grid Container | o conjunto das tracks do Grid | distribui o Grid dentro do container |
+| `justify-items` | Grid Container | todos os Grid Items | define o alinhamento padrão dos itens |
+| `justify-self` | Grid Item | um único Grid Item | define o alinhamento individual do item |
 
 ```text
 GRID CONTAINER
@@ -1165,43 +942,25 @@ GRID CONTAINER
 
 ---
 
-# 24. Exemplo para diferenciar `justify-content`
-
-Considere:
+## 24. Exemplo para diferenciar `justify-content`
 
 ```css
 .container {
-    display: grid;
-    grid-template-columns: 100px 100px;
-    width: 400px;
+  display: grid;
+  grid-template-columns: 100px 100px;
+  width: 400px;
 }
 ```
 
-O Grid possui:
+O Grid ocupa:
 
 ```text
 100px + 100px = 200px
 ```
 
-mas o container possui:
+mas o container tem `400px`. Sobra espaço.
 
-```text
-400px
-```
-
-Existe espaço sobrando.
-
-`justify-content` pode decidir onde o **conjunto das colunas** ficará.
-
-Já:
-
-```css
-justify-self
-```
-
-trabalha com o item dentro da área que já foi criada.
-
-Portanto:
+`justify-content` decide onde o **conjunto das colunas** ficará. `justify-self` trabalha com o item dentro da área que já foi criada.
 
 ```text
 justify-content
@@ -1213,8 +972,6 @@ justify-content
       conjunto
       do Grid
 ```
-
-Enquanto:
 
 ```text
 justify-self
@@ -1230,45 +987,22 @@ justify-self
 
 ---
 
-# 25. `justify-self` × `align-self`
+## 25. `justify-self` × `align-self`
 
-As duas propriedades utilizam o conceito de **self-alignment**.
-
-```css
-justify-self
-align-self
-```
-
-A diferença está no eixo.
-
-Em uma escrita horizontal tradicional:
+As duas propriedades usam o conceito de **self-alignment**. A diferença está no eixo:
 
 ```text
-justify-self
-      ↓
-eixo inline
-      ↓
-horizontal
+justify-self → eixo inline → horizontal (em escrita horizontal)
 
-align-self
-      ↓
-eixo block
-      ↓
-vertical
+align-self   → eixo block  → vertical   (em escrita horizontal)
 ```
-
-Exemplo:
 
 ```css
 .item {
-    justify-self: center;
-    align-self: center;
+  justify-self: center;
+  align-self: center;
 }
 ```
-
-Isso posiciona o item no centro da sua área nos dois eixos.
-
-Visualmente:
 
 ```text
 ┌──────────────────────────────────┐
@@ -1282,170 +1016,111 @@ Visualmente:
 └──────────────────────────────────┘
 ```
 
-O MDN descreve `align-self` como o equivalente para o outro eixo de alinhamento no Grid.
-
 ---
 
-# 26. `place-self`
+## 26. `place-self`
 
-Existe ainda uma forma abreviada de controlar:
-
-```css
-align-self
-justify-self
-```
-
-Essa propriedade é:
-
-```css
-place-self
-```
-
-Exemplo:
+`place-self` é a forma abreviada de `align-self` e `justify-self`:
 
 ```css
 .item {
-    place-self: center;
+  place-self: center;
 }
 ```
 
-É equivalente, nesse caso, a:
+Com um único valor, ele vale para os dois eixos, e o exemplo acima equivale a:
 
 ```css
 .item {
-    align-self: center;
-    justify-self: center;
+  align-self: center;
+  justify-self: center;
 }
 ```
 
-Também podemos escrever:
+Com dois valores:
 
 ```css
 .item {
-    place-self: start end;
+  place-self: start end;
 }
 ```
-
-O primeiro valor representa:
 
 ```text
-align-self
+place-self: <align-self> <justify-self>
 ```
 
-e o segundo:
+Aqui, `align-self: start` e `justify-self: end`.
+
+---
+
+## 27. Um detalhe importante sobre `stretch`
+
+`stretch` não significa "faça o elemento ficar com `width: 100%`". São mecanismos diferentes.
 
 ```text
-justify-self
+justify-self: stretch → atua no sistema de alinhamento,
+                        respeitando as restrições de tamanho do item
+
+width: 100%           → define uma largura explícita
 ```
 
-Portanto:
-
-```css
-place-self: <align-self> <justify-self>;
-```
-
-A documentação do MDN define `place-self` como shorthand dessas duas propriedades.
+O `stretch` usa o espaço livre no eixo de alinhamento **quando o tamanho do item permite**.
 
 ---
 
-# 27. Um detalhe importante sobre `stretch`
+## 28. Quando `stretch` não funciona como esperado?
 
-`stretch` não significa simplesmente:
-
-> "faça o elemento ficar com `width: 100%`".
-
-O comportamento depende do dimensionamento do item.
-
-A ideia é que o espaço livre no eixo de alinhamento seja utilizado quando o tamanho do item permitir esse comportamento.
-
-Por isso:
-
-```css
-justify-self: stretch;
-```
-
-não deve ser confundido automaticamente com:
-
-```css
-width: 100%;
-```
-
-São mecanismos diferentes.
-
-O `stretch` atua dentro do sistema de alinhamento, respeitando as restrições de dimensionamento do item.
-
----
-
-# 28. Quando `stretch` não funciona como esperado?
-
-Imagine:
+### Largura definida
 
 ```css
 .item {
-    width: 100px;
-    justify-self: stretch;
+  width: 100px;
+  justify-self: stretch;
 }
 ```
 
-Nesse caso, o dimensionamento explícito do elemento pode impedir que ele simplesmente seja expandido como um item cujo tamanho permite o comportamento de `stretch`.
+Com `width` definido (diferente de `auto`), o item mantém `100px` e não é esticado. Como o `stretch` não atua, ele é posicionado como `start`.
 
-Da mesma forma, restrições como:
-
-```css
-max-width
-min-width
-```
-
-podem limitar o resultado.
-
-Exemplo:
+### Limite com `max-width`
 
 ```css
 .item {
-    max-width: 200px;
-    justify-self: stretch;
+  max-width: 200px;
+  justify-self: stretch;
 }
 ```
 
-O item não poderá simplesmente ultrapassar:
+Com largura `auto`, o item estica, mas só até `200px`. O espaço que sobra fica livre, e o item é posicionado como `start`.
 
-```css
-max-width: 200px;
+```text
+┌──────────────────────────────────────────┐
+│ ┌────────────────────┐                   │
+│ │  ITEM (max 200px)  │                   │
+│ └────────────────────┘                   │
+└──────────────────────────────────────────┘
 ```
-
-A própria definição de `stretch` considera essas restrições.
 
 ---
 
-# 29. Exemplo prático: botão dentro de uma célula
-
-Imagine:
+## 29. Exemplo prático: botão dentro de uma célula
 
 ```html
 <div class="card">
-    <h2>Título</h2>
-    <p>Descrição</p>
-    <button>Comprar</button>
+  <h2>Título</h2>
+  <p>Descrição</p>
+  <button>Comprar</button>
 </div>
 ```
 
-E o container:
-
 ```css
 .card {
-    display: grid;
+  display: grid;
 }
-```
 
-Podemos fazer:
-
-```css
 button {
-    justify-self: end;
+  justify-self: end;
 }
 ```
-
-Resultado:
 
 ```text
 ┌────────────────────────────────┐
@@ -1459,23 +1134,17 @@ Resultado:
 └────────────────────────────────┘
 ```
 
-O botão continua ocupando a mesma área do Grid.
-
-Mas sua caixa é alinhada ao final do eixo inline.
+O botão continua na mesma área do Grid, mas a sua caixa é alinhada ao final do eixo inline.
 
 ---
 
-# 30. Exemplo com imagem
-
-Imagine uma imagem dentro de uma célula maior:
+## 30. Exemplo com imagem
 
 ```css
 img {
-    justify-self: center;
+  justify-self: center;
 }
 ```
-
-Resultado:
 
 ```text
 ┌─────────────────────────────────────┐
@@ -1487,23 +1156,17 @@ Resultado:
 └─────────────────────────────────────┘
 ```
 
-Isso permite posicionar a imagem dentro da área sem necessariamente modificar a estrutura das colunas.
-
-Para imagens, é importante também considerar suas dimensões intrínsecas e proporção para evitar distorções.
+Isso posiciona a imagem dentro da área sem modificar a estrutura das colunas. Como a imagem tem proporção intrínseca, o comportamento `normal` não a estica, e isso evita distorções.
 
 ---
 
-# 31. Relação com `grid-area`
-
-Considere:
+## 31. Relação com `grid-area`
 
 ```css
 .item {
-    grid-area: 1 / 1 / 3 / 3;
+  grid-area: 1 / 1 / 3 / 3;
 }
 ```
-
-Aqui:
 
 ```text
 grid-area
@@ -1511,19 +1174,13 @@ grid-area
 define a área ocupada
 ```
 
-Depois:
-
 ```css
 .item {
-    justify-self: center;
+  justify-self: center;
 }
 ```
 
-Agora:
-
 ```text
-grid-area
-    ↓
 ┌───────────────────────────────┐
 │                               │
 │           GRID AREA           │
@@ -1537,27 +1194,17 @@ grid-area
        justify-self
 ```
 
-Essa combinação é extremamente poderosa.
-
-Primeiro:
-
-> **Onde o item está?**
-
-Depois:
-
-> **Como ele fica dentro daquele espaço?**
+Primeiro: **onde o item está?** Depois: **como ele fica dentro daquele espaço?**
 
 ---
 
-# 32. Relação com `span`
-
-O mesmo conceito vale quando utilizamos:
+## 32. Relação com `span`
 
 ```css
-grid-column: span 2;
+.item {
+  grid-column: span 2;
+}
 ```
-
-O item ocupa uma área maior:
 
 ```text
 ┌───────────────┬───────────────┐
@@ -1567,17 +1214,13 @@ O item ocupa uma área maior:
 └───────────────┴───────────────┘
 ```
 
-Agora:
-
 ```css
 .item {
-    justify-self: center;
+  justify-self: center;
 }
 ```
 
 O item é centralizado dentro dessa área maior.
-
-Portanto:
 
 ```text
 span
@@ -1591,29 +1234,15 @@ alinha o item dentro dessa área
 
 ---
 
-# 33. Erro comum: pensar que `justify-self` move a coluna
-
-Considere:
+## 33. Erro comum: pensar que `justify-self` move a coluna
 
 ```css
 .item {
-    justify-self: end;
+  justify-self: end;
 }
 ```
 
-Isso NÃO significa:
-
-```text
-"mova a coluna para a direita"
-```
-
-Significa:
-
-```text
-"alinhe este item no final do espaço que ele possui"
-```
-
-A coluna continua exatamente onde estava.
+Isso **não** significa "mova a coluna para a direita". Significa "alinhe este item no final do espaço que ele possui".
 
 ```text
 Antes:
@@ -1634,80 +1263,57 @@ item em posição diferente
 
 ---
 
-# 34. Erro comum: confundir com `text-align`
-
-Isso:
+## 34. Erro comum: confundir com `text-align`
 
 ```css
 .item {
-    justify-self: center;
+  justify-self: center;
 }
 ```
 
-não significa:
-
-```text
-"centralizar o texto"
-```
-
-Significa:
-
-```text
-"centralizar a caixa do item"
-```
+não significa "centralizar o texto". Significa "centralizar a caixa do item".
 
 Para o texto:
 
 ```css
 .item {
-    text-align: center;
+  text-align: center;
 }
 ```
 
-Podemos inclusive utilizar os dois:
+É possível usar os dois:
 
 ```css
 .item {
-    justify-self: center;
-    text-align: center;
+  justify-self: center;
+  text-align: center;
 }
 ```
 
-Agora:
-
 ```text
-justify-self
-→ posição da caixa
-
-text-align
-→ posição do texto dentro da caixa
+justify-self → posição da caixa
+text-align   → posição do texto dentro da caixa
 ```
 
 ---
 
-# 35. Erro comum: confundir `justify-items` com `justify-self`
-
-### `justify-items`
+## 35. Erro comum: confundir `justify-items` com `justify-self`
 
 ```css
 .container {
-    justify-items: center;
+  justify-items: center;
 }
 ```
 
 Afeta o padrão de todos os itens.
 
-### `justify-self`
-
 ```css
 .item {
-    justify-self: end;
+  justify-self: end;
 }
 ```
 
 Afeta apenas aquele item.
-
-Mental model:
 
 ```text
 justify-items
@@ -1721,41 +1327,29 @@ justify-self
 
 ---
 
-# 36. Erro comum: pensar somente em "horizontal"
+## 36. Erro comum: pensar somente em "horizontal"
 
-É muito comum decorar:
+É comum decorar:
 
 ```text
 justify = horizontal
 align   = vertical
 ```
 
-Isso funciona como uma simplificação inicial em layouts horizontais tradicionais.
-
-Mas a definição técnica é:
+Isso funciona como simplificação inicial em layouts horizontais. A definição técnica é:
 
 ```text
 justify-self → eixo inline
 align-self   → eixo block
 ```
 
-Essa forma de pensar é mais correta porque respeita diferentes `writing-mode` e direções de escrita.
+Essa forma é mais correta porque respeita diferentes `writing-mode` e direções de escrita.
 
 ---
 
-# 37. Fluxo mental definitivo
+## 37. Fluxo mental definitivo
 
-Quando encontrar:
-
-```css
-justify-self: center;
-```
-
-não pense apenas:
-
-> "centraliza."
-
-Pense nesta sequência:
+Ao encontrar `justify-self: center`, não pense apenas "centraliza". Pense nesta sequência:
 
 ```text
 1. Tenho um Grid Container
@@ -1773,53 +1367,44 @@ Pense nesta sequência:
 7. center coloca o item no centro desse espaço
 ```
 
-Esse processo é muito mais útil do que decorar palavras isoladas.
-
 ---
 
-# 38. Mapa mental
+## 38. Mapa mental
 
 ```text
-                         CSS GRID
-                            │
-                            ▼
-                     GRID CONTAINER
-                            │
-                            ▼
-                       GRID ITEM
-                            │
-                            ▼
-                       GRID AREA
-                            │
-             ┌──────────────┴──────────────┐
-             │                             │
-             ▼                             ▼
-        EIXO INLINE                    EIXO BLOCK
-             │                             │
-             ▼                             ▼
-       justify-self                    align-self
-             │                             │
-      ┌──────┼────────┐             ┌──────┼──────┐
-      │      │        │             │      │      │
-      ▼      ▼        ▼          ▼      ▼      ▼
-    start  center    end          start  center   end
-      │      │        │
-      └──────┴────────┘
-             │
-             ▼
-         posiciona
-         o ITEM
-         dentro da
-         GRID AREA
+                    CSS GRID
+                       │
+                       ▼
+                GRID CONTAINER
+                       │
+                       ▼
+                   GRID ITEM
+                       │
+                       ▼
+                   GRID AREA
+                       │
+        ┌──────────────┴──────────────┐
+        │                             │
+        ▼                             ▼
+   EIXO INLINE                   EIXO BLOCK
+        │                             │
+        ▼                             ▼
+  justify-self                   align-self
+        │                             │
+  ┌─────┼─────┐                 ┌─────┼─────┐
+  ▼     ▼     ▼                 ▼     ▼     ▼
+start center end              start center end
+        │
+        ▼
+ posiciona o ITEM
+ dentro da GRID AREA
 ```
 
 ---
 
-# 39. Regra de ouro
+## 39. Regra de ouro
 
 > **`justify-self` não decide onde a Grid Area fica. Ele decide onde o item fica dentro da Grid Area, no eixo inline.**
-
-Essa frase resume o conceito.
 
 ```text
 grid-column
@@ -1835,135 +1420,99 @@ COMO O ITEM FICA DENTRO DESSE ESPAÇO
 
 ---
 
-# 40. Tabela de fixação
+## 40. Tabela de fixação
 
-| Valor           | O que faz                                                                           | Mentalidade                 |
-| --------------- | ----------------------------------------------------------------------------------- | --------------------------- |
-| `auto`          | utiliza a configuração apropriada do pai, normalmente relacionada a `justify-items` | "siga o padrão"             |
-| `normal`        | comportamento padrão dependente do modelo de layout                                 | "comportamento normal"      |
-| `start`         | alinha no início do eixo                                                            | "começo"                    |
-| `center`        | centraliza o item                                                                   | "meio"                      |
-| `end`           | alinha no final do eixo                                                             | "fim"                       |
-| `stretch`       | usa o espaço disponível quando o dimensionamento permite                            | "preencher"                 |
-| `self-start`    | alinha no início lógico do próprio item                                             | "início do próprio item"    |
-| `self-end`      | alinha no final lógico do próprio item                                              | "fim do próprio item"       |
-| `left`          | alinha à esquerda física                                                            | "esquerda"                  |
-| `right`         | alinha à direita física                                                             | "direita"                   |
-| `baseline`      | utiliza alinhamento por linha de base                                               | "alinhar pela baseline"     |
-| `safe center`   | centraliza, evitando overflow problemático quando aplicável                         | "centralizar com segurança" |
-| `unsafe center` | mantém o alinhamento mesmo podendo ocorrer overflow                                 | "forçar o alinhamento"      |
-
----
-
-# 41. Tabela de comparação das propriedades
-
-| Propriedade       | Elemento onde é aplicada | Principal função                                        |
-| ----------------- | ------------------------ | ------------------------------------------------------- |
-| `justify-content` | Grid Container           | posicionar/distribuir o conteúdo do Grid no eixo inline |
-| `align-content`   | Grid Container           | posicionar/distribuir o conteúdo do Grid no eixo block  |
-| `justify-items`   | Grid Container           | definir o alinhamento padrão dos itens                  |
-| `align-items`     | Grid Container           | definir o alinhamento padrão no outro eixo              |
-| `justify-self`    | Grid Item                | alinhar um item individual no eixo inline               |
-| `align-self`      | Grid Item                | alinhar um item individual no eixo block                |
-| `place-self`      | Grid Item                | shorthand de `align-self` + `justify-self`              |
+| Valor | O que faz | Mentalidade |
+| --- | --- | --- |
+| `auto` | usa o `justify-items` do pai | "siga o padrão" |
+| `normal` | comportamento padrão do modelo de layout (no Grid: `stretch`, ou `start` com aspect ratio) | "comportamento normal" |
+| `start` | alinha no início do eixo | "começo" |
+| `center` | centraliza o item | "meio" |
+| `end` | alinha no final do eixo | "fim" |
+| `stretch` | preenche o espaço quando o tamanho é `auto` | "preencher" |
+| `self-start` | alinha no início do próprio item | "início do próprio item" |
+| `self-end` | alinha no fim do próprio item | "fim do próprio item" |
+| `left` | alinha à esquerda física | "esquerda" |
+| `right` | alinha à direita física | "direita" |
+| `baseline` | alinha pela linha de base | "alinhar pela baseline" |
+| `safe center` | centraliza, evitando overflow quando aplicável | "centralizar com segurança" |
+| `unsafe center` | mantém o alinhamento mesmo com overflow | "forçar o alinhamento" |
 
 ---
 
-# 42. Código de referência
+## 41. Tabela de comparação das propriedades
+
+| Propriedade | Aplicada em | Principal função |
+| --- | --- | --- |
+| `justify-content` | Grid Container | posicionar e distribuir as tracks do Grid no eixo inline |
+| `align-content` | Grid Container | posicionar e distribuir as tracks do Grid no eixo block |
+| `justify-items` | Grid Container | definir o alinhamento padrão dos itens no eixo inline |
+| `align-items` | Grid Container | definir o alinhamento padrão dos itens no eixo block |
+| `justify-self` | Grid Item | alinhar um item individual no eixo inline |
+| `align-self` | Grid Item | alinhar um item individual no eixo block |
+| `place-self` | Grid Item | shorthand de `align-self` + `justify-self` |
+
+---
+
+## 42. Código de referência
 
 ```css
 .container {
-    display: grid;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
 
-    grid-template-columns: repeat(2, 1fr);
-
-    /* Regra padrão para os itens */
-    justify-items: stretch;
+  /* Regra padrão para os itens */
+  justify-items: stretch;
 }
 
 .item-start {
-    justify-self: start;
+  justify-self: start;
 }
 
 .item-center {
-    justify-self: center;
+  justify-self: center;
 }
 
 .item-end {
-    justify-self: end;
+  justify-self: end;
 }
 
 .item-stretch {
-    justify-self: stretch;
+  justify-self: stretch;
 }
 
 .item-auto {
-    justify-self: auto;
+  justify-self: auto;
 }
 ```
 
 ---
 
-# 43. Perguntas para verificar a compreensão
-
-Antes de avançar para outra propriedade, tente responder:
+## 43. Perguntas para verificar a compreensão
 
 1. O que significa `self` em `justify-self`?
-
 2. `justify-self` é aplicado ao Grid Container ou ao Grid Item?
-
 3. Qual é a diferença entre `justify-items` e `justify-self`?
-
 4. `justify-self` posiciona o item em relação a quê?
-
 5. Qual eixo é controlado por `justify-self`?
-
 6. Qual a diferença entre `justify-self` e `text-align`?
-
-7. O que acontece com:
-
-```css
-justify-self: start;
-```
-
-8. O que acontece com:
-
-```css
-justify-self: center;
-```
-
-9. O que acontece com:
-
-```css
-justify-self: end;
-```
-
-10. O que diferencia `stretch` dos outros valores posicionais?
-
+7. O que faz `justify-self: start`?
+8. O que faz `justify-self: center`?
+9. O que faz `justify-self: end`?
+10. O que diferencia `stretch` dos valores posicionais?
 11. O que significa `justify-self: auto`?
+12. Qual a diferença conceitual entre `grid-area` e `justify-self`?
 
-12. Qual é a diferença conceitual entre:
-
-```css
-grid-area
-```
-
-e:
-
-```css
-justify-self
-```
-
-Se essas perguntas estiverem claras, o conceito central da propriedade já está consolidado.
+Se essas perguntas estiverem claras, o conceito central da propriedade está consolidado.
 
 ---
 
-# 44. Resumo técnico
+## 44. Resumo técnico
 
 ```text
 justify-self
 │
-├── é uma propriedade de alinhamento individual
+├── propriedade de alinhamento individual
 │
 ├── aplicada ao Grid Item
 │
@@ -1971,7 +1520,7 @@ justify-self
 │
 ├── alinha a caixa do item
 │
-├── não altera diretamente a posição da Grid Area
+├── não altera a posição da Grid Area
 │
 ├── não é equivalente a text-align
 │
@@ -1988,42 +1537,37 @@ justify-self
 
 ---
 
-# 45. Referências oficiais
+## 45. Referências oficiais
 
-* **MDN — `justify-self`**: definição, sintaxe, valores, exemplos e compatibilidade.
-* **MDN — `justify-items`**: relação entre `justify-items` e `justify-self`.
-* **MDN — Box Alignment in Grid Layout**: diferença entre `*-items` e `*-self` no CSS Grid.
-* **MDN — `align-self`**: propriedade correspondente para o outro eixo de alinhamento.
-* **MDN — `place-self`**: shorthand de `align-self` e `justify-self`.
-* **CSS Working Group — CSS Box Alignment Module Level 3**: especificação oficial do sistema de alinhamento CSS.
+- **MDN — `justify-self`:** definição, sintaxe, valores, exemplos e compatibilidade.
+- **MDN — `justify-items`:** relação entre `justify-items` e `justify-self`.
+- **MDN — Box alignment in grid layout:** diferença entre `*-items` e `*-self` no CSS Grid.
+- **MDN — `align-self`:** propriedade correspondente para o outro eixo.
+- **MDN — `place-self`:** shorthand de `align-self` e `justify-self`.
+- **W3C — CSS Box Alignment Module Level 3:** especificação oficial do sistema de alinhamento.
 
 ---
 
-# GitHub
+## 46. GitHub
 
-**Gabriel Felipe de Oliveira Rateiro**
+<div align="center">
 
-Repositório de estudos e documentação de desenvolvimento web.
+### CSS Grid Layout — `justify-self`
 
-**Próximo ponto importante do estudo:**
+Documentação técnica para estudo contínuo de CSS Grid Layout.
 
-```text
-justify-content
-        │
-        ├── conteúdo/conjunto do Grid
-        │
-        ▼
-justify-items
-        │
-        ├── padrão para todos os itens
-        │
-        ▼
-justify-self
-        │
-        └── item individual
-```
+<br>
 
-> Essa sequência ajuda a diferenciar **conteúdo do Grid → conjunto de itens → item individual**.
+<a href="https://github.com/gabrielfelipeoliveira55" target="_blank" rel="noopener noreferrer">
+Gabriel Felipe de Oliveira Rateiro
+</a>
 
-```
-```
+<br><br>
+
+**CSS Grid Layout • `justify-self`**
+
+> Conteúdo do Grid → conjunto de itens → item individual:
+>
+> `justify-content` → `justify-items` → `justify-self`
+
+</div>

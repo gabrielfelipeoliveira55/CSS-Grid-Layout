@@ -1,25 +1,82 @@
 # CSS Grid Layout — Introdução e `display: grid`
 
+## Índice
+
+- [1. O que é CSS Grid?](#1-o-que-é-css-grid)
+- [2. Grid Container](#2-grid-container)
+- [3. Quem são os Grid Items?](#3-quem-são-os-grid-items)
+  - [Regra importante](#regra-importante)
+- [4. `display: grid`](#4-display-grid)
+- [5. `display: inline-grid`](#5-display-inline-grid)
+  - [Uso](#uso)
+- [6. `subgrid`](#6-subgrid)
+- [7. `display: grid` sozinho não define as colunas](#7-display-grid-sozinho-não-define-as-colunas)
+- [8. Diferença entre `display: flex` e `display: grid`](#8-diferença-entre-display-flex-e-display-grid)
+- [9. `grid-template-columns`](#9-grid-template-columns)
+- [10. Removendo `grid-template-columns`](#10-removendo-grid-template-columns)
+- [11. Criando três colunas](#11-criando-três-colunas)
+- [12. `grid-template-columns` aceita diferentes unidades](#12-grid-template-columns-aceita-diferentes-unidades)
+- [13. Usando porcentagem](#13-usando-porcentagem)
+- [14. Valores diferentes para as colunas](#14-valores-diferentes-para-as-colunas)
+- [15. Uma dica sobre os nomes das propriedades](#15-uma-dica-sobre-os-nomes-das-propriedades)
+- [16. `columns` no plural](#16-columns-no-plural)
+  - [⚠️ Atenção](#atenção)
+- [17. Grid Container x Grid Item](#17-grid-container-x-grid-item)
+- [18. `fr` — unidade fracional](#18-fr-unidade-fracional)
+- [19. `1fr 1fr 1fr`](#19-1fr-1fr-1fr)
+- [20. `2fr 2fr 2fr`](#20-2fr-2fr-2fr)
+- [21. `1fr 2fr 1fr`](#21-1fr-2fr-1fr)
+- [22. `3fr`](#22-3fr)
+- [23. Por que usar `fr`?](#23-por-que-usar-fr)
+- [24. Regra mental da unidade `fr`](#24-regra-mental-da-unidade-fr)
+- [25. `grid-gap`](#25-grid-gap)
+- [26. Grid dentro de Grid](#26-grid-dentro-de-grid)
+- [27. Exemplo de Grid aninhado](#27-exemplo-de-grid-aninhado)
+- [28. `subgrid` não é simplesmente "Grid dentro de Grid"](#28-subgrid-não-é-simplesmente-grid-dentro-de-grid)
+  - [Grid aninhado](#grid-aninhado)
+  - [Subgrid](#subgrid)
+- [29. Exemplo completo](#29-exemplo-completo)
+- [30. Estrutura mental do CSS Grid](#30-estrutura-mental-do-css-grid)
+- [31. Resumo das propriedades estudadas](#31-resumo-das-propriedades-estudadas)
+- [32. Resumo de `grid-template-columns`](#32-resumo-de-grid-template-columns)
+  - [Duas colunas fixas](#duas-colunas-fixas)
+  - [Três colunas fixas](#três-colunas-fixas)
+  - [Duas colunas iguais](#duas-colunas-iguais)
+  - [Três colunas iguais](#três-colunas-iguais)
+  - [Uma coluna maior](#uma-coluna-maior)
+- [33. 🧠 Regra mental para revisão](#33-regra-mental-para-revisão)
+- [34. 📌 O que realmente precisa ficar na memória](#34-o-que-realmente-precisa-ficar-na-memória)
+  - [Conceito central](#conceito-central)
+
+---
+
 ## 1. O que é CSS Grid?
 
 O **CSS Grid Layout** é um sistema de layout baseado na organização de elementos em **linhas e colunas**.
 
-Assim como no Flexbox, existe a ideia de um **container** e de **itens**.
+Assim como no Flexbox, existe a relação entre um **container** e seus **itens**.
 
-No Grid temos:
+No Grid, essa relação pode ser representada da seguinte forma:
 
 ```text
 Grid Container
+
       │
+
       ├── Grid Item
+
       ├── Grid Item
+
       ├── Grid Item
+
       └── Grid Item
-```
+````
+
+O elemento que estabelece o contexto do Grid é o **Grid Container**, enquanto seus filhos diretos são os **Grid Items**.
 
 ---
 
-# 2. Grid Container
+## 2. Grid Container
 
 O **Grid Container** é o elemento que recebe:
 
@@ -29,9 +86,9 @@ O **Grid Container** é o elemento que recebe:
 }
 ```
 
-A partir desse momento, ele passa a ser um **container Grid**.
+A partir dessa declaração, o elemento passa a estabelecer um **contexto de layout Grid** para seus filhos diretos.
 
-Exemplo:
+### Exemplo
 
 ```html
 <section class="grid">
@@ -51,51 +108,64 @@ Nesse caso:
 
 ```text
 section.grid
+
      ↓
+
 Grid Container
+
      │
+
      ├── div → Grid Item
+
      ├── div → Grid Item
+
      └── div → Grid Item
 ```
 
 ---
 
-# 3. Quem são os Grid Items?
+## 3. Quem são os Grid Items?
 
 Os **Grid Items** são os **filhos diretos** do Grid Container.
 
-Por exemplo:
+Considere o seguinte exemplo:
 
 ```html
 <div class="grid">
   <div>Item 1</div>
   <div>Item 2</div>
-
   <section>
     <div>Item 3</div>
   </section>
 </div>
 ```
 
-Temos:
+A estrutura pode ser visualizada assim:
 
 ```text
 .grid
+
  │
+
  ├── div
  │    └── Grid Item
+
  │
+
  ├── div
  │    └── Grid Item
+
  │
+
  └── section
       └── Grid Item
+
            │
+
            └── div → NÃO é Grid Item do .grid
 ```
 
-O `div` que está dentro do `section` é um **filho do filho**, portanto não é um Grid Item direto do `.grid`.
+O `div` que está dentro do `section` é um **filho do filho**. Por isso, ele não é um Grid Item direto do `.grid`.
 
 ### Regra importante
 
@@ -103,9 +173,9 @@ O `div` que está dentro do `section` é um **filho do filho**, portanto não é
 
 ---
 
-# 4. `display: grid`
+## 4. `display: grid`
 
-A propriedade principal para ativar o CSS Grid é:
+A propriedade utilizada para estabelecer um Grid Container é:
 
 ```css
 .container {
@@ -113,9 +183,9 @@ A propriedade principal para ativar o CSS Grid é:
 }
 ```
 
-Ela transforma o elemento em um **Grid Container**.
+Essa declaração transforma o elemento em um **Grid Container**.
 
-Sem essa declaração:
+Sem ela:
 
 ```css
 .container {
@@ -123,13 +193,15 @@ Sem essa declaração:
 }
 ```
 
-o elemento continua seguindo o comportamento definido pelo seu `display` normal.
+o elemento continua seguindo o comportamento definido pelo seu valor de `display` atual.
+
+Portanto, `display: grid` é o ponto de partida para utilizar o sistema de layout Grid.
 
 ---
 
-# 5. `display: inline-grid`
+## 5. `display: inline-grid`
 
-Também existe:
+Também é possível utilizar:
 
 ```css
 .container {
@@ -137,7 +209,7 @@ Também existe:
 }
 ```
 
-A diferença principal é que o elemento terá características de Grid, mas também se comportará como um elemento **inline-level** em relação ao seu posicionamento externo.
+Nesse caso, o elemento também estabelece um contexto de Grid, mas participa do fluxo externo como um elemento **inline-level**.
 
 Por exemplo, dois elementos `inline-grid` podem aparecer lado a lado:
 
@@ -145,58 +217,63 @@ Por exemplo, dois elementos `inline-grid` podem aparecer lado a lado:
 [ Grid ] [ Grid ]
 ```
 
-Enquanto:
+Já:
 
 ```css
 display: grid;
 ```
 
-cria um elemento Grid com comportamento de bloco no fluxo externo.
+faz com que o elemento participe do fluxo externo com comportamento de bloco.
 
 ### Uso
 
-Na prática, o mais comum será:
+Em layouts convencionais, é comum utilizar:
 
 ```css
 display: grid;
 ```
 
+quando o objetivo é criar um Grid Container no fluxo normal da página.
+
 ---
 
-# 6. `subgrid`
+## 6. `subgrid`
 
-Também existe o valor:
+`subgrid` está relacionado à possibilidade de um Grid filho participar da estrutura de trilhas definida pelo Grid ancestral.
 
-```css
-display: subgrid;
-```
-
-A ideia apresentada na aula é utilizar um **Grid dentro de outro Grid**, fazendo com que um elemento filho possa participar da estrutura do Grid do elemento pai.
-
-A ideia pode ser representada assim:
+O conceito pode ser representado assim:
 
 ```text
 Grid principal
+
 │
+
 ├── Item
+
 ├── Item
+
 └── Item
+
      │
+
      └── Subgrid
+
          ├── Item
+
          ├── Item
+
          └── Item
 ```
 
-O ponto importante da aula é que `subgrid` foi apresentado como um recurso relacionado a grids aninhados, mas a demonstração tratou seu suporte como limitado naquele contexto.
+É importante diferenciar a ideia de **Grid aninhado** da ideia de **subgrid**.
 
-> **Para os estudos atuais, é importante separar a ideia de `subgrid` da simples criação de um Grid dentro de outro.** Um elemento pode ser simultaneamente um Grid Item do pai e um Grid Container dos seus próprios filhos usando `display: grid`.
+> **Um Grid aninhado cria uma nova estrutura de Grid. O `subgrid` permite que determinadas trilhas do Grid filho sejam alinhadas à estrutura do Grid pai.**
 
 ---
 
-# 7. `display: grid` sozinho não define as colunas
+## 7. `display: grid` sozinho não define as colunas
 
-Um detalhe muito importante:
+Utilizar:
 
 ```css
 .container {
@@ -210,32 +287,37 @@ não significa automaticamente:
 "Crie várias colunas."
 ```
 
-Ao usar somente:
+O `display: grid` estabelece o contexto de Grid, mas outras propriedades determinam como suas trilhas serão organizadas.
+
+Sem uma definição explícita de colunas:
 
 ```css
 display: grid;
 ```
 
-sem definir uma estrutura de colunas ou outras regras de posicionamento, os elementos podem continuar aparecendo um embaixo do outro.
+os elementos podem continuar sendo organizados em uma única coluna.
 
 Exemplo:
 
 ```text
 [Item 1]
+
 [Item 2]
+
 [Item 3]
+
 [Item 4]
 ```
 
-Isso pode parecer semelhante ao comportamento padrão de elementos de bloco.
+Por isso, ativar o Grid e definir sua estrutura são etapas conceitualmente diferentes.
 
 ---
 
-# 8. Diferença entre `display: flex` e `display: grid`
+## 8. Diferença entre `display: flex` e `display: grid`
 
-Essa é uma diferença importante em relação ao Flexbox.
+Flexbox e Grid são sistemas de layout diferentes.
 
-Quando fazemos:
+Quando utilizamos:
 
 ```css
 .container {
@@ -243,9 +325,9 @@ Quando fazemos:
 }
 ```
 
-o Flexbox já altera imediatamente a disposição dos itens.
+os itens passam imediatamente a participar do modelo de layout flexível.
 
-Por padrão, temos uma direção principal:
+Por padrão, a disposição ocorre ao longo de uma direção principal:
 
 ```text
 [Item 1] [Item 2] [Item 3]
@@ -259,17 +341,17 @@ No Grid:
 }
 ```
 
-ainda precisamos definir **como a grade será estruturada**.
-
-Por exemplo:
+o contexto Grid é estabelecido, mas a estrutura da grade pode ser definida por propriedades como:
 
 ```css
 grid-template-columns: 200px 200px;
 ```
 
+Essa diferença ajuda a entender que o Grid trabalha diretamente com uma estrutura de **linhas e colunas**, enquanto o Flexbox é orientado principalmente por um **eixo**.
+
 ---
 
-# 9. `grid-template-columns`
+## 9. `grid-template-columns`
 
 A propriedade:
 
@@ -279,7 +361,7 @@ grid-template-columns
 
 é utilizada para definir as **colunas do Grid Container**.
 
-Exemplo:
+### Exemplo
 
 ```css
 .container {
@@ -288,7 +370,7 @@ Exemplo:
 }
 ```
 
-Isso cria:
+Isso define duas colunas com `200px` cada:
 
 ```text
 ┌──────────┬──────────┐
@@ -298,43 +380,47 @@ Isso cria:
 └──────────┴──────────┘
 ```
 
-Temos duas colunas:
+Temos:
 
 ```text
 Coluna 1 → 200px
+
 Coluna 2 → 200px
 ```
 
 ---
 
-# 10. Removendo `grid-template-columns`
+## 10. Removendo `grid-template-columns`
 
-Se removermos:
+Ao remover:
 
 ```css
 grid-template-columns: 200px 200px;
 ```
 
-não teremos mais duas colunas explícitas.
+essas duas colunas explícitas deixam de fazer parte da definição do Grid.
 
-Os itens podem voltar a ser distribuídos em uma única coluna:
+Dependendo das demais regras aplicadas, os itens podem ser posicionados em uma única coluna:
 
 ```text
 [Item 1]
+
 [Item 2]
+
 [Item 3]
+
 [Item 4]
 ```
 
-Isso reforça a ideia:
+A ideia central é:
 
-> **`display: grid` ativa o sistema Grid, mas `grid-template-columns` define a estrutura das colunas.**
+> **`display: grid` estabelece o contexto Grid, enquanto `grid-template-columns` define as colunas explícitas.**
 
 ---
 
-# 11. Criando três colunas
+## 11. Criando três colunas
 
-Podemos escrever:
+Podemos definir três colunas com:
 
 ```css
 .container {
@@ -343,7 +429,7 @@ Podemos escrever:
 }
 ```
 
-Agora teremos três colunas:
+Agora temos:
 
 ```text
 ┌────────┬────────┬────────┐
@@ -353,7 +439,9 @@ Agora teremos três colunas:
 └────────┴────────┴────────┘
 ```
 
-Se o container possuir uma largura maior que `300px`, poderá sobrar espaço:
+As três colunas possuem `100px`, totalizando `300px` de largura entre elas.
+
+Se o container possuir largura superior a `300px`, poderá existir espaço restante:
 
 ```text
 ┌────────┬────────┬────────┬───────────────┐
@@ -363,35 +451,35 @@ Se o container possuir uma largura maior que `300px`, poderá sobrar espaço:
 
 ---
 
-# 12. `grid-template-columns` aceita diferentes unidades
+## 12. `grid-template-columns` aceita diferentes unidades
 
-As colunas não precisam ser definidas apenas em pixels.
+As colunas podem utilizar diferentes unidades CSS.
 
-Podemos utilizar:
+Por exemplo:
 
 ```css
 grid-template-columns: 25% 25%;
 ```
 
-ou:
+Também é possível utilizar:
 
 ```css
 grid-template-columns: 50% 50%;
 ```
 
-ou ainda:
+ou combinar valores:
 
 ```css
 grid-template-columns: 150px 200px;
 ```
 
-Cada valor representa o tamanho da respectiva coluna.
+Cada valor corresponde a uma coluna na ordem em que foi declarado.
 
 ---
 
-# 13. Usando porcentagem
+## 13. Usando porcentagem
 
-Imagine:
+Considere:
 
 ```css
 .container {
@@ -406,7 +494,7 @@ Temos:
 25% + 25% = 50%
 ```
 
-Portanto, duas colunas ocuparão metade da largura disponível:
+Assim, as duas colunas ocupam metade da largura disponível para a referência usada pelo percentual, restando espaço para a área restante:
 
 ```text
 ┌──────────────┬──────────────┬──────────────────────┐
@@ -414,13 +502,13 @@ Portanto, duas colunas ocuparão metade da largura disponível:
 └──────────────┴──────────────┴──────────────────────┘
 ```
 
-Se fizermos:
+Com:
 
 ```css
 grid-template-columns: 50% 50%;
 ```
 
-teremos:
+a estrutura passa a ser:
 
 ```text
 ┌──────────────────────┬──────────────────────┐
@@ -430,9 +518,9 @@ teremos:
 
 ---
 
-# 14. Valores diferentes para as colunas
+## 14. Valores diferentes para as colunas
 
-Também podemos misturar tamanhos:
+Também é possível combinar tamanhos diferentes:
 
 ```css
 .container {
@@ -441,41 +529,39 @@ Também podemos misturar tamanhos:
 }
 ```
 
-A primeira coluna terá:
+Nesse caso:
 
 ```text
-150px
+Coluna 1 → 150px
+
+Coluna 2 → 200px
 ```
 
-e a segunda:
+O Grid respeita os tamanhos definidos para essas colunas.
 
-```text
-200px
-```
-
-O Grid respeita os tamanhos definidos.
-
-Se a soma dos tamanhos ultrapassar a largura do container, o conteúdo pode ultrapassar os limites disponíveis.
+Quando os tamanhos definidos não cabem no espaço disponível, a estrutura pode ultrapassar os limites do container ou produzir overflow, dependendo das demais condições do layout.
 
 ---
 
-# 15. Uma dica sobre os nomes das propriedades
+## 15. Uma dica sobre os nomes das propriedades
 
-Muitas propriedades do Grid possuem `grid` no nome.
+Muitas propriedades relacionadas ao CSS Grid possuem `grid` no próprio nome.
 
 Por exemplo:
 
 ```css
 grid-template-columns
+
 grid-template-rows
+
 grid-template-areas
 ```
 
-Isso ajuda a identificar que estamos trabalhando com propriedades relacionadas ao Grid.
+Esse padrão ajuda a identificar visualmente que a propriedade está relacionada ao sistema Grid.
 
 ---
 
-# 16. `columns` no plural
+## 16. `columns` no plural
 
 Observe:
 
@@ -483,26 +569,26 @@ Observe:
 grid-template-columns
 ```
 
-A palavra está no plural:
+A palavra utilizada é:
 
 ```text
 columns
-   ↑
-   S
 ```
 
-Isso acontece porque estamos falando de **colunas do container**.
+no plural.
 
-Não devemos escrever:
+Isso ocorre porque a propriedade pode definir múltiplas colunas.
 
-```css
-grid-template-column
-```
-
-mas:
+A forma correta é:
 
 ```css
 grid-template-columns
+```
+
+e não:
+
+```css
+grid-template-column
 ```
 
 ### ⚠️ Atenção
@@ -521,11 +607,11 @@ grid-template-column: 200px 200px;
 
 ---
 
-# 17. Grid Container x Grid Item
+## 17. Grid Container x Grid Item
 
-Essa distinção é muito importante.
+Diferenciar **Grid Container** e **Grid Item** é fundamental para compreender o CSS Grid.
 
-Imagine:
+Considere:
 
 ```html
 <section class="grid">
@@ -541,11 +627,13 @@ Imagine:
 }
 ```
 
-Temos:
+A relação fica assim:
 
 ```text
 <section class="grid">
+
         ↓
+
 Grid Container
 
      ┌───────────────┐
@@ -557,21 +645,23 @@ Grid Container
      └───────────────┘
 ```
 
-Portanto:
+Podemos resumir:
 
 ```text
 Container
+
 → controla a estrutura do Grid
 
 Items
+
 → participam dessa estrutura
 ```
 
 ---
 
-# 18. `fr` — unidade fracional
+## 18. `fr` — unidade fracional
 
-Uma das principais unidades do Grid é:
+Uma unidade especialmente importante no CSS Grid é:
 
 ```css
 fr
@@ -585,17 +675,21 @@ Por exemplo:
 grid-template-columns: 1fr 1fr 1fr;
 ```
 
-significa:
+pode ser entendido como:
 
 ```text
 1 parte
+
 +
+
 1 parte
+
 +
+
 1 parte
 ```
 
-Como as três partes são iguais, temos aproximadamente:
+As três colunas possuem a mesma proporção:
 
 ```text
 33,33% + 33,33% + 33,33%
@@ -611,29 +705,29 @@ Visualmente:
 
 ---
 
-# 19. `1fr 1fr 1fr`
+## 19. `1fr 1fr 1fr`
 
-Podemos pensar em:
+A declaração:
 
 ```css
 grid-template-columns: 1fr 1fr 1fr;
 ```
 
-como:
+pode ser interpretada como:
 
 ```text
 1 parte | 1 parte | 1 parte
 ```
 
-Todas as colunas terão o mesmo tamanho proporcional.
+Todas as colunas possuem a mesma proporção.
 
-Não precisamos calcular:
+Não é necessário calcular manualmente:
 
 ```text
 100 ÷ 3 = 33,333...
 ```
 
-Podemos simplesmente escrever:
+A própria unidade `fr` permite expressar essa proporção diretamente:
 
 ```css
 1fr 1fr 1fr
@@ -641,9 +735,9 @@ Podemos simplesmente escrever:
 
 ---
 
-# 20. `2fr 2fr 2fr`
+## 20. `2fr 2fr 2fr`
 
-Agora imagine:
+Considere:
 
 ```css
 grid-template-columns: 2fr 2fr 2fr;
@@ -655,7 +749,7 @@ Temos:
 2 partes | 2 partes | 2 partes
 ```
 
-Como todas possuem a mesma proporção, continuam tendo o mesmo tamanho.
+Como as três colunas possuem a mesma proporção, continuam tendo o mesmo tamanho relativo:
 
 ```text
 ┌──────────┬──────────┬──────────┐
@@ -663,13 +757,13 @@ Como todas possuem a mesma proporção, continuam tendo o mesmo tamanho.
 └──────────┴──────────┴──────────┘
 ```
 
-O número absoluto não importa tanto quanto a proporção entre eles.
+O mais importante é observar a **relação entre os valores**, e não apenas o número isolado.
 
 ---
 
-# 21. `1fr 2fr 1fr`
+## 21. `1fr 2fr 1fr`
 
-Agora temos:
+Considere:
 
 ```css
 grid-template-columns: 1fr 2fr 1fr;
@@ -679,23 +773,29 @@ Isso significa:
 
 ```text
 1 parte
+
 +
+
 2 partes
+
 +
+
 1 parte
 ```
 
-Total:
+O total é:
 
 ```text
 1 + 2 + 1 = 4 partes
 ```
 
-Logo:
+Portanto:
 
 ```text
 Coluna 1 → 1/4
+
 Coluna 2 → 2/4
+
 Coluna 3 → 1/4
 ```
 
@@ -707,13 +807,13 @@ Visualmente:
 └────────┴────────────────┴────────┘
 ```
 
-A coluna do meio será aproximadamente **duas vezes maior** que as outras.
+A coluna do meio possui uma proporção duas vezes maior que cada uma das outras.
 
 ---
 
-# 22. `3fr`
+## 22. `3fr`
 
-Se quisermos que uma coluna seja três vezes maior que outra:
+Para criar uma proporção em que uma coluna seja três vezes maior que cada uma das outras:
 
 ```css
 grid-template-columns: 3fr 1fr 1fr;
@@ -725,13 +825,13 @@ Temos:
 3 partes | 1 parte | 1 parte
 ```
 
-Total:
+O total é:
 
 ```text
 5 partes
 ```
 
-Portanto:
+Visualmente:
 
 ```text
 ┌───────────────────┬───────┬───────┐
@@ -739,13 +839,13 @@ Portanto:
 └───────────────────┴───────┴───────┘
 ```
 
-A primeira coluna recebe uma fração três vezes maior que cada uma das outras.
+A primeira coluna possui uma fração três vezes maior que cada uma das demais.
 
 ---
 
-# 23. Por que usar `fr`?
+## 23. Por que usar `fr`?
 
-A grande vantagem é trabalhar com **proporções**, sem precisar calcular manualmente porcentagens.
+A principal vantagem da unidade `fr` é permitir trabalhar com **proporções** sem precisar calcular manualmente porcentagens.
 
 Em vez de:
 
@@ -759,17 +859,21 @@ podemos utilizar:
 grid-template-columns: 1fr 1fr 1fr;
 ```
 
-Muito mais simples:
+A ideia pode ser visualizada assim:
 
 ```text
 1fr → 1 parte
+
 1fr → 1 parte
+
 1fr → 1 parte
 ```
 
+Isso torna a intenção do layout mais clara.
+
 ---
 
-# 24. Regra mental da unidade `fr`
+## 24. Regra mental da unidade `fr`
 
 Sempre que encontrar:
 
@@ -781,7 +885,7 @@ pense:
 
 > **"Uma fração do espaço disponível."**
 
-Exemplos:
+### Exemplos
 
 ```css
 1fr 1fr
@@ -807,11 +911,13 @@ Exemplos:
 1 parte | 3 partes
 ```
 
+A ideia central é sempre observar a **proporção entre as frações**.
+
 ---
 
-# 25. `grid-gap`
+## 25. `grid-gap`
 
-Também podemos definir o espaçamento entre os itens usando:
+Também é possível definir espaçamento entre as células do Grid utilizando:
 
 ```css
 grid-gap
@@ -827,7 +933,7 @@ Por exemplo:
 }
 ```
 
-Isso cria um espaço entre as células do Grid.
+Nesse caso, existe um espaçamento de `20px` entre as células.
 
 Sem espaçamento:
 
@@ -851,13 +957,15 @@ Com `grid-gap: 20px`:
 └────────┘        └────────┘
 ```
 
-> `gap` é a forma moderna e genérica de definir espaçamentos entre linhas e colunas, mas a aula apresenta `grid-gap` como a propriedade utilizada nesse exemplo.
+> `gap` é a propriedade moderna e genérica para definir espaçamento entre linhas e colunas, enquanto `grid-gap` é uma propriedade histórica específica do contexto Grid.
 
 ---
 
-# 26. Grid dentro de Grid
+## 26. Grid dentro de Grid
 
-Um elemento que é um **Grid Item** também pode se tornar um **Grid Container**.
+Um elemento pode desempenhar dois papéis diferentes ao mesmo tempo:
+
+**Grid Item** em relação ao Grid pai e **Grid Container** em relação aos seus próprios filhos.
 
 Por exemplo:
 
@@ -875,8 +983,6 @@ Por exemplo:
 </section>
 ```
 
-Podemos fazer:
-
 ```css
 .grid {
   display: grid;
@@ -891,7 +997,9 @@ Nesse caso, `.sub-grid` possui dois papéis:
 
 ```text
 Grid Item do Grid pai
+
         +
+
 Grid Container para seus próprios filhos
 ```
 
@@ -899,10 +1007,15 @@ Visualmente:
 
 ```text
 GRID PAI
+
 │
+
 ├── Item 1
+
 ├── Item 2
+
 ├── Item 3
+
 └── .sub-grid
      │
      ├── Item A
@@ -910,13 +1023,11 @@ GRID PAI
      └── Item C
 ```
 
-Isso é perfeitamente possível.
-
 ---
 
-# 27. Exemplo de Grid aninhado
+## 27. Exemplo de Grid aninhado
 
-Imagine:
+Considere:
 
 ```css
 .grid {
@@ -937,28 +1048,30 @@ O Grid principal possui:
 1fr | 1fr | 1fr
 ```
 
-E o `.sub-grid` possui:
+O `.sub-grid` possui:
 
 ```text
 1fr | 1fr
 ```
 
-Portanto, temos uma estrutura de Grid dentro de outra:
+Isso produz uma estrutura de Grid aninhado:
 
 ```text
 GRID PRINCIPAL
 
 ┌──────┬──────┬──────────────────┐
-│Item 1│Item 2│    SUB-GRID      │
+│Item 1│Item 2│     SUB-GRID     │
 │      │      ├────────┬─────────┤
 │      │      │ Item A │ Item B  │
 │      │      └────────┴─────────┘
 └──────┴──────┴──────────────────┘
 ```
 
+O Grid interno possui sua própria configuração de colunas e espaçamento.
+
 ---
 
-# 28. `subgrid` não é simplesmente "Grid dentro de Grid"
+## 28. `subgrid` não é simplesmente "Grid dentro de Grid"
 
 É importante não confundir:
 
@@ -966,10 +1079,10 @@ GRID PRINCIPAL
 display: grid;
 ```
 
-em um elemento filho com:
+em um elemento filho com o conceito de:
 
-```css
-display: subgrid;
+```text
+subgrid
 ```
 
 São conceitos diferentes.
@@ -982,27 +1095,21 @@ São conceitos diferentes.
 }
 ```
 
-O filho cria sua **própria estrutura de Grid**.
+O elemento filho cria sua **própria estrutura de Grid**.
 
 ### Subgrid
 
-```css
-.child {
-  display: grid;
-  /* exemplo de uso de subgrid em propriedades do grid */
-}
-```
+O `subgrid` permite que determinadas linhas ou colunas do Grid filho utilizem a estrutura de trilhas definida pelo Grid pai.
 
-O `subgrid` permite que determinadas estruturas de linhas ou colunas sejam herdadas do Grid pai.
+Assim, o Grid filho não precisa necessariamente criar uma estrutura completamente independente para essas trilhas.
 
-A demonstração da aula apresenta `subgrid` como uma funcionalidade específica para trabalhar com essa relação entre grids.
+> **Grid aninhado cria uma nova estrutura. `subgrid` permite participar da estrutura de trilhas do Grid ancestral.**
 
 ---
 
+## 29. Exemplo completo
 
-# 29. Exemplo completo
-
-HTML:
+### HTML
 
 ```html
 <section class="grid">
@@ -1013,7 +1120,7 @@ HTML:
 </section>
 ```
 
-CSS:
+### CSS
 
 ```css
 .grid {
@@ -1023,7 +1130,7 @@ CSS:
 }
 ```
 
-Temos:
+O resultado pode ser representado assim:
 
 ```text
 ┌──────────┬──────────┬──────────┐
@@ -1039,62 +1146,90 @@ Como existem três colunas:
 1fr | 1fr | 1fr
 ```
 
-os itens vão sendo colocados nessas colunas conforme o fluxo do Grid.
+os itens são posicionados nessas colunas de acordo com o fluxo de posicionamento automático do Grid.
 
 ---
 
-# 30. Estrutura mental do CSS Grid
+## 30. Estrutura mental do CSS Grid
 
-Podemos resumir o funcionamento desta aula assim:
+O funcionamento pode ser resumido da seguinte maneira:
 
 ```text
 GRID
+
 │
+
 ├── display: grid
+
 │      ↓
-│   ativa o Grid
+
+│   estabelece o Grid
+
 │
+
 ├── Grid Container
+
 │      ↓
+
 │   elemento pai
+
 │
+
 ├── Grid Items
+
 │      ↓
+
 │   filhos diretos
+
 │
+
 ├── grid-template-columns
+
 │      ↓
+
 │   define as colunas
+
 │
+
 ├── fr
+
 │      ↓
-│   divide o espaço proporcionalmente
+
+│   representa proporções de espaço
+
 │
+
 ├── gap
+
 │      ↓
+
 │   cria espaçamento
+
 │
+
 └── Grid aninhado
+
        ↓
+
     Grid dentro de Grid
 ```
 
 ---
 
-# 31. Resumo das propriedades estudadas
+## 31. Resumo das propriedades estudadas
 
-| Propriedade             | Função                                     |
-| ----------------------- | ------------------------------------------ |
-| `display: grid`         | Transforma o elemento em Grid Container    |
-| `display: inline-grid`  | Cria um Grid com comportamento inline      |
-| `grid-template-columns` | Define as colunas                          |
-| `grid-gap`              | Define o espaçamento entre itens do Grid   |
-| `gap`                   | Forma moderna de definir espaçamento       |
-| `fr`                    | Representa uma fração do espaço disponível |
+| Propriedade             | Função                                                                 |
+| ----------------------- | ---------------------------------------------------------------------- |
+| `display: grid`         | Estabelece o elemento como Grid Container                              |
+| `display: inline-grid`  | Estabelece um Grid Container com comportamento inline no fluxo externo |
+| `grid-template-columns` | Define as colunas explícitas                                           |
+| `grid-gap`              | Define espaçamento entre linhas e colunas em um Grid                   |
+| `gap`                   | Forma moderna e genérica de definir espaçamento                        |
+| `fr`                    | Representa uma fração do espaço disponível                             |
 
 ---
 
-# 32. Resumo de `grid-template-columns`
+## 32. Resumo de `grid-template-columns`
 
 ### Duas colunas fixas
 
@@ -1148,9 +1283,9 @@ grid-template-columns: 3fr 1fr 1fr;
 
 ---
 
-# 33. 🧠 Regra mental para revisão
+## 33. 🧠 Regra mental para revisão
 
-Quando encontrar:
+Ao encontrar:
 
 ```css
 display: grid;
@@ -1158,9 +1293,9 @@ display: grid;
 
 pense:
 
-> **"Este elemento virou um Grid Container."**
+> **"Este elemento é um Grid Container."**
 
-Quando encontrar:
+Ao encontrar:
 
 ```css
 grid-template-columns
@@ -1170,7 +1305,7 @@ pense:
 
 > **"Estou definindo as colunas do Grid."**
 
-Quando encontrar:
+Ao encontrar:
 
 ```css
 1fr
@@ -1180,7 +1315,7 @@ pense:
 
 > **"Uma fração do espaço disponível."**
 
-Quando encontrar:
+Ao encontrar:
 
 ```css
 2fr 1fr
@@ -1188,9 +1323,9 @@ Quando encontrar:
 
 pense:
 
-> **"A primeira coluna terá o dobro da proporção da segunda."**
+> **"A primeira coluna possui o dobro da proporção da segunda."**
 
-Quando encontrar:
+Ao encontrar:
 
 ```css
 gap: 20px;
@@ -1198,47 +1333,59 @@ gap: 20px;
 
 pense:
 
-> **"Estou criando espaço entre as células do Grid."**
+> **"Estou criando espaçamento entre as células do Grid."**
 
-E quando encontrar um elemento com:
+Ao encontrar um elemento com:
 
 ```css
 display: grid;
 ```
 
-dentro de outro Grid:
+dentro de outro Grid, pense:
 
 > **"Esse elemento pode ser um Grid Item do pai e, ao mesmo tempo, um Grid Container para seus próprios filhos."**
 
 ---
 
-# 34. 📌 O que realmente precisa ficar na memória
+## 34. 📌 O que realmente precisa ficar na memória
 
 ```text
 1. display: grid
-   → ativa o CSS Grid.
+
+   → estabelece o contexto CSS Grid.
 
 2. Grid Container
-   → é o elemento pai que recebeu display: grid.
+
+   → é o elemento que recebeu display: grid.
 
 3. Grid Items
+
    → são os filhos diretos do Grid Container.
 
 4. grid-template-columns
-   → define as colunas.
+
+   → define as colunas explícitas.
 
 5. fr
-   → divide o espaço proporcionalmente.
+
+   → representa uma fração do espaço disponível.
 
 6. gap
+
    → cria espaçamento entre os itens.
 
 7. Grid pode existir dentro de outro Grid
+
    → um elemento pode ser Grid Item e Grid Container ao mesmo tempo.
 ```
 
-### Conceito central da aula
+### Conceito central
 
-> **O `display: grid` ativa o Grid, mas as propriedades como `grid-template-columns` definem como a estrutura da grade será organizada.**
+> **`display: grid` estabelece o contexto do CSS Grid, enquanto propriedades como `grid-template-columns` definem como a estrutura de colunas será organizada.**
 
-A partir daí, podemos começar a construir layouts utilizando **colunas, proporções e espaçamento**.
+A partir desses conceitos, é possível construir layouts utilizando **colunas, proporções, espaçamento e estruturas de Grid aninhadas**.
+
+```
+
+Essa versão passa a funcionar como **documentação de consulta**, e não como uma transcrição reorganizada de conteúdo didático.
+```

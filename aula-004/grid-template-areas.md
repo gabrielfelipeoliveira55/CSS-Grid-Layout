@@ -1,10 +1,55 @@
 # CSS Grid — `grid-template-areas` e `grid-area`
 
+## Índice
+
+1. [O que é `grid-template-areas`?](#1-o-que-é-grid-template-areas)
+2. [A ideia principal](#2-a-ideia-principal)
+3. [Estrutura básica](#3-estrutura-básica)
+4. [Cada string representa uma linha](#4-cada-string-representa-uma-linha)
+5. [A quantidade de valores define as colunas](#5-a-quantidade-de-valores-define-as-colunas)
+6. [As linhas precisam manter a mesma quantidade de colunas](#6-as-linhas-precisam-manter-a-mesma-quantidade-de-colunas)
+7. [Uma mesma área pode ocupar várias células](#7-uma-mesma-área-pode-ocupar-várias-células)
+8. [Uma área pode ocupar várias linhas](#8-uma-área-pode-ocupar-várias-linhas)
+9. [Uma área pode ocupar várias colunas](#9-uma-área-pode-ocupar-várias-colunas)
+10. [Formas válidas das áreas](#10-formas-válidas-das-áreas)
+11. [Formas inválidas](#11-formas-inválidas)
+12. [Exemplo de uma estrutura de site](#12-exemplo-de-uma-estrutura-de-site)
+13. [`grid-area`](#13-grid-area)
+14. [`grid-template-areas` + `grid-area`](#14-grid-template-areas--grid-area)
+15. [O nome da área pode ser qualquer um](#15-o-nome-da-área-pode-ser-qualquer-um)
+16. [Nome da classe e nome da área são coisas diferentes](#16-nome-da-classe-e-nome-da-área-são-coisas-diferentes)
+17. [O Grid Area depende do mapa](#17-o-grid-area-depende-do-mapa)
+18. [Alterando o layout sem alterar os itens](#18-alterando-o-layout-sem-alterar-os-itens)
+19. [`grid-template-areas` em Media Queries](#19-grid-template-areas-em-media-queries)
+20. [Responsividade com duas colunas](#20-responsividade-com-duas-colunas)
+21. [A ordem do HTML continua importante](#21-a-ordem-do-html-continua-importante)
+22. [Visualização x estrutura](#22-visualização-x-estrutura)
+23. [O ponto `.`](#23-o-ponto-)
+24. [Vários pontos](#24-vários-pontos)
+25. [Estrutura de um layout completo](#25-estrutura-de-um-layout-completo)
+26. [Mapa mental — conceito principal](#26-mapa-mental--conceito-principal)
+27. [Mapa mental — sintaxe](#27-mapa-mental--sintaxe)
+28. [Mapa mental — áreas repetidas](#28-mapa-mental--áreas-repetidas)
+29. [Mapa mental — regra do retângulo](#29-mapa-mental--regra-do-retângulo)
+30. [Mapa mental — responsividade](#30-mapa-mental--responsividade)
+31. [Mapa mental — HTML + CSS Grid](#31-mapa-mental--html--css-grid)
+32. [Exemplo completo](#32-exemplo-completo)
+33. [Responsividade do exemplo](#33-responsividade-do-exemplo)
+34. [Um segundo layout mobile](#34-um-segundo-layout-mobile)
+35. [`grid-template-areas` + `grid-template-columns`](#35-grid-template-areas--grid-template-columns)
+36. [`grid-template-areas` + `grid-template-rows`](#36-grid-template-areas--grid-template-rows)
+37. [⚠️ Manutenção do layout](#37-️-manutenção-do-layout)
+38. [🧠 Resumo mental definitivo](#38-🧠-resumo-mental-definitivo)
+39. [Checklist mental para escrever o código](#39-checklist-mental-para-escrever-o-código)
+40. [📌 Regra final para memorizar](#40-📌-regra-final-para-memorizar)
+
+---
+
 ## 1. O que é `grid-template-areas`?
 
 A propriedade:
 
-```css id="48nqj4"
+```css
 grid-template-areas
 ```
 
@@ -20,7 +65,7 @@ podemos pensar em:
 
 ```text
 ┌──────────┬──────────┬──────────┐
-│   logo   │   nav    │   advert │
+│   logo   │   nav    │  advert  │
 ├──────────┼──────────┼──────────┤
 │ side-nav │ content  │  advert  │
 ├──────────┼──────────┼──────────┤
@@ -32,23 +77,23 @@ Cada região recebe um **nome**.
 
 ---
 
-# 2. A ideia principal
+## 2. A ideia principal
 
 Existem duas propriedades que trabalham juntas:
 
-```css id="2zi7ax"
+```css
 grid-template-areas
 ```
 
 e:
 
-```css id="5vpw5f"
+```css
 grid-area
 ```
 
 Podemos pensar assim:
 
-```text id="4jzr2m"
+```text
 Grid Container
       │
       ↓
@@ -73,11 +118,11 @@ cada item escolhe sua área
 
 ---
 
-# 3. Estrutura básica
+## 3. Estrutura básica
 
 Exemplo:
 
-```css id="vslc5e"
+```css
 .grid {
   display: grid;
 
@@ -90,7 +135,7 @@ Exemplo:
 
 Esse código representa:
 
-```text id="odkk1f"
+```text
 ┌──────────┬──────────┬──────────┐
 │   logo   │   nav    │  advert  │
 ├──────────┼──────────┼──────────┤
@@ -104,11 +149,11 @@ Agora o Grid possui um mapa visual da estrutura.
 
 ---
 
-# 4. Cada string representa uma linha
+## 4. Cada string representa uma linha
 
 A sintaxe utiliza strings:
 
-```css id="ynk02b"
+```css
 grid-template-areas:
   "logo nav advert"
   "side-nav content advert"
@@ -119,57 +164,65 @@ Cada linha entre aspas representa uma **linha do Grid**.
 
 Podemos separar mentalmente:
 
-```text id="s4o8s0"
+```text
 "logo nav advert"
-        ↓
-      linha 1
+
+      ↓
+
+    linha 1
 ```
 
-```text id="sk4dzw"
+```text
 "side-nav content advert"
-        ↓
-      linha 2
+
+      ↓
+
+    linha 2
 ```
 
-```text id="9ui6kr"
+```text
 "side-nav footer advert"
-        ↓
-      linha 3
+
+      ↓
+
+    linha 3
 ```
 
 ---
 
-# 5. A quantidade de valores define as colunas
+## 5. A quantidade de valores define as colunas
 
 Observe:
 
-```css id="k29h15"
+```css
 "logo nav advert"
 ```
 
 Temos três nomes:
 
-```text id="s6hxir"
+```text
 logo
+
 nav
+
 advert
 ```
 
 Portanto, temos três colunas nessa linha.
 
-```text id="1q4w5e"
+```text
 logo | nav | advert
 ```
 
 Se tivermos:
 
-```css id="5y5ef9"
+```css
 "logo nav"
 ```
 
 teremos duas colunas:
 
-```text id="o9o3pc"
+```text
 logo | nav
 ```
 
@@ -179,11 +232,11 @@ logo | nav
 
 ---
 
-# 6. As linhas precisam manter a mesma quantidade de colunas
+## 6. As linhas precisam manter a mesma quantidade de colunas
 
 Considere:
 
-```css id="vrda3s"
+```css
 grid-template-areas:
   "logo nav advert"
   "side-nav content advert"
@@ -192,7 +245,7 @@ grid-template-areas:
 
 A terceira linha possui apenas duas posições:
 
-```text id="78elv6"
+```text
 logo | nav | advert
 side | content | advert
 side | footer
@@ -202,7 +255,7 @@ Isso quebra a estrutura esperada do Grid.
 
 Para um mapa válido, as linhas precisam formar uma grade consistente:
 
-```css id="6ikj0w"
+```css
 grid-template-areas:
   "logo nav advert"
   "side-nav content advert"
@@ -211,13 +264,13 @@ grid-template-areas:
 
 ---
 
-# 7. Uma mesma área pode ocupar várias células
+## 7. Uma mesma área pode ocupar várias células
 
 Uma das maiores vantagens de `grid-template-areas` é que podemos repetir o mesmo nome.
 
 Exemplo:
 
-```css id="f0x7c5"
+```css
 grid-template-areas:
   "logo nav advert"
   "side-nav content advert"
@@ -226,7 +279,7 @@ grid-template-areas:
 
 Agora:
 
-```text id="s1b8kn"
+```text
 ┌──────────┬──────────┬──────────┐
 │   logo   │   nav    │  advert  │
 ├──────────┼──────────┼──────────┤
@@ -238,9 +291,11 @@ Agora:
 
 A área `side-nav` ocupa duas linhas:
 
-```text id="81z4s7"
+```text
 side-nav
+
    ↓
+
 ┌──────────┐
 │          │
 ├──────────┤
@@ -250,9 +305,11 @@ side-nav
 
 E `content` também:
 
-```text id="cda8a5"
+```text
 content
+
    ↓
+
 ┌──────────┐
 │          │
 ├──────────┤
@@ -262,17 +319,17 @@ content
 
 ---
 
-# 8. Uma área pode ocupar várias linhas
+## 8. Uma área pode ocupar várias linhas
 
 Se repetirmos:
 
-```css id="al5rj0"
+```css
 side-nav
 ```
 
 em duas linhas:
 
-```css id="7d0u2v"
+```css
 grid-template-areas:
   "logo nav advert"
   "side-nav content advert"
@@ -283,7 +340,7 @@ a área será expandida verticalmente.
 
 Visualmente:
 
-```text id="u1v2gw"
+```text
 ┌──────────┐
 │          │
 │ side-nav │
@@ -297,13 +354,13 @@ Visualmente:
 
 ---
 
-# 9. Uma área pode ocupar várias colunas
+## 9. Uma área pode ocupar várias colunas
 
 Também podemos repetir o mesmo nome horizontalmente.
 
 Exemplo:
 
-```css id="xpp5pd"
+```css
 grid-template-areas:
   "logo logo nav"
   "side content advert";
@@ -311,7 +368,7 @@ grid-template-areas:
 
 Agora:
 
-```text id="1l1bzg"
+```text
 ┌────────────────────┬──────────┐
 │        logo        │   nav    │
 ├──────────┬─────────┼──────────┤
@@ -321,7 +378,7 @@ Agora:
 
 A área `logo` ocupa duas colunas:
 
-```text id="pwzj6y"
+```text
 ┌────────────────────┐
 │        logo        │
 └────────────────────┘
@@ -329,13 +386,13 @@ A área `logo` ocupa duas colunas:
 
 ---
 
-# 10. Formas válidas das áreas
+## 10. Formas válidas das áreas
 
 Uma área precisa formar uma região retangular.
 
 Por exemplo:
 
-```css id="cmf2td"
+```css
 grid-template-areas:
   "logo logo"
   "logo nav";
@@ -343,7 +400,7 @@ grid-template-areas:
 
 A área `logo` forma um retângulo:
 
-```text id="15dcdy"
+```text
 ┌────────┬────────┐
 │  logo  │  logo  │
 ├────────┼────────┤
@@ -355,13 +412,13 @@ Isso funciona.
 
 ---
 
-# 11. Formas inválidas
+## 11. Formas inválidas
 
 Uma área não pode formar uma estrutura em `L`.
 
 Por exemplo:
 
-```css id="aywcy3"
+```css
 grid-template-areas:
   "logo logo"
   "logo nav"
@@ -372,7 +429,7 @@ A área `logo` ficaria espalhada de uma maneira que não representa um único re
 
 Visualmente:
 
-```text id="teq8bj"
+```text
 ┌──────┬──────┐
 │ logo │ logo │
 ├──────┼──────┤
@@ -390,8 +447,9 @@ A área `logo` não forma um retângulo simples.
 
 Ela pode expandir:
 
-```text id="63ukid"
+```text
 ←→ horizontalmente
+
 ↕ verticalmente
 ```
 
@@ -399,11 +457,11 @@ mas não pode fazer uma curva ou formar um `L`.
 
 ---
 
-# 12. Exemplo de uma estrutura de site
+## 12. Exemplo de uma estrutura de site
 
 Podemos imaginar:
 
-```text id="0gy2nw"
+```text
 ┌──────────────────────────────────────────────┐
 │                    LOGO                      │
 ├─────────────────┬────────────────────────────┤
@@ -411,13 +469,13 @@ Podemos imaginar:
 ├─────────────────┼────────────────────────────┤
 │   SIDE NAV      │          CONTENT           │
 ├─────────────────┴────────────────────────────┤
-│                   FOOTER                     │
+│                   FOOTER                      │
 └──────────────────────────────────────────────┘
 ```
 
 Podemos transformar essa estrutura em:
 
-```css id="lq9s8q"
+```css
 grid-template-areas:
   "logo logo"
   "side-nav content"
@@ -427,13 +485,13 @@ grid-template-areas:
 
 ---
 
-# 13. `grid-area`
+## 13. `grid-area`
 
 Depois de definir o mapa, precisamos informar aos itens qual área eles devem ocupar.
 
 Exemplo:
 
-```css id="abkcsq"
+```css
 .logo {
   grid-area: logo;
 }
@@ -463,11 +521,11 @@ Agora cada item possui uma área correspondente.
 
 ---
 
-# 14. `grid-template-areas` + `grid-area`
+## 14. `grid-template-areas` + `grid-area`
 
 Temos:
 
-```css id="51v1cd"
+```css
 .grid {
   display: grid;
 
@@ -480,7 +538,7 @@ Temos:
 
 E:
 
-```css id="zryxjb"
+```css
 .logo {
   grid-area: logo;
 }
@@ -508,7 +566,7 @@ E:
 
 Resultado:
 
-```text id="1ydj1w"
+```text
 ┌──────────┬──────────┬──────────┐
 │   logo   │   nav    │  advert  │
 ├──────────┼──────────┼──────────┤
@@ -520,11 +578,11 @@ Resultado:
 
 ---
 
-# 15. O nome da área pode ser qualquer um
+## 15. O nome da área pode ser qualquer um
 
 Os nomes:
 
-```text id="8hf0gs"
+```text
 logo
 nav
 content
@@ -536,7 +594,7 @@ não são palavras reservadas.
 
 Podemos usar nomes diferentes:
 
-```css id="7s6t2j"
+```css
 grid-template-areas:
   "a b c"
   "d e c"
@@ -547,12 +605,17 @@ Isso funciona.
 
 Porém, usar nomes sem significado:
 
-```text id="1y96fb"
+```text
 a
+
 b
+
 c
+
 d
+
 e
+
 f
 ```
 
@@ -560,12 +623,17 @@ torna o código difícil de entender.
 
 É muito melhor utilizar nomes semânticos:
 
-```text id="gf7p3j"
+```text
 logo
+
 nav
+
 content
+
 side-nav
+
 advert
+
 footer
 ```
 
@@ -575,11 +643,11 @@ footer
 
 ---
 
-# 16. Nome da classe e nome da área são coisas diferentes
+## 16. Nome da classe e nome da área são coisas diferentes
 
 Considere:
 
-```css id="ivk0tw"
+```css
 .navigation {
   grid-area: nav;
 }
@@ -587,13 +655,21 @@ Considere:
 
 Aqui temos:
 
-```text id="mo88oz"
+```text
 .navigation
-     ↓
-nome da classe CSS
 
-nav
      ↓
+
+nome da classe CSS
+```
+
+e:
+
+```text
+nav
+
+ ↓
+
 nome da área do Grid
 ```
 
@@ -601,7 +677,7 @@ Eles não precisam ser iguais.
 
 Mas mantê-los semelhantes pode facilitar a leitura:
 
-```css id="ct4wrm"
+```css
 .nav {
   grid-area: nav;
 }
@@ -609,11 +685,11 @@ Mas mantê-los semelhantes pode facilitar a leitura:
 
 ---
 
-# 17. O Grid Area depende do mapa
+## 17. O Grid Area depende do mapa
 
 Se temos:
 
-```css id="nf4i2m"
+```css
 grid-template-areas:
   "logo nav"
   "content footer";
@@ -621,7 +697,7 @@ grid-template-areas:
 
 e:
 
-```css id="xym7y7"
+```css
 .footer {
   grid-area: footer;
 }
@@ -629,13 +705,13 @@ e:
 
 o item `.footer` irá para a região marcada como:
 
-```text id="g0l5xm"
+```text
 footer
 ```
 
 Se mudarmos o mapa:
 
-```css id="7d9lx6"
+```css
 grid-template-areas:
   "logo footer"
   "content nav";
@@ -647,11 +723,11 @@ Isso é uma das maiores vantagens desse recurso.
 
 ---
 
-# 18. Alterando o layout sem alterar os itens
+## 18. Alterando o layout sem alterar os itens
 
 Imagine:
 
-```css id="rz2sv6"
+```css
 .logo {
   grid-area: logo;
 }
@@ -673,13 +749,13 @@ Esses itens continuam com os mesmos nomes.
 
 Podemos alterar somente:
 
-```css id="iwsu4y"
+```css
 grid-template-areas
 ```
 
 Por exemplo:
 
-```css id="ba7w5a"
+```css
 grid-template-areas:
   "logo logo"
   "nav content"
@@ -688,7 +764,7 @@ grid-template-areas:
 
 Depois:
 
-```css id="q94d1a"
+```css
 grid-template-areas:
   "nav logo"
   "content content"
@@ -697,7 +773,7 @@ grid-template-areas:
 
 O layout muda sem precisarmos redefinir:
 
-```css id="dkb3zg"
+```css
 grid-area
 ```
 
@@ -705,13 +781,13 @@ de cada item.
 
 ---
 
-# 19. `grid-template-areas` em Media Queries
+## 19. `grid-template-areas` em Media Queries
 
 Essa característica é excelente para layouts responsivos.
 
 Podemos ter um layout desktop:
 
-```css id="26rtp1"
+```css
 .grid {
   display: grid;
 
@@ -724,7 +800,7 @@ Podemos ter um layout desktop:
 
 E alterar a organização em uma Media Query:
 
-```css id="6qpgml"
+```css
 @media (max-width: 500px) {
   .grid {
     grid-template-areas:
@@ -739,7 +815,7 @@ E alterar a organização em uma Media Query:
 
 No desktop:
 
-```text id="65xnsl"
+```text
 ┌────────┬────────┬────────┐
 │  logo  │  nav   │ advert │
 ├────────┼────────┼────────┤
@@ -751,7 +827,7 @@ No desktop:
 
 No mobile:
 
-```text id="v1voin"
+```text
 ┌──────────┐
 │   logo   │
 ├──────────┤
@@ -771,13 +847,13 @@ O que mudou foi apenas o **mapa do Grid**.
 
 ---
 
-# 20. Responsividade com duas colunas
+## 20. Responsividade com duas colunas
 
 Nem todo layout mobile precisa ter uma única coluna.
 
 Podemos fazer:
 
-```css id="dwf0w5"
+```css
 @media (max-width: 600px) {
   .grid {
     grid-template-areas:
@@ -791,7 +867,7 @@ Podemos fazer:
 
 Resultado:
 
-```text id="cqjcsj"
+```text
 ┌──────────┬──────────┐
 │          logo       │
 ├──────────┴──────────┤
@@ -807,37 +883,41 @@ Isso é útil quando determinados elementos continuam pequenos o suficiente para
 
 ---
 
-# 21. A ordem do HTML continua importante
+## 21. A ordem do HTML continua importante
 
 `grid-template-areas` altera a **apresentação visual**, mas não deve ser usado para criar uma ordem de leitura incoerente.
 
 Considere uma estrutura HTML:
 
-```html id="fjzv4n"
+```html
 <header>...</header>
+
 <nav>...</nav>
+
 <main>...</main>
+
 <aside>...</aside>
+
 <footer>...</footer>
 ```
 
 A ordem faz sentido semanticamente:
 
-```text id="y3suvi"
+```text
 header
- ↓
+  ↓
 nav
- ↓
+  ↓
 main
- ↓
+  ↓
 aside
- ↓
+  ↓
 footer
 ```
 
 Mesmo que visualmente desejemos posicioná-los de outra maneira:
 
-```text id="b2z1pu"
+```text
 ┌───────────┬───────────┐
 │   header  │   header  │
 ├───────────┼───────────┤
@@ -845,7 +925,7 @@ Mesmo que visualmente desejemos posicioná-los de outra maneira:
 ├───────────┼───────────┤
 │   aside   │   main    │
 ├───────────┴───────────┤
-│        footer         │
+│         footer        │
 └───────────────────────┘
 ```
 
@@ -862,29 +942,35 @@ A estrutura HTML continua sendo a referência para:
 
 ---
 
-# 22. Visualização x estrutura
+## 22. Visualização x estrutura
 
 Podemos separar:
 
-```text id="av2c9g"
+```text
 HTML
- ↓
+
+↓
+
 estrutura e significado
 ```
 
 e:
 
-```text id="6n6f8q"
+```text
 CSS Grid
- ↓
+
+↓
+
 organização visual
 ```
 
 Isso permite que:
 
-```text id="fjod6l"
+```text
 estrutura semântica
+
         +
+
 layout visual
 ```
 
@@ -892,17 +978,17 @@ sejam tratados separadamente.
 
 ---
 
-# 23. O ponto `.`
+## 23. O ponto `.`
 
 Dentro de:
 
-```css id="bcfev9"
+```css
 grid-template-areas
 ```
 
 podemos utilizar:
 
-```text id="nk0a4r"
+```text
 .
 ```
 
@@ -910,7 +996,7 @@ O ponto representa uma **célula vazia**.
 
 Exemplo:
 
-```css id="d1qj8w"
+```css
 grid-template-areas:
   "logo nav ."
   "content content advert"
@@ -919,7 +1005,7 @@ grid-template-areas:
 
 Visualmente:
 
-```text id="7ssyby"
+```text
 ┌────────┬────────┬────────┐
 │  logo  │  nav   │   .    │
 ├────────┼────────┼────────┤
@@ -931,7 +1017,7 @@ Visualmente:
 
 A posição marcada com:
 
-```text id="fi13a6"
+```text
 .
 ```
 
@@ -939,11 +1025,11 @@ fica vazia.
 
 ---
 
-# 24. Vários pontos
+## 24. Vários pontos
 
 Podemos utilizar vários pontos:
 
-```css id="cwi9fi"
+```css
 grid-template-areas:
   "logo . ."
   "nav content ."
@@ -956,11 +1042,11 @@ O ponto pode ser útil quando queremos criar um espaço proposital no layout.
 
 ---
 
-# 25. Estrutura de um layout completo
+## 25. Estrutura de um layout completo
 
 Um exemplo:
 
-```css id="x7u0yb"
+```css
 .grid {
   display: grid;
 
@@ -974,79 +1060,89 @@ Um exemplo:
 
 Mapa:
 
-```text id="5pw0f1"
-┌──────┬──────┬──────┐
-│ logo │ logo │advert│
-├──────┼──────┼──────┤
-│ nav  │content│advert│
-├──────┼──────┼──────┤
-│ side │content│  .   │
-├──────┴──────┴──────┤
-│       footer        │
-└─────────────────────┘
+```text
+┌──────┬────────┬──────┐
+│ logo │  logo  │advert│
+├──────┼────────┼──────┤
+│ nav  │ content│advert│
+├──────┼────────┼──────┤
+│ side │ content│  .   │
+├──────┴────────┴──────┤
+│       footer         │
+└──────────────────────┘
 ```
 
 Isso é praticamente um desenho textual do layout.
 
 ---
 
-# 26. Mapa mental — conceito principal
+## 26. Mapa mental — conceito principal
 
-```text id="p2x6f0"
+```text
                  CSS GRID
-                    │
-                    ↓
-       grid-template-areas
-                    │
-                    ↓
-             CRIA UM MAPA
-                    │
-        ┌───────────┼───────────┐
-        ↓           ↓           ↓
-      linhas      colunas      áreas
-        │           │           │
-        └───────────┼───────────┘
-                    ↓
+                     │
+                     ↓
+          grid-template-areas
+                     │
+                     ↓
+              CRIA UM MAPA
+                     │
+         ┌───────────┼───────────┐
+         ↓           ↓           ↓
+      linhas       colunas      áreas
+         │           │           │
+         └───────────┼───────────┘
+                     ↓
               nomes das áreas
-                    │
-                    ↓
-                grid-area
-                    │
-                    ↓
-             posiciona o item
+                     │
+                     ↓
+                 grid-area
+                     │
+                     ↓
+              posiciona o item
 ```
 
 ### Corte mental ①
 
-```text id="r8b58n"
+```text
 template-areas
+
       ↓
+
 "DESENHE O MAPA"
 ```
 
-```text id="ra3nhp"
+```text
 grid-area
+
       ↓
+
 "COLOQUE O ITEM NO MAPA"
 ```
 
 ---
 
-# 27. Mapa mental — sintaxe
+## 27. Mapa mental — sintaxe
 
-```text id="kse036"
+```text
 grid-template-areas:
+
         │
+
         ├── "linha 1"
+
         │
+
         ├── "linha 2"
+
         │
+
         └── "linha 3"
 ```
 
 Exemplo:
 
-```css id="ihizyn"
+```css
 grid-template-areas:
   "logo nav advert"
   "side content advert"
@@ -1055,21 +1151,31 @@ grid-template-areas:
 
 Visualização:
 
-```text id="7a0xum"
+```text
 "logo nav advert"
+
       ↓
+
 ┌──────┬──────┬──────┐
 │ logo │ nav  │advert│
 └──────┴──────┴──────┘
+```
 
+```text
 "side content advert"
+
       ↓
+
 ┌──────┬──────┬──────┐
 │ side │content│advert│
 └──────┴──────┴──────┘
+```
 
+```text
 "side footer advert"
+
       ↓
+
 ┌──────┬──────┬──────┐
 │ side │footer│advert│
 └──────┴──────┴──────┘
@@ -1077,30 +1183,35 @@ Visualização:
 
 ---
 
-# 28. Mapa mental — áreas repetidas
+## 28. Mapa mental — áreas repetidas
 
-```text id="8z5br6"
+```text
 MESMO NOME
+
      │
+
      ↓
+
 REPRESENTA A MESMA ÁREA
+
      │
+
      ├── horizontal
      │      ↓
-     │   ocupa várias colunas
+     │  ocupa várias colunas
      │
      └── vertical
             ↓
-         ocupa várias linhas
+        ocupa várias linhas
 ```
 
 Exemplo:
 
-```css id="um0l47"
+```css
 "logo logo nav"
 ```
 
-```text id="o7q0mv"
+```text
 ┌──────────────┬──────┐
 │     logo     │ nav  │
 └──────────────┴──────┘
@@ -1108,12 +1219,12 @@ Exemplo:
 
 Outro exemplo:
 
-```css id="d78e7y"
+```css
 "side content"
 "side content"
 ```
 
-```text id="w1sd5e"
+```text
 ┌──────┬─────────┐
 │ side │ content │
 ├──────┼─────────┤
@@ -1123,11 +1234,13 @@ Outro exemplo:
 
 ---
 
-# 29. Mapa mental — regra do retângulo
+## 29. Mapa mental — regra do retângulo
 
-```text id="hfcq3x"
+```text
 ÁREA
+
  │
+
  ├── pode ocupar 1 célula
  │
  ├── pode ocupar várias colunas
@@ -1137,23 +1250,25 @@ Outro exemplo:
 
 Mas:
 
-```text id="z0e8eq"
+```text
 ÁREA EM "L"
+
       ↓
-     ❌
+
+    ❌
 ```
 
 A região precisa continuar sendo um retângulo.
 
 ---
 
-# 30. Mapa mental — responsividade
+## 30. Mapa mental — responsividade
 
-```text id="wvebht"
+```text
               GRID
                 │
                 ↓
-     grid-template-areas
+      grid-template-areas
                 │
        ┌────────┴────────┐
        ↓                 ↓
@@ -1168,75 +1283,77 @@ A região precisa continuar sendo um retângulo.
 
 A ideia:
 
-```text id="dtk9qp"
+```text
 mesmos elementos
+
       +
+
 novo mapa
+
       ↓
+
 novo layout
 ```
 
 ---
 
-# 31. Mapa mental — HTML + CSS Grid
+## 31. Mapa mental — HTML + CSS Grid
 
-```text id="f0lhw6"
-                   WEB PAGE
-                      │
-         ┌────────────┴────────────┐
-         │                         │
-        HTML                       CSS
-         │                         │
-         ↓                         ↓
-   estrutura lógica          estrutura visual
-         │                         │
-         │                  grid-template-areas
-         │                         │
-         │                         ↓
-         │                    layout visual
-         │                         │
-         └────────────┬────────────┘
-                      ↓
-                  página final
+```text
+                  WEB PAGE
+                     │
+          ┌──────────┴──────────┐
+          │                     │
+         HTML                  CSS
+          │                     │
+          ↓                     ↓
+   estrutura lógica      estrutura visual
+                                │
+                                ↓
+                     grid-template-areas
+                                │
+                                ↓
+                         layout visual
+                                │
+          ┌─────────────────────┘
+          ↓
+      página final
 ```
 
 ### Corte mental ②
 
-```text id="au6mf0"
+```text
 HTML
+
 → "Qual é a ordem e o significado?"
 ```
 
-```text id="u5n3gp"
+```text
 Grid
+
 → "Como isso será organizado visualmente?"
 ```
 
 ---
 
-# 32. Exemplo completo
+## 32. Exemplo completo
 
 ### HTML
 
-```html id="3s5k8j"
+```html
 <div class="layout">
   <header class="logo">Logo</header>
-
   <nav class="nav">Navegação</nav>
-
   <aside class="side-nav">Menu lateral</aside>
-
   <main class="content">Conteúdo</main>
-
   <aside class="advert">Publicidade</aside>
-
   <footer class="footer">Rodapé</footer>
 </div>
 ```
 
 ### CSS
 
-```css id="dwu5j4"
+```css
 .layout {
   display: grid;
 
@@ -1274,7 +1391,7 @@ Grid
 
 Resultado:
 
-```text id="l2gq2h"
+```text
 ┌──────────┬──────────┬──────────┐
 │   LOGO   │   NAV    │  ADVERT  │
 ├──────────┼──────────┼──────────┤
@@ -1291,11 +1408,11 @@ Resultado:
 
 ---
 
-# 33. Responsividade do exemplo
+## 33. Responsividade do exemplo
 
 Podemos reorganizar o mesmo layout:
 
-```css id="6j1q5r"
+```css
 @media (max-width: 500px) {
   .layout {
     grid-template-areas:
@@ -1310,7 +1427,7 @@ Podemos reorganizar o mesmo layout:
 
 Agora:
 
-```text id="3eay1u"
+```text
 ┌──────────────┐
 │     LOGO     │
 ├──────────────┤
@@ -1318,7 +1435,7 @@ Agora:
 ├──────────────┤
 │   CONTENT    │
 ├──────────────┤
-│   ADVERT     │
+│    ADVERT    │
 ├──────────────┤
 │    FOOTER    │
 └──────────────┘
@@ -1326,7 +1443,7 @@ Agora:
 
 Os itens continuam usando:
 
-```css id="ps2ksv"
+```css
 grid-area: logo;
 grid-area: nav;
 grid-area: content;
@@ -1338,11 +1455,11 @@ Apenas o mapa mudou.
 
 ---
 
-# 34. Um segundo layout mobile
+## 34. Um segundo layout mobile
 
 Podemos também utilizar duas colunas:
 
-```css id="j6i5hm"
+```css
 @media (max-width: 600px) {
   .layout {
     grid-template-areas:
@@ -1356,7 +1473,7 @@ Podemos também utilizar duas colunas:
 
 Resultado:
 
-```text id="f8vg6x"
+```text
 ┌───────────────┬───────────────┐
 │             LOGO              │
 ├───────────────┴───────────────┤
@@ -1370,13 +1487,13 @@ Resultado:
 
 ---
 
-# 35. `grid-template-areas` + `grid-template-columns`
+## 35. `grid-template-areas` + `grid-template-columns`
 
 Podemos utilizar as áreas para definir a estrutura e, ao mesmo tempo, determinar o tamanho das colunas.
 
 Exemplo:
 
-```css id="5rx5hv"
+```css
 .layout {
   display: grid;
 
@@ -1394,15 +1511,17 @@ Exemplo:
 
 Nesse caso:
 
-```text id="b9to0k"
+```text
 Coluna 1 → 100px
+
 Coluna 2 → 1fr
+
 Coluna 3 → 50px
 ```
 
 E o mapa:
 
-```text id="umukra"
+```text
 logo       nav       advert
 side-nav   content   advert
 side-nav   footer    advert
@@ -1412,11 +1531,11 @@ Os dois trabalham juntos.
 
 ---
 
-# 36. `grid-template-areas` + `grid-template-rows`
+## 36. `grid-template-areas` + `grid-template-rows`
 
 Também podemos definir alturas:
 
-```css id="m0yc68"
+```css
 .layout {
   display: grid;
 
@@ -1439,11 +1558,15 @@ Também podemos definir alturas:
 
 Agora temos:
 
-```text id="6c0cx0"
+```text
 COLUNAS
-100px | 1fr | 50px
 
+100px | 1fr | 50px
+```
+
+```text
 LINHAS
+
 50px
 200px
 50px
@@ -1457,17 +1580,21 @@ Isso permite controlar tanto:
 
 ---
 
-# 37. ⚠️ Manutenção do layout
+## 37. ⚠️ Manutenção do layout
 
 `grid-template-areas` é excelente para definir a estrutura **macro** de uma página.
 
 Por exemplo:
 
-```text id="5rr8oy"
+```text
 header
+
 sidebar
+
 content
+
 advert
+
 footer
 ```
 
@@ -1475,7 +1602,7 @@ Porém, criar centenas de áreas para cada pequeno componente pode deixar o cód
 
 Uma estratégia mais organizada é usar Grid Areas para a estrutura principal:
 
-```text id="s8meu7"
+```text
 PÁGINA
 ├── Header
 ├── Navigation
@@ -1488,22 +1615,26 @@ e deixar componentes internos utilizarem seu próprio sistema de layout quando n
 
 ---
 
-# 38. 🧠 Resumo mental definitivo
+## 38. 🧠 Resumo mental definitivo
 
-```text id="7kjwkm"
-              GRID TEMPLATE AREAS
+```text
+             GRID TEMPLATE AREAS
+
                        │
+
                        ↓
+
                 CRIA UM MAPA
+
                        │
-                       ↓
+
         ┌──────────────┼──────────────┐
         │              │              │
       NOME          REPETIÇÃO         .
         │              │              │
         ↓              ↓              ↓
-    identifica     expande uma     cria área
-      a área          área          vazia
+    identifica     expande uma      cria área
+      a área          área           vazia
         │
         ↓
     grid-area
@@ -1515,44 +1646,63 @@ e deixar componentes internos utilizarem seu próprio sistema de layout quando n
 
 ### Corte mental ③
 
-```text id="0g7f5y"
+```text
 TEMPLATE AREAS
-↓
-"MAPA"
 
-GRID AREA
 ↓
+
+"MAPA"
+```
+
+```text
+GRID AREA
+
+↓
+
 "POSIÇÃO"
 ```
 
 ---
 
-# 39. Checklist mental para escrever o código
+## 39. Checklist mental para escrever o código
 
-```text id="sfyr6d"
+```text
 1. Ative o Grid
+
    ↓
+
 display: grid;
 
 2. Desenhe o mapa
+
    ↓
+
 grid-template-areas
 
 3. Dê nomes semânticos
+
    ↓
+
 logo / nav / content / footer
 
 4. Vincule os itens
+
    ↓
+
 grid-area
 
 5. Defina tamanhos
+
    ↓
+
 grid-template-columns
+
 grid-template-rows
 
 6. Torne responsivo
+
    ↓
+
 @media + novo grid-template-areas
 
 7. Mantenha a ordem do HTML lógica
@@ -1560,11 +1710,11 @@ grid-template-rows
 
 ---
 
-# 40. 📌 Regra final para memorizar
+## 40. 📌 Regra final para memorizar
 
 > **`grid-template-areas` transforma o Grid em um mapa visual nomeado.**
 
-```css id="on41pw"
+```css
 grid-template-areas:
   "header header"
   "nav content"
@@ -1573,15 +1723,17 @@ grid-template-areas:
 
 Pode ser lido como:
 
-```text id="0xg4tr"
+```text
 HEADER | HEADER
+
 NAV    | CONTENT
+
 FOOTER | FOOTER
 ```
 
 Depois:
 
-```css id="hd3g93"
+```css
 .header {
   grid-area: header;
 }
@@ -1601,33 +1753,44 @@ Depois:
 
 A relação fica:
 
-```text id="2ik3da"
+```text
 grid-template-areas
+
         ↓
+
       MAPA
+
         ↓
+
    ┌─────────────┐
    │ header      │
    │ nav content │
    │ footer      │
    └─────────────┘
+
         ↓
+
 grid-area
+
         ↓
+
    POSICIONA OS
       ITENS
 ```
 
 ### 🧠 Três frases para guardar
 
-```text id="6f7gvc"
+```text
 grid-template-areas
+
 → "desenha o layout"
 
 grid-area
+
 → "liga o elemento à área"
 
 "."
+
 → "deixa a célula vazia"
 ```
 

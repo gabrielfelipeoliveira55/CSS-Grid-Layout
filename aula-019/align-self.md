@@ -1,19 +1,51 @@
 # CSS Grid Layout — `align-self`
 
 > [!NOTE]
-> Esta documentação foi construída a partir da aula fornecida e complementada com a documentação oficial do CSS para esclarecer o funcionamento técnico da propriedade `align-self`, especialmente no CSS Grid.
+> Esta documentação explica o funcionamento da propriedade `align-self` no CSS Grid, com base na documentação oficial do CSS (MDN e CSS Box Alignment).
+
+## Índice
+
+1. [O que é `align-self`?](#1-o-que-é-align-self)
+2. [A ideia central](#2-a-ideia-central)
+3. [O significado de `self`](#3-o-significado-de-self)
+4. [`align-items` × `align-self`](#4-align-items--align-self)
+5. [Onde `align-self` atua?](#5-onde-align-self-atua)
+6. [Não confunda Grid Area com item](#6-não-confunda-grid-area-com-item)
+7. [Relação com `grid-row`](#7-relação-com-grid-row)
+8. [Sintaxe](#8-sintaxe)
+9. [`align-self: start`](#9-align-self-start)
+10. [`align-self: end`](#10-align-self-end)
+11. [`align-self: center`](#11-align-self-center)
+12. [`align-self: stretch`](#12-align-self-stretch)
+13. [Comparação dos quatro valores](#13-comparação-dos-quatro-valores)
+14. [Exemplo prático](#14-exemplo-prático)
+15. [`align-self` não altera as linhas](#15-align-self-não-altera-as-linhas)
+16. [`align-items` como regra geral](#16-align-items-como-regra-geral)
+17. [Modelo "regra geral + exceção"](#17-modelo-regra-geral--exceção)
+18. [`align-self` × `justify-self`](#18-align-self--justify-self)
+19. [Por que falamos em eixo, e não em "horizontal/vertical"?](#19-por-que-falamos-em-eixo-e-não-em-horizontalvertical)
+20. [`align-self: auto`](#20-align-self-auto)
+21. [O comportamento padrão](#21-o-comportamento-padrão)
+22. [Exceção: imagens e proporção](#22-exceção-imagens-e-proporção)
+23. [`align-self` e `height`](#23-align-self-e-height)
+24. [`place-self`](#24-place-self)
+25. [Valores adicionais](#25-valores-adicionais)
+26. [Mapa mental](#26-mapa-mental)
+27. [Regra de ouro](#27-regra-de-ouro)
+28. [Como raciocinar diante de um problema](#28-como-raciocinar-diante-de-um-problema)
+29. [Tabela de fixação](#29-tabela-de-fixação)
+30. [Tabela de comparação](#30-tabela-de-comparação)
+31. [Checklist de compreensão](#31-checklist-de-compreensão)
+32. [Resumo final](#32-resumo-final)
+33. [Regra definitiva para memorizar](#33-regra-definitiva-para-memorizar)
+34. [Referências oficiais](#34-referências-oficiais)
+35. [GitHub](#35-github)
 
 ---
 
-# 1. O que é `align-self`?
+## 1. O que é `align-self`?
 
-A propriedade:
-
-```css
-align-self
-````
-
-define **como um único Grid Item será alinhado dentro da Grid Area que ele ocupa**, no **eixo block**.
+A propriedade `align-self` define **como um único Grid Item é alinhado dentro da Grid Area que ele ocupa**, no **eixo block**.
 
 Em um layout horizontal tradicional:
 
@@ -21,14 +53,11 @@ Em um layout horizontal tradicional:
 EIXO BLOCK
     ↑
     │
-    │
     ↓
 
 EIXO INLINE
 ←────────────────────→
 ```
-
-Portanto, podemos criar inicialmente este modelo mental:
 
 ```text
 justify-self
@@ -45,169 +74,105 @@ eixo block
 normalmente vertical
 ```
 
-A documentação oficial do MDN define `align-self` como a propriedade que alinha um item dentro da sua Grid Area no eixo block quando estamos utilizando Grid.
+A MDN define `align-self` como a propriedade que alinha um item dentro da sua Grid Area no eixo block.
 
 ---
 
-# 2. A ideia central
+## 2. A ideia central
 
-Imagine uma Grid Area grande:
-
-```text
-┌───────────────────────────────┐
-│                               │
-│                               │
-│                               │
-│           ITEM                │
-│                               │
-│                               │
-│                               │
-└───────────────────────────────┘
-```
-
-O item ocupa apenas o espaço necessário para seu conteúdo.
-
-O `align-self` permite decidir onde esse item ficará **verticalmente dentro dessa área**, em um layout tradicional.
-
-Por exemplo:
+Imagine uma Grid Area alta e um item com altura menor que ela. Com `start`, `center` ou `end`, o item ocupa apenas a altura do seu conteúdo, e `align-self` decide **onde** ele fica dentro da área.
 
 ```css
 .item {
-    align-self: start;
+  align-self: start;
 }
 ```
 
-O item vai para o início do eixo block:
-
 ```text
 ┌───────────────────────────────┐
-│           ITEM                │
-│                               │
-│                               │
+│       ┌──────────┐            │
+│       │   ITEM   │            │
+│       └──────────┘            │
 │                               │
 │                               │
 └───────────────────────────────┘
 ```
-
-Com:
 
 ```css
 .item {
-    align-self: end;
+  align-self: end;
 }
 ```
-
-ele vai para o final:
 
 ```text
 ┌───────────────────────────────┐
 │                               │
 │                               │
-│                               │
-│                               │
-│           ITEM                │
+│       ┌──────────┐            │
+│       │   ITEM   │            │
+│       └──────────┘            │
 └───────────────────────────────┘
 ```
-
-Com:
 
 ```css
 .item {
-    align-self: center;
+  align-self: center;
 }
 ```
-
-ele vai para o centro:
 
 ```text
 ┌───────────────────────────────┐
 │                               │
-│                               │
-│           ITEM                │
-│                               │
+│       ┌──────────┐            │
+│       │   ITEM   │            │
+│       └──────────┘            │
 │                               │
 └───────────────────────────────┘
 ```
+
+> **Nota:** esse é o comportamento com `start`, `center` e `end`. O comportamento padrão no Grid é `stretch`, que estica o item (seção 12).
 
 ---
 
-# 3. O significado de `self`
-
-O nome ajuda a entender a propriedade:
+## 3. O significado de `self`
 
 ```text
-align
-↓
-alinhamento
-
-self
-↓
-o próprio elemento
+align → alinhamento
+self  → o próprio elemento
 ```
 
-Portanto:
+`align-self` responde à pergunta:
 
-```css
-align-self
-```
+> "Como **este** item deve ser alinhado?"
 
-significa, conceitualmente:
-
-> "Como este próprio item deve ser alinhado?"
-
-Isso diferencia `align-self` de `align-items`.
+Isso o diferencia de `align-items`.
 
 ---
 
-# 4. `align-items` × `align-self`
+## 4. `align-items` × `align-self`
 
-Essa é uma das distinções mais importantes do CSS Grid.
+### `align-items`
 
-## `align-items`
-
-É aplicada no **Grid Container**:
+É aplicada no **Grid Container** e define o alinhamento padrão de todos os itens.
 
 ```css
 .container {
-    display: grid;
-    align-items: center;
+  display: grid;
+  align-items: center;
 }
 ```
 
-Ela define o alinhamento dos Grid Items como grupo.
+### `align-self`
 
-## `align-self`
-
-É aplicada no **Grid Item**:
+É aplicada no **Grid Item** e altera o alinhamento de **um item específico**.
 
 ```css
 .item {
-    align-self: end;
+  align-self: end;
 }
 ```
 
-Ela permite modificar o alinhamento de **um item específico**.
-
-O MDN define `align-items` como a propriedade que estabelece o valor de `align-self` para os filhos como um grupo.
-
-Podemos representar isso assim:
-
-```text
-                 GRID CONTAINER
-                       │
-                       │
-                align-items
-                       │
-         ┌─────────────┼─────────────┐
-         ↓             ↓             ↓
-      ITEM 1         ITEM 2        ITEM 3
-         │             │             │
-         └─────────────┼─────────────┘
-                       │
-                regra padrão
-```
-
-Mas um item pode sobrescrever essa regra:
+A MDN descreve `align-items` como a propriedade que define o valor de `align-self` para todos os filhos como grupo.
 
 ```text
                  GRID CONTAINER
@@ -218,13 +183,10 @@ Mas um item pode sobrescrever essa regra:
               ↓        ↓        ↓
             ITEM 1   ITEM 2   ITEM 3
               │        │        │
-              │        │        │
               │        └── align-self: end
               │
               └── segue o padrão
 ```
-
-Resultado:
 
 ```text
 ITEM 1 → center
@@ -232,23 +194,14 @@ ITEM 2 → end
 ITEM 3 → center
 ```
 
-Portanto:
-
 ```text
-align-items
-    ↓
-regra geral
-
-align-self
-    ↓
-regra individual
+align-items → regra geral
+align-self  → regra individual
 ```
 
 ---
 
-# 5. Onde `align-self` atua?
-
-O ponto mais importante é:
+## 5. Onde `align-self` atua?
 
 ```text
 align-self
@@ -259,8 +212,6 @@ dentro da Grid Area
       ↓
 no eixo block
 ```
-
-Visualmente:
 
 ```text
 ┌────────────────────────────────────┐
@@ -275,45 +226,36 @@ Visualmente:
 └────────────────────────────────────┘
 ```
 
-A Grid Area continua no mesmo lugar.
-
-O que muda é a posição do item **dentro dela**.
+A Grid Area continua no mesmo lugar. O que muda é a posição do item **dentro dela**.
 
 ---
 
-# 6. Não confunda Grid Area com Item
-
-Considere:
+## 6. Não confunda Grid Area com item
 
 ```css
 .item {
-    grid-row: 1 / 3;
+  grid-row: 1 / 3;
 }
 ```
 
-O item pode ocupar duas linhas:
+O item ocupa duas rows. Toda essa região é a área disponível para ele.
 
 ```text
 ┌───────────────┐
-│               │ ← linha 1
+│               │ ← row 1
 │               │
-│     ITEM      │
+│               │ ← row 2
 │               │
-│               │ ← linha 2
 └───────────────┘
 ```
 
-Toda essa região é a área disponível para o item.
-
-Agora usamos:
+Agora:
 
 ```css
 .item {
-    align-self: start;
+  align-self: start;
 }
 ```
-
-O item é alinhado no início dessa área.
 
 ```text
 ┌───────────────┐
@@ -325,46 +267,30 @@ O item é alinhado no início dessa área.
 └───────────────┘
 ```
 
-A propriedade não alterou:
-
-```css
-grid-row
-```
-
-Ela apenas alterou o alinhamento do item dentro da área já determinada.
+`align-self` não alterou `grid-row`. Ele apenas alinhou o item dentro da área já determinada.
 
 ---
 
-# 7. Relação com `grid-row`
-
-Uma maneira excelente de diferenciar as propriedades é pensar em duas perguntas:
-
-### `grid-row`
-
-> "Em quais linhas o item ficará?"
-
-### `align-self`
-
-> "Como o item ficará dentro dessa área?"
-
-Visualmente:
+## 7. Relação com `grid-row`
 
 ```text
 grid-row
-   ↓
-define a área
-
-┌───────────────┐
-│               │
-│               │
-│    GRID AREA  │
-│               │
-│               │
-└───────────────┘
+→ "Em quais rows o item ficará?"
 
 align-self
-      ↓
-posiciona o item
+→ "Como o item ficará dentro dessa área?"
+```
+
+```text
+grid-row define a área
+
+┌───────────────┐
+│               │
+│   GRID AREA   │
+│               │
+└───────────────┘
+
+align-self posiciona o item
 
 ┌───────────────┐
 │    ┌──────┐   │
@@ -374,21 +300,17 @@ posiciona o item
 └───────────────┘
 ```
 
-Essa distinção evita uma confusão muito comum em CSS Grid.
-
 ---
 
-# 8. Sintaxe
-
-A sintaxe básica é:
+## 8. Sintaxe
 
 ```css
 .item {
-    align-self: valor;
+  align-self: valor;
 }
 ```
 
-Na aula, os valores principais apresentados são:
+Os quatro valores principais:
 
 ```css
 align-self: start;
@@ -397,23 +319,19 @@ align-self: center;
 align-self: stretch;
 ```
 
-Esses quatro valores são suficientes para compreender o conceito central mostrado na aula.
-
-A propriedade também aceita outros valores definidos pelo CSS Box Alignment, como `auto`, `normal`, `self-start`, `self-end`, `baseline` e combinações com `safe` e `unsafe`.
+A propriedade também aceita `auto`, `normal`, `self-start`, `self-end`, `baseline` e combinações com `safe` e `unsafe` (seção 25).
 
 ---
 
-# 9. `align-self: start`
+## 9. `align-self: start`
 
 ```css
 .item {
-    align-self: start;
+  align-self: start;
 }
 ```
 
-Coloca o item no **início do eixo block** da sua Grid Area.
-
-Em um layout horizontal tradicional, isso significa colocá-lo na parte superior.
+Coloca o item no **início do eixo block** da sua Grid Area. Em um layout horizontal tradicional, é a parte superior.
 
 ```text
 ┌───────────────────────────────┐
@@ -422,11 +340,8 @@ Em um layout horizontal tradicional, isso significa colocá-lo na parte superior
 │       └──────────┘            │
 │                               │
 │                               │
-│                               │
 └───────────────────────────────┘
 ```
-
-Mentalmente:
 
 ```text
 start = início
@@ -434,21 +349,18 @@ start = início
 
 ---
 
-# 10. `align-self: end`
+## 10. `align-self: end`
 
 ```css
 .item {
-    align-self: end;
+  align-self: end;
 }
 ```
 
 Coloca o item no **final do eixo block**.
 
-Em um layout horizontal tradicional:
-
 ```text
 ┌───────────────────────────────┐
-│                               │
 │                               │
 │                               │
 │       ┌──────────┐            │
@@ -456,8 +368,6 @@ Em um layout horizontal tradicional:
 │       └──────────┘            │
 └───────────────────────────────┘
 ```
-
-Mentalmente:
 
 ```text
 end = final
@@ -465,29 +375,25 @@ end = final
 
 ---
 
-# 11. `align-self: center`
+## 11. `align-self: center`
 
 ```css
 .item {
-    align-self: center;
+  align-self: center;
 }
 ```
 
-Centraliza o item dentro da Grid Area no eixo block.
+Centraliza o item dentro da Grid Area, no eixo block.
 
 ```text
 ┌───────────────────────────────┐
-│                               │
 │                               │
 │       ┌──────────┐            │
 │       │   ITEM   │            │
 │       └──────────┘            │
 │                               │
-│                               │
 └───────────────────────────────┘
 ```
-
-Mentalmente:
 
 ```text
 center = meio
@@ -495,45 +401,33 @@ center = meio
 
 ---
 
-# 12. `align-self: stretch`
-
-Esse valor possui uma característica diferente.
+## 12. `align-self: stretch`
 
 ```css
 .item {
-    align-self: stretch;
+  align-self: stretch;
 }
 ```
 
-Em vez de simplesmente colocar o item no início, centro ou fim, `stretch` permite que um item dimensionado de forma compatível **se estique para ocupar o espaço disponível no eixo de alinhamento**.
+Em vez de posicionar o item, `stretch` o **estica** para ocupar o espaço disponível no eixo block.
 
 ```text
 ┌───────────────────────────────┐
 │ ┌───────────────────────────┐ │
-│ │            ITEM           │ │
+│ │                           │ │
+│ │           ITEM            │ │
+│ │                           │ │
 │ └───────────────────────────┘ │
 └───────────────────────────────┘
 ```
 
-Em uma Grid, o comportamento de `stretch` precisa ser entendido em conjunto com o dimensionamento do item.
-
-Restrições de tamanho, como:
-
-```css
-min-height
-max-height
-height
-```
-
-podem influenciar o resultado.
-
-A documentação oficial descreve `stretch` como o comportamento que estica itens com tamanho compatível para preencher o espaço disponível.
+> **⚠️ Atenção**
+>
+> O `stretch` só atua em itens com `height: auto`. Se o item tiver `height` definido, ele mantém essa altura e é posicionado como `start`. Restrições como `min-height` e `max-height` também limitam o resultado.
 
 ---
 
-# 13. A comparação dos quatro valores
-
-Podemos visualizar:
+## 13. Comparação dos quatro valores
 
 ```text
 START
@@ -576,192 +470,112 @@ STRETCH
 
 ┌───────────────────────────────┐
 │ ┌───────────────────────────┐ │
-│ │            ITEM           │ │
+│ │           ITEM            │ │
+│ │                           │ │
 │ └───────────────────────────┘ │
 └───────────────────────────────┘
 ```
 
-A grande pergunta é:
-
 ```text
-O item vai:
-
-start   → para o começo?
-center  → para o meio?
-end     → para o final?
-stretch → ocupar o espaço disponível?
+start   → para o começo
+center  → para o meio
+end     → para o final
+stretch → ocupa o espaço disponível
 ```
 
 ---
 
-# 14. Exemplo prático
-
-HTML:
+## 14. Exemplo prático
 
 ```html
 <div class="container">
-    <div class="item item-1">1</div>
-    <div class="item item-2">2</div>
-    <div class="item item-3">3</div>
-    <div class="item item-4">4</div>
+  <div class="item item-1">1</div>
+  <div class="item item-2">2</div>
+  <div class="item item-3">3</div>
+  <div class="item item-4">4</div>
 </div>
 ```
 
-CSS:
-
 ```css
 .container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-auto-rows: 120px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: 120px;
 }
 
 .item-1 {
-    align-self: start;
+  align-self: start;
 }
 
 .item-2 {
-    align-self: end;
+  align-self: end;
 }
 
 .item-3 {
-    align-self: center;
+  align-self: center;
 }
 
 .item-4 {
-    align-self: stretch;
+  align-self: stretch;
 }
 ```
 
-Cada item está em sua própria área, mas cada um possui um comportamento diferente no eixo block.
-
-Mentalmente:
+Os itens 1 e 2 ficam na primeira row, e os itens 3 e 4, na segunda. Cada item está em sua própria célula, com um alinhamento diferente no eixo block:
 
 ```text
 ┌───────────────────┬───────────────────┐
 │ ┌───────┐         │                   │
 │ │   1   │         │                   │
 │ └───────┘         │                   │
+│                   │         ┌───────┐ │
+│                   │         │   2   │ │
+│                   │         └───────┘ │
 ├───────────────────┼───────────────────┤
-│                   │                   │
-│             ┌─────┐                   │
-│             │  3  │                   │
-│             └─────┘                   │
-├───────────────────┼───────────────────┤
-│ ┌───────────────┐ │                   │
-│ │       4       │ │          2        │
-│ └───────────────┘ │                   │
+│                   │ ┌───────────────┐ │
+│ ┌───────┐         │ │               │ │
+│ │   3   │         │ │       4       │ │
+│ └───────┘         │ │               │ │
+│                   │ └───────────────┘ │
 └───────────────────┴───────────────────┘
 
-1 → start
-2 → end
-3 → center
-4 → stretch
+1 → start    2 → end
+3 → center   4 → stretch
 ```
 
 ---
 
-# 15. Relação com a aula
-
-A aula demonstra exatamente essa lógica:
-
-```text
-align-self
-    │
-    ├── start
-    │      ↓
-    │   início
-    │
-    ├── end
-    │      ↓
-    │   final
-    │
-    ├── center
-    │      ↓
-    │   centro
-    │
-    └── stretch
-           ↓
-      ocupa o espaço disponível
-```
-
-A ideia apresentada na aula é que o item pode ocupar uma área que se estende por mais de uma linha e, depois, ser alinhado dentro dessa área.
-
-O conceito essencial é:
-
-```text
-GRID AREA
-┌─────────────────────────────┐
-│                             │
-│                             │
-│          espaço             │
-│                             │
-│                             │
-└─────────────────────────────┘
-
-          ↓
-
-align-self decide onde
-o ITEM fica dentro dela.
-```
-
----
-
-# 16. `align-self` não altera as linhas
-
-Considere:
+## 15. `align-self` não altera as linhas
 
 ```css
 .item {
-    grid-row: 1 / 3;
+  grid-row: 1 / 3;
 }
 ```
 
-O Grid continua com:
-
-```text
-linha 1
-──────────────
-      │
-      │
-linha 2
-──────────────
-```
-
-A área do item permanece a mesma.
-
-Se adicionarmos:
+A área do item permanece a mesma. Ao adicionar:
 
 ```css
 .item {
-    align-self: end;
+  align-self: end;
 }
 ```
 
-não estamos dizendo:
-
-> "mova o item para a linha 3."
-
-Estamos dizendo:
+não estamos dizendo "mova o item para a row 3". Estamos dizendo:
 
 > "alinhe o item no final da área que ele já ocupa."
 
-Esse detalhe é fundamental.
-
 ---
 
-# 17. `align-items` como regra geral
-
-Considere:
+## 16. `align-items` como regra geral
 
 ```css
 .container {
-    display: grid;
-    align-items: center;
+  display: grid;
+  align-items: center;
 }
 ```
 
-Todos os itens serão alinhados ao centro de suas respectivas Grid Areas.
+Todos os itens são alinhados ao centro das suas Grid Areas.
 
 ```text
 ┌───────────────┬───────────────┐
@@ -775,15 +589,13 @@ Todos os itens serão alinhados ao centro de suas respectivas Grid Areas.
 └───────────────┴───────────────┘
 ```
 
-Mas podemos sobrescrever:
+Para abrir uma exceção:
 
 ```css
 .item-2 {
-    align-self: end;
+  align-self: end;
 }
 ```
-
-Agora:
 
 ```text
 ITEM 1 → center
@@ -792,25 +604,9 @@ ITEM 3 → center
 ITEM 4 → center
 ```
 
-Esse é um dos usos mais importantes de `align-self`.
-
 ---
 
-# 18. Modelo "regra geral + exceção"
-
-Uma maneira muito poderosa de pensar em:
-
-```css
-align-items
-```
-
-e:
-
-```css
-align-self
-```
-
-é:
+## 17. Modelo "regra geral + exceção"
 
 ```text
 align-items
@@ -819,7 +615,6 @@ regra geral
      ↓
 todos os itens
 
-
 align-self
      ↓
 exceção
@@ -827,37 +622,24 @@ exceção
 um item específico
 ```
 
-Exemplo:
-
 ```css
 .container {
-    align-items: center;
+  align-items: center;
 }
 
 .item-destaque {
-    align-self: end;
+  align-self: end;
 }
 ```
 
-Resultado:
-
 ```text
-TODOS
-   ↓
-center
-
-EXCETO
-   ↓
-.item-destaque
-   ↓
-end
+TODOS → center
+EXCETO .item-destaque → end
 ```
 
 ---
 
-# 19. `align-self` × `justify-self`
-
-Essa é a relação mais importante entre as propriedades estudadas.
+## 18. `align-self` × `justify-self`
 
 ```text
               GRID ITEM
@@ -879,37 +661,32 @@ Em um layout horizontal tradicional:
 
 ```text
 ┌─────────────────────────────────┐
-│                                 │
-│             ↑                   │
-│             │                   │
-│      align-self                 │
-│             │                   │
-│             ↓                   │
-│         ┌────────┐              │
-│ ←────── │  ITEM  │ ──────→      │
-│         └────────┘              │
-│         ↑              ↑        │
-│         └ justify-self ┘        │
-│                                 │
+│               ↑                 │
+│               │ align-self      │
+│               ↓                 │
+│          ┌────────┐             │
+│ ←──────→ │  ITEM  │ ←──────→    │
+│          └────────┘             │
+│       justify-self              │
 └─────────────────────────────────┘
 ```
 
-Podemos combinar:
+Combinando os dois:
 
 ```css
 .item {
-    justify-self: center;
-    align-self: center;
+  justify-self: center;
+  align-self: center;
 }
 ```
-
-Resultado:
 
 ```text
 ┌─────────────────────────────────┐
 │                                 │
 │                                 │
-│            ITEM                 │
+│            ┌──────┐             │
+│            │ ITEM │             │
+│            └──────┘             │
 │                                 │
 │                                 │
 └─────────────────────────────────┘
@@ -919,57 +696,38 @@ O item fica centralizado nos dois eixos.
 
 ---
 
-# 20. Por que tecnicamente falamos em eixo e não em "horizontal/vertical"?
+## 19. Por que falamos em eixo, e não em "horizontal/vertical"?
 
-É muito comum aprender:
+É comum aprender:
 
 ```text
 justify = horizontal
 align   = vertical
 ```
 
-Essa simplificação funciona em muitos layouts tradicionais.
-
-Mas tecnicamente o CSS utiliza os conceitos de:
+Isso funciona em layouts tradicionais, mas o CSS trabalha com:
 
 ```text
-inline axis
-block axis
+inline axis → acompanha a direção do texto no writing-mode
+block axis  → eixo em que os blocos são empilhados
 ```
-
-O eixo inline acompanha a direção em que o texto flui no `writing-mode`.
-
-O eixo block é o eixo em que os blocos são organizados.
-
-Por isso, a forma tecnicamente correta é:
 
 ```text
-justify-self
-    ↓
-eixo inline
-
-align-self
-    ↓
-eixo block
+justify-self → eixo inline
+align-self   → eixo block
 ```
 
-Em idiomas e modos de escrita tradicionais, esses eixos normalmente aparecem como horizontal e vertical, mas isso não é uma regra universal.
+Em idiomas e modos de escrita tradicionais, esses eixos aparecem como horizontal e vertical, mas isso não vale para todos os `writing-mode`.
 
 ---
 
-# 21. `align-self: auto`
-
-Embora não tenha sido explorado na aula, existe:
+## 20. `align-self: auto`
 
 ```css
 align-self: auto;
 ```
 
-Esse é o valor inicial de `align-self`.
-
-No contexto de Grid, `auto` utiliza o valor de `align-items` do elemento pai.
-
-Assim:
+É o valor inicial de `align-self`. No Grid, `auto` usa o valor de `align-items` do elemento pai.
 
 ```text
 GRID CONTAINER
@@ -985,79 +743,42 @@ usa o alinhamento do pai
 center
 ```
 
-Isso explica por que `align-items` pode funcionar como uma configuração geral e `align-self` pode ser utilizado para sobrescrever apenas alguns itens.
-
 ---
 
-# 22. O comportamento padrão
+## 21. O comportamento padrão
 
-No CSS Grid, o valor inicial de:
-
-```css
-align-items
-```
-
-é `normal`.
-
-Para Grid, `normal` resolve para um comportamento equivalente a `stretch` na situação padrão.
-
-Enquanto:
-
-```css
-align-self
-```
-
-possui `auto` como valor inicial e, por meio dessa relação com `align-items`, o item normalmente acaba se estendendo pela área disponível.
-
-Existe uma exceção importante para elementos com **aspect ratio** ou tamanho intrínseco, como imagens, para evitar distorções.
-
-Modelo simplificado:
+O valor inicial de `align-items` é `normal`. No Grid, `normal` se comporta como `stretch`. Como `align-self` começa em `auto`, os itens normalmente se esticam pela área disponível.
 
 ```text
-align-items
+align-items: normal
     ↓
-normal
-    ↓
-Grid
+no Grid
     ↓
 stretch
     ↓
-itens ocupam a área disponível
+itens (com height: auto) ocupam a área
 ```
 
 ---
 
-# 23. Exceção importante: imagens e proporção
-
-Imagine:
+## 22. Exceção: imagens e proporção
 
 ```html
 <img src="foto.jpg" alt="Foto">
 ```
 
-A imagem possui uma proporção natural.
-
-Por exemplo:
+Uma imagem tem uma proporção natural:
 
 ```text
-1920 × 1080
-
-16 : 9
+1920 × 1080  →  16 : 9
 ```
 
-Esticar livremente a imagem nos dois eixos poderia distorcê-la.
-
-Por isso, o comportamento padrão de alinhamento possui tratamento especial para itens com proporção intrínseca. O MDN destaca essa exceção para elementos como imagens.
-
-Modelo mental:
+Esticá-la livremente poderia distorcê-la. Por isso, no comportamento `normal`, itens com proporção intrínseca (aspect ratio) se comportam como `start`, em vez de `stretch`.
 
 ```text
 ITEM NORMAL
     ↓
 stretch
-    ↓
-ocupa a área
-
 
 IMAGEM COM PROPORÇÃO
     ↓
@@ -1068,114 +789,67 @@ comportamento semelhante a start
 
 ---
 
-# 24. `align-self` e `height`
+## 23. `align-self` e `height`
 
-Não devemos pensar em:
+`align-self: stretch` não é o mesmo que `height: 100%`. São mecanismos diferentes.
 
-```css
-align-self: stretch;
+```text
+align-self: stretch → faz parte do Box Alignment,
+                      respeita as restrições do item
+
+height: 100%        → define uma altura explícita
 ```
-
-como sendo simplesmente:
-
-```css
-height: 100%;
-```
-
-São mecanismos diferentes.
-
-`align-self` participa do sistema de **Box Alignment**.
-
-O resultado também depende de como o item foi dimensionado e das restrições aplicadas.
-
-Por exemplo:
 
 ```css
 .item {
-    align-self: stretch;
-    max-height: 100px;
+  align-self: stretch;
+  max-height: 100px;
 }
 ```
 
-A propriedade:
-
-```css
-max-height
-```
-
-pode limitar o quanto o item consegue se expandir.
-
-Portanto, `stretch` significa utilizar o espaço disponível **dentro das regras de dimensionamento existentes**.
+O `max-height` limita o quanto o item cresce. O que sobrar da área fica livre, e o item é posicionado como `start`.
 
 ---
 
-# 25. `place-self`
+## 24. `place-self`
 
-Existe também uma propriedade shorthand:
+`place-self` é o shorthand de `align-self` e `justify-self`:
 
 ```css
-place-self
+.item {
+  place-self: center;
+}
 ```
 
-Ela combina:
+equivale a:
+
+```css
+.item {
+  align-self: center;
+  justify-self: center;
+}
+```
+
+Com dois valores:
+
+```css
+.item {
+  place-self: end center;
+}
+```
 
 ```text
-align-self
-+
-justify-self
+place-self: <align-self> <justify-self>
+
+primeiro valor → align-self   (end)
+segundo valor  → justify-self (center)
 ```
-
-Por exemplo:
-
-```css
-.item {
-    place-self: center;
-}
-```
-
-é equivalente a:
-
-```css
-.item {
-    align-self: center;
-    justify-self: center;
-}
-```
-
-Também podemos definir valores diferentes para cada eixo:
-
-```css
-.item {
-    place-self: end center;
-}
-```
-
-Mentalmente:
-
-```text
-place-self
-    │
-    ├── primeiro valor → align-self
-    │
-    └── segundo valor → justify-self
-```
-
-O MDN define `place-self` como shorthand dessas duas propriedades.
 
 ---
 
-# 26. Valores adicionais
+## 25. Valores adicionais
 
-Além dos quatro valores trabalhados na aula:
-
-```css
-start
-end
-center
-stretch
-```
-
-a propriedade também suporta outros valores, dependendo do contexto:
+Além de `start`, `end`, `center` e `stretch`:
 
 ```css
 align-self: auto;
@@ -1192,9 +866,7 @@ align-self: safe center;
 align-self: unsafe center;
 ```
 
-Esses valores fazem parte do sistema CSS Box Alignment e são úteis em situações mais avançadas.
-
-Para o estudo inicial de Grid, entretanto, o modelo essencial da aula pode ser reduzido a:
+Esses valores fazem parte do CSS Box Alignment e são úteis em situações mais avançadas. Para o estudo inicial, o essencial é:
 
 ```text
 start
@@ -1205,88 +877,61 @@ stretch
 
 ---
 
-# 27. Mapa mental
+## 26. Mapa mental
 
 ```text
-                         CSS GRID
-                            │
-                            ▼
-                     GRID CONTAINER
-                            │
-                            ▼
-                       GRID ITEM
-                            │
-                            ▼
-                       GRID AREA
-                            │
-                            ▼
-                         ALINHAR
-                            │
-              ┌─────────────┴─────────────┐
-              │                           │
-              ▼                           ▼
-       EIXO INLINE                  EIXO BLOCK
-              │                           │
-              ▼                           ▼
-       justify-self                  align-self
-              │                           │
-       ┌──────┼──────┐            ┌───────┼───────┐
-       │      │      │            │       │       │
-       ▼      ▼      ▼            ▼       ▼       ▼
-     start center   end         start   center    end
-                         \          /
-                          \        /
-                           stretch
+                    CSS GRID
+                       │
+                       ▼
+                GRID CONTAINER
+                       │
+                       ▼
+                   GRID ITEM
+                       │
+                       ▼
+                   GRID AREA
+                       │
+                       ▼
+                   ALINHAR
+                       │
+        ┌──────────────┴──────────────┐
+        │                             │
+        ▼                             ▼
+   EIXO INLINE                   EIXO BLOCK
+        │                             │
+        ▼                             ▼
+  justify-self                   align-self
+                                      │
+                    ┌───────┬─────────┼─────────┐
+                    ▼       ▼         ▼         ▼
+                  start   center     end     stretch
 ```
 
 ---
 
-# 28. Regra de ouro
+## 27. Regra de ouro
 
 > **`align-self` controla o alinhamento de um único Grid Item dentro da sua Grid Area, no eixo block.**
-
-Em um layout horizontal tradicional:
 
 ```text
 align-self
     ↓
-vertical
+vertical (em layouts horizontais)
     ↓
 dentro da Grid Area
     ↓
 item individual
 ```
 
-E a comparação fundamental fica:
-
-```text
-justify-self
-    ↓
-eixo inline
-    ↓
-normalmente horizontal
-
-
-align-self
-    ↓
-eixo block
-    ↓
-normalmente vertical
-```
-
 ---
 
-# 29. Como raciocinar diante de um problema
-
-Quando encontrar:
+## 28. Como raciocinar diante de um problema
 
 ```css
 .item {
-    align-self: center;
+  align-self: center;
 }
 ```
-
-siga este raciocínio:
 
 ```text
 1. Este elemento é um Grid Item?
@@ -1295,7 +940,7 @@ siga este raciocínio:
 
 2. Qual é a Grid Area dele?
         ↓
-   descubra as linhas/
+   descubra as rows e
    colunas que ele ocupa
 
 3. Em qual eixo estamos trabalhando?
@@ -1312,116 +957,58 @@ siga este raciocínio:
    dentro da Grid Area
 ```
 
-Esse processo é muito mais útil do que decorar:
-
-```text
-align = vertical
-```
-
-porque você passa a entender **por que** o resultado acontece.
+Esse processo é mais útil do que decorar "align = vertical", porque explica **por que** o resultado acontece.
 
 ---
 
-# 30. Tabela de fixação
+## 29. Tabela de fixação
 
-| Valor     | Comportamento                                                                                                    | Mentalidade            |
-| --------- | ---------------------------------------------------------------------------------------------------------------- | ---------------------- |
-| `start`   | alinha o item no início do eixo block                                                                            | "vai para o começo"    |
-| `center`  | centraliza o item dentro da área                                                                                 | "vai para o meio"      |
-| `end`     | alinha o item no final do eixo block                                                                             | "vai para o final"     |
-| `stretch` | estica o item para utilizar o espaço disponível, respeitando suas restrições de tamanho                          | "preenche o espaço"    |
-| `auto`    | utiliza o alinhamento definido por `align-items` no pai                                                          | "segue a regra geral"  |
-| `normal`  | comportamento definido pelo modelo de layout; em Grid, normalmente conduz a comportamento semelhante a `stretch` | "comportamento normal" |
-
----
-
-# 31. Tabela de comparação
-
-| Propriedade       | Aplicada em    | Controla                          | Eixo   |
-| ----------------- | -------------- | --------------------------------- | ------ |
-| `align-content`   | Grid Container | conjunto de tracks do Grid        | block  |
-| `align-items`     | Grid Container | alinhamento padrão dos itens      | block  |
-| `align-self`      | Grid Item      | alinhamento de um item específico | block  |
-| `justify-content` | Grid Container | conjunto de tracks do Grid        | inline |
-| `justify-items`   | Grid Container | alinhamento padrão dos itens      | inline |
-| `justify-self`    | Grid Item      | alinhamento de um item específico | inline |
+| Valor | Comportamento | Mentalidade |
+| --- | --- | --- |
+| `start` | alinha o item no início do eixo block | "vai para o começo" |
+| `center` | centraliza o item dentro da área | "vai para o meio" |
+| `end` | alinha o item no final do eixo block | "vai para o final" |
+| `stretch` | estica o item (com `height: auto`) até preencher a área, respeitando `min-height` e `max-height` | "preenche o espaço" |
+| `auto` | usa o valor de `align-items` do pai | "segue a regra geral" |
+| `normal` | no Grid, se comporta como `stretch` (ou `start`, com aspect ratio) | "comportamento normal" |
 
 ---
 
-# 32. A diferença em uma única imagem mental
+## 30. Tabela de comparação
 
-```text
-                        GRID CONTAINER
-┌─────────────────────────────────────────────────┐
-│                                                 │
-│          Grid Area                              │
-│      ┌─────────────────────┐                    │
-│      │                     │                    │
-│      │        ITEM         │ ← align-self       │
-│      │                     │                    │
-│      └─────────────────────┘                    │
-│                                                 │
-└─────────────────────────────────────────────────┘
-                     ↑
-                     │
-               Grid Area definida
-               por Grid Placement
-```
-
-Depois:
-
-```text
-GRID AREA
-┌───────────────────────────────┐
-│ start                         │
-│                               │
-│            center             │
-│                               │
-│                         end   │
-└───────────────────────────────┘
-```
-
-O `align-self` escolhe como o item será alinhado nessa dimensão.
+| Propriedade | Aplicada em | Controla | Eixo |
+| --- | --- | --- | --- |
+| `align-content` | Grid Container | conjunto de tracks do Grid | block |
+| `align-items` | Grid Container | alinhamento padrão dos itens | block |
+| `align-self` | Grid Item | alinhamento de um item específico | block |
+| `justify-content` | Grid Container | conjunto de tracks do Grid | inline |
+| `justify-items` | Grid Container | alinhamento padrão dos itens | inline |
+| `justify-self` | Grid Item | alinhamento de um item específico | inline |
 
 ---
 
-# 33. Checklist de compreensão
-
-Antes de seguir para outro assunto, verifique se consegue explicar:
+## 31. Checklist de compreensão
 
 ```text
 [ ] O que significa "self" em align-self?
-
 [ ] Em qual elemento coloco align-self?
-
 [ ] Qual é a diferença entre align-items e align-self?
-
 [ ] Em qual eixo align-self trabalha?
-
 [ ] O que acontece com align-self: start?
-
 [ ] O que acontece com align-self: center?
-
 [ ] O que acontece com align-self: end?
-
 [ ] O que acontece com align-self: stretch?
-
+[ ] Por que stretch não funciona com height definido?
 [ ] align-self muda a Grid Area?
-
 [ ] align-self muda as linhas do Grid?
-
 [ ] Qual é a relação entre align-self e grid-row?
-
 [ ] Qual é a relação entre align-self e justify-self?
-
-[ ] Qual é a diferença entre align-self e text-align?
-
 [ ] Qual é a função de place-self?
 ```
 
 ---
 
-# 34. Resumo final
+## 32. Resumo final
 
 ```text
 align-self
@@ -1433,15 +1020,13 @@ align-self
 ├── atua dentro da Grid Area
 │
 ├── trabalha no eixo block
-│
-├── em layouts horizontais tradicionais
-│   └── geralmente corresponde ao eixo vertical
+│   └── em layouts horizontais, geralmente o eixo vertical
 │
 ├── valores fundamentais
 │   ├── start
 │   ├── center
 │   ├── end
-│   └── stretch
+│   └── stretch (só com height: auto)
 │
 ├── pode sobrescrever align-items
 │
@@ -1451,7 +1036,7 @@ align-self
 
 ---
 
-# 35. Regra definitiva para memorizar
+## 33. Regra definitiva para memorizar
 
 ```text
 grid-row / grid-column / grid-area
@@ -1460,43 +1045,45 @@ grid-row / grid-column / grid-area
 
 align-self
         ↓
-"COMO O ITEM FICA DENTRO DESSE ESPAÇO?"
+"COMO O ITEM FICA DENTRO DESSE ESPAÇO, NO EIXO BLOCK?"
 
 justify-self
         ↓
-"COMO O ITEM FICA NO OUTRO EIXO?"
-```
-
-Ou ainda:
-
-```text
-             GRID AREA
-                 │
-        ┌────────┴────────┐
-        │                 │
-        ▼                 ▼
-  justify-self       align-self
-        │                 │
-        ▼                 ▼
-   eixo inline       eixo block
-        │                 │
-        ▼                 ▼
-   normalmente        normalmente
-   horizontal          vertical
+"COMO O ITEM FICA DENTRO DESSE ESPAÇO, NO EIXO INLINE?"
 ```
 
 ---
 
-# Referências oficiais
+## 34. Referências oficiais
 
-* MDN — `align-self`: definição, sintaxe, valores e comportamento em Grid.
-* MDN — Box alignment in grid layout: eixos inline/block, `align-items`, `align-self` e comportamento em Grid.
-* MDN — `align-items`: relação entre `align-items` e `align-self`.
-* MDN — `place-self`: shorthand para `align-self` e `justify-self`.
-* CSS Box Alignment / `<self-position>`: valores de posicionamento utilizados pelo sistema de alinhamento CSS.
+- **MDN — `align-self`:** definição, sintaxe, valores e comportamento em Grid.
+- **MDN — Box alignment in grid layout:** eixos inline e block, `align-items` e `align-self` no Grid.
+- **MDN — `align-items`:** relação entre `align-items` e `align-self`.
+- **MDN — `place-self`:** shorthand de `align-self` e `justify-self`.
+- **W3C — CSS Box Alignment Module Level 3:** especificação oficial do sistema de alinhamento.
 
 ---
 
-# GitHub
+## 35. GitHub
 
-<a href="https://github.com/gabrielfelipeoliveira55" target="_blank" rel="noopener noreferrer">Gabriel Felipe de Oliveira Rateiro</a>
+<div align="center">
+
+### CSS Grid Layout — `align-self`
+
+Documentação técnica para estudo contínuo de CSS Grid Layout.
+
+<br>
+
+<a href="https://github.com/gabrielfelipeoliveira55" target="_blank" rel="noopener noreferrer">
+Gabriel Felipe de Oliveira Rateiro
+</a>
+
+<br><br>
+
+**CSS Grid Layout • `align-self`**
+
+> `grid-area` define **onde** o item está.
+>
+> `align-self` define **como** ele fica dentro da área, no eixo block.
+
+</div>

@@ -1,16 +1,73 @@
 # CSS Grid — `grid-template-columns`, `minmax()`, `repeat()`, `auto-fit` e `auto-fill`
 
+## Índice
+
+- [1. `grid-template-columns`](#1-grid-template-columns)
+- [2. `px` define o tamanho da coluna](#2-px-define-o-tamanho-da-coluna)
+- [3. Coluna e conteúdo do item são conceitos diferentes](#3-coluna-e-conteúdo-do-item-são-conceitos-diferentes)
+- [4. Conteúdo maior que a coluna](#4-conteúdo-maior-que-a-coluna)
+- [5. `width` e a célula do Grid](#5-width-e-a-célula-do-grid)
+- [6. `min-width` pode fazer o item ultrapassar a coluna](#6-min-width-pode-fazer-o-item-ultrapassar-a-coluna)
+- [7. Unidade `fr`](#7-unidade-fr)
+- [8. `fr` e o conteúdo](#8-fr-e-o-conteúdo)
+  - [Regra mental](#regra-mental)
+- [9. `minmax()`](#9-minmax)
+- [10. Exemplo de `minmax()`](#10-exemplo-de-minmax)
+- [11. `minmax(100px, 1fr)`](#11-minmax100px-1fr)
+- [12. `minmax(50px, 100px)`](#12-minmax50px-100px)
+- [13. `minmax()` resolve um problema importante](#13-minmax-resolve-um-problema-importante)
+- [14. `minmax()` e conteúdo grande](#14-minmax-e-conteúdo-grande)
+- [15. `repeat()`](#15-repeat)
+- [16. Sintaxe do `repeat()`](#16-sintaxe-do-repeat)
+- [17. `repeat()` economiza código](#17-repeat-economiza-código)
+- [18. `repeat()` aceita diferentes valores](#18-repeat-aceita-diferentes-valores)
+- [19. `repeat()` também pode ser combinado com outras colunas](#19-repeat-também-pode-ser-combinado-com-outras-colunas)
+- [20. `auto-fit`](#20-auto-fit)
+- [21. Como `auto-fit` se comporta](#21-como-auto-fit-se-comporta)
+- [22. `auto-fit` com `1fr`](#22-auto-fit-com-1fr)
+- [23. `auto-fit` com um tamanho fixo](#23-auto-fit-com-um-tamanho-fixo)
+- [24. O padrão mais útil: `auto-fit` + `minmax()`](#24-o-padrão-mais-útil-auto-fit--minmax)
+- [25. Como funciona `repeat(auto-fit, minmax())`](#25-como-funciona-repeatauto-fit-minmax)
+- [26. Por que `minmax()` ajuda o `auto-fit`?](#26-por-que-minmax-ajuda-o-auto-fit)
+- [27. `auto` como valor máximo](#27-auto-como-valor-máximo)
+- [28. `auto-fit` x `auto-fill`](#28-auto-fit-x-auto-fill)
+- [29. `auto-fit`](#29-auto-fit)
+- [30. `auto-fill`](#30-auto-fill)
+- [31. Diferença mental entre `auto-fit` e `auto-fill`](#31-diferença-mental-entre-auto-fit-e-auto-fill)
+- [32. O que acontece quando o container aumenta?](#32-o-que-acontece-quando-o-container-aumenta)
+- [33. Layout responsivo sem várias Media Queries](#33-layout-responsivo-sem-várias-media-queries)
+- [34. Padrão de Grid responsivo](#34-padrão-de-grid-responsivo)
+- [35. Exemplo completo](#35-exemplo-completo)
+- [36. Combinações importantes](#36-combinações-importantes)
+  - [Colunas fixas](#colunas-fixas)
+  - [Colunas proporcionais](#colunas-proporcionais)
+  - [Repetição](#repetição)
+  - [Limite mínimo e máximo](#limite-mínimo-e-máximo)
+  - [Grid responsivo](#grid-responsivo)
+- [37. Estrutura mental completa](#37-estrutura-mental-completa)
+- [38. 🧠 Como memorizar](#38-como-memorizar)
+  - [`fr`](#fr)
+  - [`minmax()`](#minmax-1)
+  - [`repeat()`](#repeat-1)
+  - [`auto-fit`](#auto-fit-1)
+  - [`auto-fill`](#auto-fill-1)
+- [39. 📌 O padrão mais importante](#39-o-padrão-mais-importante)
+- [40. Resumo final](#40-resumo-final)
+  - [Regra mental principal](#regra-mental-principal)
+
+---
+
 ## 1. `grid-template-columns`
 
 A propriedade:
 
 ```css
 grid-template-columns
-```
+````
 
-é responsável por definir a estrutura das **colunas do Grid**.
+define a estrutura das **colunas do Grid**.
 
-Exemplo:
+### Exemplo
 
 ```css
 .container {
@@ -19,7 +76,7 @@ Exemplo:
 }
 ```
 
-Nesse caso, temos quatro colunas de `100px`:
+Nesse caso, são definidas quatro colunas de `100px`:
 
 ```text
 ┌────────┬────────┬────────┬────────┐
@@ -27,13 +84,13 @@ Nesse caso, temos quatro colunas de `100px`:
 └────────┴────────┴────────┴────────┘
 ```
 
-Uma regra importante:
+### Regra importante
 
 > Cada valor informado em `grid-template-columns` representa uma coluna.
 
 ---
 
-# 2. `px` define o tamanho da coluna
+## 2. `px` define o tamanho da coluna
 
 Considere:
 
@@ -45,19 +102,21 @@ Temos:
 
 ```text
 100px + 100px + 100px
+
         ↓
+
       300px
 ```
 
-Esses valores definem o tamanho da **célula da grade**.
+Esses valores definem o tamanho das colunas.
 
-É importante não confundir a largura da coluna com o tamanho total do conteúdo de um item dentro dela.
+É importante não confundir a largura de uma coluna com o tamanho total do conteúdo colocado dentro dela.
 
 ---
 
-# 3. Coluna e conteúdo do item são conceitos diferentes
+## 3. Coluna e conteúdo do item são conceitos diferentes
 
-Uma coluna pode ter:
+Uma coluna pode ser definida como:
 
 ```css
 grid-template-columns: 100px;
@@ -74,9 +133,7 @@ Por exemplo:
 }
 ```
 
-Se o conteúdo não conseguir se ajustar dentro dos `100px`, ele poderá ultrapassar a largura da coluna.
-
-Visualmente:
+Se o conteúdo não conseguir se ajustar dentro de `100px`, ele poderá ultrapassar a largura da coluna.
 
 ```text
 ┌──────────────┐
@@ -91,7 +148,7 @@ Portanto:
 
 ---
 
-# 4. Conteúdo maior que a coluna
+## 4. Conteúdo maior que a coluna
 
 Considere:
 
@@ -108,7 +165,7 @@ Com um conteúdo como:
 Uma palavra muito grande
 ```
 
-o navegador pode quebrar o texto quando existem oportunidades de quebra, como espaços.
+o navegador pode quebrar o texto quando existem oportunidades naturais de quebra, como espaços.
 
 ```text
 ┌──────────────┐
@@ -118,7 +175,7 @@ o navegador pode quebrar o texto quando existem oportunidades de quebra, como es
 └──────────────┘
 ```
 
-Mas uma palavra única e muito grande pode não possuir um ponto natural de quebra.
+Uma palavra única e muito grande pode não possuir um ponto natural de quebra.
 
 Nesse caso:
 
@@ -128,13 +185,13 @@ Nesse caso:
 └──────────────┘
 ```
 
-O conteúdo pode ultrapassar a coluna.
+O conteúdo pode ultrapassar a largura da coluna.
 
 ---
 
-# 5. `width` e a célula do Grid
+## 5. `width` e a célula do Grid
 
-Também é importante diferenciar:
+É útil diferenciar os níveis envolvidos:
 
 ```text
 Grid
@@ -161,11 +218,11 @@ padding
 margin
 ```
 
-Essas propriedades podem influenciar o comportamento visual do item sem alterar necessariamente a definição da coluna.
+Essas propriedades podem influenciar o comportamento visual do item sem necessariamente alterar a definição da coluna.
 
 ---
 
-# 6. `min-width` pode fazer o item ultrapassar a coluna
+## 6. `min-width` pode fazer o item ultrapassar a coluna
 
 Suponha:
 
@@ -188,10 +245,11 @@ Agora temos:
 
 ```text
 coluna = 100px
+
 item   = mínimo de 200px
 ```
 
-Resultado:
+O resultado pode ser entendido assim:
 
 ```text
 ┌──────────────┐
@@ -200,6 +258,7 @@ Resultado:
 │    100px     │
 │              │
 └──────────────┘
+
 ┌────────────────────────┐
 │      item 200px        │
 └────────────────────────┘
@@ -209,7 +268,7 @@ O Grid mantém a coluna em `100px`, enquanto o item respeita seu `min-width`.
 
 ---
 
-# 7. Unidade `fr`
+## 7. Unidade `fr`
 
 A unidade:
 
@@ -231,7 +290,7 @@ significa:
 1 parte | 2 partes
 ```
 
-O espaço é dividido proporcionalmente.
+O espaço é distribuído proporcionalmente:
 
 ```text
 ┌──────────┬────────────────────┐
@@ -239,13 +298,13 @@ O espaço é dividido proporcionalmente.
 └──────────┴────────────────────┘
 ```
 
-A segunda coluna recebe o dobro da proporção da primeira.
+A segunda coluna possui o dobro da proporção da primeira.
 
 ---
 
-# 8. `fr` e o conteúdo
+## 8. `fr` e o conteúdo
 
-Um ponto importante é que o comportamento de uma faixa `fr` pode levar em consideração o conteúdo mínimo dos itens.
+Uma faixa `fr` não deve ser interpretada apenas como uma porcentagem fixa do container.
 
 Por exemplo:
 
@@ -253,7 +312,7 @@ Por exemplo:
 grid-template-columns: 1fr 2fr;
 ```
 
-não deve ser mentalmente interpretado simplesmente como:
+não deve ser mentalmente reduzido simplesmente a:
 
 ```text
 33% | 66%
@@ -261,9 +320,9 @@ não deve ser mentalmente interpretado simplesmente como:
 
 sem considerar outras restrições do layout.
 
-Se existir um conteúdo muito grande em uma das colunas, esse conteúdo pode influenciar o tamanho mínimo necessário para aquela faixa.
+Um conteúdo muito grande pode influenciar o tamanho mínimo necessário para uma faixa.
 
-Isso pode fazer com que a distribuição visual não seja exatamente a proporção que você imaginou inicialmente.
+Isso significa que a distribuição visual pode não corresponder exatamente à proporção imaginada inicialmente.
 
 ### Regra mental
 
@@ -271,7 +330,7 @@ Isso pode fazer com que a distribuição visual não seja exatamente a proporç�
 
 ---
 
-# 9. `minmax()`
+## 9. `minmax()`
 
 A função:
 
@@ -279,13 +338,7 @@ A função:
 minmax()
 ```
 
-permite definir:
-
-```text
-valor mínimo
-+
-valor máximo
-```
+permite definir um **valor mínimo** e um **valor máximo** para uma faixa do Grid.
 
 A estrutura é:
 
@@ -303,6 +356,7 @@ significa:
 
 ```text
 mínimo → 200px
+
 máximo → 1fr
 ```
 
@@ -312,7 +366,7 @@ Ou seja:
 
 ---
 
-# 10. Exemplo de `minmax()`
+## 10. Exemplo de `minmax()`
 
 ```css
 .grid {
@@ -326,7 +380,9 @@ Temos três colunas:
 
 ```text
 Coluna 1 → mínimo de 200px, máximo flexível
+
 Coluna 2 → 1fr
+
 Coluna 3 → 1fr
 ```
 
@@ -334,17 +390,23 @@ Quando o container diminui:
 
 ```text
 espaço disponível ↓
+
         ↓
+
 colunas flexíveis diminuem
+
         ↓
+
 coluna com mínimo chega a 200px
+
         ↓
+
 não pode diminuir mais
 ```
 
 ---
 
-# 11. `minmax(100px, 1fr)`
+## 11. `minmax(100px, 1fr)`
 
 Também podemos utilizar:
 
@@ -357,10 +419,11 @@ Agora:
 
 ```text
 mínimo → 100px
+
 máximo → 1fr
 ```
 
-A coluna poderá diminuir até:
+A coluna pode diminuir até:
 
 ```text
 100px
@@ -370,19 +433,20 @@ mas não abaixo disso.
 
 ---
 
-# 12. `minmax(50px, 100px)`
+## 12. `minmax(50px, 100px)`
 
-O máximo também pode ser um valor fixo:
+O valor máximo também pode ser fixo:
 
 ```css
 grid-template-columns:
   minmax(50px, 100px);
 ```
 
-Agora a coluna possui:
+Agora temos:
 
 ```text
 mínimo → 50px
+
 máximo → 100px
 ```
 
@@ -392,29 +456,29 @@ Portanto:
 50px ≤ coluna ≤ 100px
 ```
 
-Se houver espaço:
+Com espaço suficiente:
 
 ```text
 coluna → 100px
 ```
 
-Se o espaço diminuir:
+À medida que o espaço diminui:
 
 ```text
 100px
- ↓
+  ↓
 90px
- ↓
+  ↓
 70px
- ↓
+  ↓
 50px
- ↓
+  ↓
 não diminui mais
 ```
 
 ---
 
-# 13. `minmax()` resolve um problema importante
+## 13. `minmax()` resolve um problema importante
 
 Imagine:
 
@@ -422,13 +486,13 @@ Imagine:
 grid-template-columns: 200px 1fr 1fr;
 ```
 
-Quando a tela diminuir, a primeira coluna continuará com:
+Quando o espaço disponível diminui, a primeira coluna continua com:
 
 ```text
 200px
 ```
 
-Isso pode consumir uma quantidade grande de espaço.
+Isso pode consumir uma quantidade significativa do espaço disponível.
 
 Com:
 
@@ -443,7 +507,7 @@ Isso torna a estrutura mais flexível.
 
 ---
 
-# 14. `minmax()` e conteúdo grande
+## 14. `minmax()` e conteúdo grande
 
 Considere:
 
@@ -452,9 +516,9 @@ grid-template-columns:
   minmax(200px, 1fr) 1fr 1fr;
 ```
 
-Se o conteúdo da primeira coluna for muito grande, o Grid ainda precisa lidar com o tamanho mínimo necessário do conteúdo.
+Se o conteúdo da primeira coluna for muito grande, o Grid ainda precisa lidar com as necessidades mínimas desse conteúdo.
 
-A função `minmax()` limita a faixa que foi definida, mas as necessidades mínimas do conteúdo e outras propriedades podem afetar o resultado.
+A função `minmax()` limita a faixa conforme a definição realizada, mas o resultado final também pode ser influenciado pelas necessidades mínimas do conteúdo e por outras propriedades do layout.
 
 Isso é especialmente importante quando trabalhamos com:
 
@@ -465,7 +529,7 @@ Isso é especialmente importante quando trabalhamos com:
 
 ---
 
-# 15. `repeat()`
+## 15. `repeat()`
 
 A função:
 
@@ -489,7 +553,7 @@ grid-template-columns:
   repeat(4, 1fr);
 ```
 
-Os dois representam a mesma estrutura:
+As duas declarações representam a mesma estrutura:
 
 ```text
 1fr | 1fr | 1fr | 1fr
@@ -497,7 +561,7 @@ Os dois representam a mesma estrutura:
 
 ---
 
-# 16. Sintaxe do `repeat()`
+## 16. Sintaxe do `repeat()`
 
 A estrutura é:
 
@@ -531,29 +595,27 @@ significa:
 
 ---
 
-# 17. `repeat()` economiza código
+## 17. `repeat()` economiza código
 
-Sem:
+Sem `repeat()`:
 
 ```css
 grid-template-columns:
   1fr 1fr 1fr 1fr 1fr 1fr;
 ```
 
-Com:
+Com `repeat()`:
 
 ```css
 grid-template-columns:
   repeat(6, 1fr);
 ```
 
-A segunda forma é mais curta e facilita a manutenção.
+A segunda forma é mais curta e facilita a manutenção quando a mesma configuração precisa ser repetida.
 
 ---
 
-# 18. `repeat()` aceita diferentes valores
-
-Podemos repetir:
+## 18. `repeat()` aceita diferentes valores
 
 ### Pixels
 
@@ -578,7 +640,7 @@ grid-template-columns:
 
 ### Funções
 
-Também podemos combinar `repeat()` com funções como:
+Também é possível combinar `repeat()` com funções como:
 
 ```css
 minmax()
@@ -586,9 +648,9 @@ minmax()
 
 ---
 
-# 19. `repeat()` também pode ser combinado com outras colunas
+## 19. `repeat()` também pode ser combinado com outras colunas
 
-Não precisamos usar `repeat()` para toda a declaração.
+`repeat()` não precisa representar toda a declaração.
 
 Por exemplo:
 
@@ -607,17 +669,17 @@ O `repeat()` apenas repete a parte especificada.
 
 ---
 
-# 20. `auto-fit`
+## 20. `auto-fit`
 
-O `repeat()` possui palavras-chave especiais, entre elas:
+Entre os valores usados com `repeat()` estão:
 
 ```css
 auto-fit
 ```
 
-O objetivo é permitir que a quantidade de colunas se adapte ao espaço disponível.
+Seu objetivo é permitir que a quantidade de colunas se adapte ao espaço disponível.
 
-Exemplo:
+Por exemplo:
 
 ```css
 grid-template-columns:
@@ -626,13 +688,13 @@ grid-template-columns:
 
 A ideia é:
 
-> **Tente colocar a maior quantidade possível de colunas de `100px` dentro do container.**
+> **Tente colocar a maior quantidade possível de colunas de `100px` dentro do espaço disponível.**
 
 ---
 
-# 21. Como `auto-fit` se comporta
+## 21. Como `auto-fit` se comporta
 
-Imagine um container com espaço suficiente para quatro colunas:
+Considere um container com espaço suficiente para quatro colunas:
 
 ```text
 ┌─────┬─────┬─────┬─────┐
@@ -640,7 +702,7 @@ Imagine um container com espaço suficiente para quatro colunas:
 └─────┴─────┴─────┴─────┘
 ```
 
-Se aumentarmos o container e houver espaço suficiente para mais uma:
+Ao aumentar o espaço e permitir mais uma coluna:
 
 ```text
 ┌─────┬─────┬─────┬─────┬─────┐
@@ -648,7 +710,7 @@ Se aumentarmos o container e houver espaço suficiente para mais uma:
 └─────┴─────┴─────┴─────┴─────┘
 ```
 
-Se diminuirmos:
+Ao diminuir:
 
 ```text
 ┌─────┬─────┬─────┐
@@ -656,28 +718,30 @@ Se diminuirmos:
 └─────┴─────┴─────┘
 ```
 
-O número de colunas se adapta.
+A quantidade de colunas se adapta ao espaço disponível.
 
 ---
 
-# 22. `auto-fit` com `1fr`
+## 22. `auto-fit` com `1fr`
 
-Podemos fazer:
+Podemos escrever:
 
 ```css
 grid-template-columns:
   repeat(auto-fit, 1fr);
 ```
 
-Nesse caso, as colunas tentam se expandir para ocupar o espaço disponível.
+Nesse modelo, as colunas tentam se expandir para ocupar o espaço disponível.
 
-A ideia é:
+A ideia pode ser separada em duas partes:
 
 ```text
 auto-fit
+
 → quantas colunas cabem?
 
 1fr
+
 → como distribuir o espaço entre elas?
 ```
 
@@ -685,57 +749,63 @@ Isso produz uma estrutura bastante flexível.
 
 ---
 
-# 23. `auto-fit` com um tamanho fixo
+## 23. `auto-fit` com um tamanho fixo
 
-Podemos utilizar:
+Também podemos utilizar:
 
 ```css
 grid-template-columns:
   repeat(auto-fit, 200px);
 ```
 
-Agora cada coluna possui uma largura de `200px`.
+Agora cada coluna possui `200px` de largura.
 
 O `auto-fit` determina quantas delas podem caber.
 
 ```text
 Espaço grande
+
 → várias colunas de 200px
 
 Espaço menor
+
 → menos colunas de 200px
 ```
 
 ---
 
-# 24. O padrão mais útil: `auto-fit` + `minmax()`
+## 24. O padrão mais útil: `auto-fit` + `minmax()`
 
-Uma combinação muito importante é:
+Uma combinação importante é:
 
 ```css
 grid-template-columns:
   repeat(auto-fit, minmax(100px, 1fr));
 ```
 
-Podemos interpretar assim:
+A declaração pode ser lida em partes:
 
 ```text
 repeat()
+
 → repita
 
 auto-fit
+
 → crie quantas colunas couberem
 
 minmax(100px, 1fr)
+
 → cada coluna possui no mínimo 100px
-→ e pode crescer até ocupar uma fração do espaço
+
+→ e pode crescer de forma flexível
 ```
 
-Essa combinação permite criar grids responsivos com pouco código.
+Essa combinação é muito útil para criar grades responsivas com poucas regras.
 
 ---
 
-# 25. Como funciona `repeat(auto-fit, minmax())`
+## 25. Como funciona `repeat(auto-fit, minmax())`
 
 Considere:
 
@@ -775,13 +845,13 @@ Diminuindo novamente:
 └────────┴────────┘
 ```
 
-E assim por diante.
+A quantidade de colunas se ajusta de acordo com o espaço disponível e as restrições definidas.
 
 ---
 
-# 26. Por que `minmax()` ajuda o `auto-fit`?
+## 26. Por que `minmax()` ajuda o `auto-fit`?
 
-Sem um limite mínimo, uma coluna poderia continuar ficando extremamente pequena.
+Sem um limite mínimo, uma coluna pode continuar ficando pequena conforme o espaço disponível diminui.
 
 Com:
 
@@ -789,7 +859,7 @@ Com:
 minmax(100px, 1fr)
 ```
 
-estamos dizendo:
+estabelecemos:
 
 ```text
 "Cada coluna deve ter pelo menos 100px."
@@ -799,15 +869,17 @@ Quando não houver espaço suficiente para manter mais colunas:
 
 ```text
 coluna 1 → 100px
+
 coluna 2 → 100px
+
 coluna 3 → 100px
 ```
 
-e o Grid pode reorganizar os itens em novas linhas.
+o Grid pode reorganizar os itens em novas linhas.
 
 ---
 
-# 27. `auto` como valor máximo
+## 27. `auto` como valor máximo
 
 Também é possível encontrar:
 
@@ -815,22 +887,23 @@ Também é possível encontrar:
 minmax(100px, auto)
 ```
 
-A ideia é permitir que o tamanho máximo seja determinado automaticamente.
-
 Nesse caso:
 
 ```text
 mínimo → 100px
+
 máximo → auto
 ```
 
-O comportamento de `auto` pode considerar o tamanho necessário do conteúdo.
+O valor `auto` permite que o tamanho máximo seja determinado automaticamente.
+
+O tamanho necessário do conteúdo pode influenciar esse comportamento.
 
 Por exemplo, uma coluna pode ficar maior para acomodar seu conteúdo.
 
 ---
 
-# 28. `auto-fit` x `auto-fill`
+## 28. `auto-fit` x `auto-fill`
 
 Além de:
 
@@ -844,21 +917,21 @@ existe:
 auto-fill
 ```
 
-Os dois estão relacionados à criação automática de colunas, mas possuem uma diferença importante quando existe espaço para mais colunas do que elementos.
+Os dois são usados em combinação com a criação automática de colunas, mas existe uma diferença importante quando há espaço para mais colunas do que elementos disponíveis.
 
 ---
 
-# 29. `auto-fit`
+## 29. `auto-fit`
 
-Com:
+Considere:
 
 ```css
 repeat(auto-fit, minmax(100px, 1fr))
 ```
 
-o Grid tenta ajustar as colunas às necessidades dos itens existentes.
+O `auto-fit` tenta ajustar as colunas às necessidades dos itens existentes.
 
-Depois que todos os itens foram acomodados, o espaço adicional tende a ser utilizado para expandir as colunas existentes.
+Quando todos os itens já foram acomodados, o espaço adicional tende a ser utilizado para expandir as colunas existentes.
 
 Visualmente:
 
@@ -880,15 +953,15 @@ Os itens podem crescer.
 
 ---
 
-# 30. `auto-fill`
+## 30. `auto-fill`
 
-Com:
+Considere:
 
 ```css
 repeat(auto-fill, minmax(100px, 1fr))
 ```
 
-o Grid pode criar tantas faixas quanto couberem, mesmo que algumas dessas faixas não tenham itens.
+O `auto-fill` pode criar tantas faixas quanto couberem, mesmo quando algumas delas não possuem itens.
 
 Por exemplo:
 
@@ -898,21 +971,23 @@ Por exemplo:
 └────────┴────────┴────────┴────────┴────────┘
 ```
 
-As últimas colunas podem estar vazias, mas continuam fazendo parte da grade implícita criada pela configuração.
+As últimas colunas podem estar vazias, mas continuam fazendo parte da estrutura de faixas criada pelo Grid.
 
 ---
 
-# 31. Diferença mental entre `auto-fit` e `auto-fill`
+## 31. Diferença mental entre `auto-fit` e `auto-fill`
 
 Uma forma simples de memorizar:
 
 ```text
 auto-fit
+
 → ajuste as colunas aos itens existentes
 ```
 
 ```text
 auto-fill
+
 → preencha o espaço criando todas as colunas possíveis
 ```
 
@@ -922,7 +997,9 @@ auto-fill
 AUTO-FIT
 
 [A] [B] [C]
+
    ↑
+
 colunas existentes se expandem
 ```
 
@@ -930,14 +1007,16 @@ colunas existentes se expandem
 AUTO-FILL
 
 [A] [B] [C] [ ] [ ]
-              ↑
-       colunas podem existir
-       mesmo sem conteúdo
+
+             ↑
+
+      colunas podem existir
+      mesmo sem conteúdo
 ```
 
 ---
 
-# 32. O que acontece quando o container aumenta?
+## 32. O que acontece quando o container aumenta?
 
 Considere:
 
@@ -946,10 +1025,11 @@ grid-template-columns:
   repeat(auto-fit, minmax(100px, 1fr));
 ```
 
-Quando existe espaço suficiente para mais colunas:
+Quando o container é pequeno:
 
 ```text
 container pequeno
+
 → 2 colunas
 ```
 
@@ -957,6 +1037,7 @@ Aumentando:
 
 ```text
 container maior
+
 → 3 colunas
 ```
 
@@ -964,14 +1045,15 @@ Aumentando novamente:
 
 ```text
 container ainda maior
+
 → mais colunas ou expansão das existentes
 ```
 
-O comportamento depende do número de itens e das restrições definidas.
+O comportamento depende do espaço disponível, da quantidade de itens e das restrições definidas.
 
 ---
 
-# 33. Layout responsivo sem várias Media Queries
+## 33. Layout responsivo sem várias Media Queries
 
 A combinação:
 
@@ -980,9 +1062,9 @@ grid-template-columns:
   repeat(auto-fit, minmax(100px, 1fr));
 ```
 
-é especialmente útil para criar estruturas responsivas.
+é especialmente útil para estruturas responsivas.
 
-Em vez de definir manualmente:
+Em vez de definir manualmente diferentes quantidades de colunas com várias Media Queries:
 
 ```css
 @media (...) {
@@ -1002,15 +1084,15 @@ Em vez de definir manualmente:
 }
 ```
 
-podemos deixar o Grid adaptar a quantidade de colunas automaticamente.
+podemos permitir que o próprio Grid adapte a quantidade de colunas ao espaço disponível.
 
-Isso **não significa que Media Queries deixaram de ser necessárias**; significa apenas que determinados layouts podem precisar de menos regras explícitas.
+Isso não significa que Media Queries deixaram de ser necessárias. Significa apenas que determinados layouts podem precisar de menos regras explícitas.
 
 ---
 
-# 34. Padrão de Grid responsivo
+## 34. Padrão de Grid responsivo
 
-Um padrão muito importante para guardar é:
+Um padrão bastante útil é:
 
 ```css
 .grid {
@@ -1021,29 +1103,35 @@ Um padrão muito importante para guardar é:
 }
 ```
 
-Interpretação:
+Podemos interpretar assim:
 
 ```text
 display: grid
+
 → ativa o Grid
 
 repeat()
+
 → repete a definição
 
 auto-fit
+
 → ajusta a quantidade de colunas
 
 minmax(100px, 1fr)
+
 → mínimo de 100px
+
 → máximo flexível
 
 gap
+
 → cria espaçamento
 ```
 
 ---
 
-# 35. Exemplo completo
+## 35. Exemplo completo
 
 ### HTML
 
@@ -1071,7 +1159,7 @@ gap
 
 O resultado se adapta ao espaço disponível.
 
-Container maior:
+### Container maior
 
 ```text
 ┌────────┬────────┬────────┬────────┐
@@ -1081,7 +1169,7 @@ Container maior:
 └────────┴────────┴────────┴────────┘
 ```
 
-Container menor:
+### Container menor
 
 ```text
 ┌────────┬────────┬────────┐
@@ -1091,7 +1179,7 @@ Container menor:
 └────────┴────────┴────────┘
 ```
 
-Container ainda menor:
+### Container ainda menor
 
 ```text
 ┌────────┬────────┐
@@ -1105,29 +1193,25 @@ Container ainda menor:
 
 ---
 
-# 36. Combinações importantes
+## 36. Combinações importantes
 
-## Colunas fixas
+### Colunas fixas
 
 ```css
 grid-template-columns: 100px 100px 100px;
 ```
 
-Use quando quiser tamanhos específicos.
+Use quando quiser definir tamanhos específicos para as colunas.
 
----
-
-## Colunas proporcionais
+### Colunas proporcionais
 
 ```css
 grid-template-columns: 1fr 1fr 1fr;
 ```
 
-Use quando quiser dividir o espaço proporcionalmente.
+Use quando quiser distribuir o espaço proporcionalmente.
 
----
-
-## Repetição
+### Repetição
 
 ```css
 grid-template-columns: repeat(4, 1fr);
@@ -1135,54 +1219,52 @@ grid-template-columns: repeat(4, 1fr);
 
 Use quando a mesma configuração se repete.
 
----
-
-## Limite mínimo e máximo
+### Limite mínimo e máximo
 
 ```css
 grid-template-columns:
   minmax(100px, 1fr) 1fr 1fr;
 ```
 
-Use quando uma coluna precisa respeitar um tamanho mínimo ou máximo.
+Use quando uma coluna precisa respeitar determinados limites de tamanho.
 
----
-
-## Grid responsivo
+### Grid responsivo
 
 ```css
 grid-template-columns:
   repeat(auto-fit, minmax(150px, 1fr));
 ```
 
-Use quando quiser que o número de colunas se adapte ao espaço disponível.
+Use quando quiser que a quantidade de colunas se adapte ao espaço disponível.
 
 ---
 
-# 37. Estrutura mental completa
+## 37. Estrutura mental completa
 
 ```text
 grid-template-columns
-│
-├── valores fixos
-│   └── 100px 100px
-│
-├── valores proporcionais
-│   └── 1fr 2fr
-│
-├── repeat()
-│   └── repeat(4, 1fr)
-│
-├── minmax()
-│   └── minmax(100px, 1fr)
-│
-└── auto-fit / auto-fill
-    └── criação dinâmica de colunas
+
+        │
+
+        ├── valores fixos
+        │   └── 100px 100px
+
+        ├── valores proporcionais
+        │   └── 1fr 2fr
+
+        ├── repeat()
+        │   └── repeat(4, 1fr)
+
+        ├── minmax()
+        │   └── minmax(100px, 1fr)
+
+        └── auto-fit / auto-fill
+            └── criação dinâmica de faixas
 ```
 
 ---
 
-# 38. 🧠 Como memorizar
+## 38. 🧠 Como memorizar
 
 ### `fr`
 
@@ -1208,6 +1290,7 @@ minmax(100px, 1fr)
 
 ```text
 mínimo → 100px
+
 máximo → 1fr
 ```
 
@@ -1247,9 +1330,9 @@ repeat(auto-fill, ...)
 
 ---
 
-# 39. 📌 O padrão mais importante
+## 39. 📌 O padrão mais importante
 
-Entre todas as combinações, uma das mais úteis para layouts responsivos é:
+Uma das combinações mais úteis para layouts responsivos é:
 
 ```css
 .container {
@@ -1260,55 +1343,69 @@ Entre todas as combinações, uma das mais úteis para layouts responsivos é:
 }
 ```
 
-A leitura dessa declaração é:
+A leitura dessa declaração pode ser feita assim:
 
 ```text
 Grid
+
  ↓
+
 repita automaticamente
+
  ↓
+
 quantas colunas couberem
+
  ↓
+
 cada uma deve ter pelo menos 150px
+
  ↓
+
 e pode crescer proporcionalmente
+
  ↓
+
 com 20px de espaçamento
 ```
 
-Esse padrão permite construir uma grade que se adapta ao espaço disponível sem precisar determinar manualmente uma quantidade fixa de colunas para cada largura.
+Esse padrão permite construir uma grade que se adapta ao espaço disponível sem determinar manualmente uma quantidade fixa de colunas para cada largura.
 
 ---
 
-# 40. Resumo final
+## 40. Resumo final
 
 ```text
 grid-template-columns
+
         ↓
+
 define as colunas
+
         │
+
         ├── px
-        │    → tamanho fixo
+        │   → tamanho fixo
         │
         ├── %
-        │    → proporção relativa ao container
+        │   → proporção relativa
         │
         ├── fr
-        │    → fração proporcional do espaço
+        │   → fração proporcional do espaço
         │
         ├── minmax()
-        │    → define mínimo e máximo
+        │   → define mínimo e máximo
         │
         ├── repeat()
-        │    → repete uma configuração
+        │   → repete uma configuração
         │
         ├── auto-fit
-        │    → ajusta as colunas aos itens/espaço
+        │   → ajusta as colunas aos itens e ao espaço
         │
         └── auto-fill
-             → cria todas as faixas possíveis
+            → cria todas as faixas possíveis
 ```
 
 ### Regra mental principal
 
-> **`grid-template-columns` define as colunas. `fr` define proporções. `minmax()` define limites. `repeat()` evita repetição de código. `auto-fit` e `auto-fill` tornam a quantidade de colunas dinâmica.**
+> **`grid-template-columns` define as colunas. `fr` define proporções. `minmax()` define limites. `repeat()` evita repetição de código. `auto-fit` e `auto-fill` permitem criar estruturas de colunas dinâmicas.**

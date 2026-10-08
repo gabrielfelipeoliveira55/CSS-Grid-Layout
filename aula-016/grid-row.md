@@ -1,13 +1,88 @@
-````markdown
 # CSS Grid Layout — `grid-row`
 
-> **Objetivo:** compreender como `grid-row` posiciona e dimensiona um `grid item` no eixo das rows do CSS Grid, utilizando números, linhas nomeadas, `span`, valores negativos e a relação com `grid-row-start`, `grid-row-end`, `grid-template-rows`, `grid-auto-rows` e `grid-template-areas`.
+> **Objetivo:** compreender como `grid-row` posiciona e dimensiona um grid item no eixo das rows do CSS Grid, utilizando números, linhas nomeadas, `span`, valores negativos e a relação com `grid-row-start`, `grid-row-end`, `grid-template-rows`, `grid-auto-rows` e `grid-template-areas`.
+
+## Índice
+
+1. [Antes de entender `grid-row`](#1-antes-de-entender-grid-row)
+2. [CSS Grid possui dois eixos](#2-css-grid-possui-dois-eixos)
+3. [O que é uma row?](#3-o-que-é-uma-row)
+4. [O que é uma grid line?](#4-o-que-é-uma-grid-line)
+5. [`row` e `grid line` não são a mesma coisa](#5-row-e-grid-line-não-são-a-mesma-coisa)
+6. [A relação entre rows e grid lines](#6-a-relação-entre-rows-e-grid-lines)
+7. [A propriedade `grid-row`](#7-a-propriedade-grid-row)
+8. [`grid-row` é um shorthand](#8-grid-row-é-um-shorthand)
+9. [O significado da barra `/`](#9-o-significado-da-barra-)
+10. [`grid-row: 2`](#10-grid-row-2)
+11. [Exemplo básico](#11-exemplo-básico)
+12. [`grid-row` não controla a coluna](#12-grid-row-não-controla-a-coluna)
+13. [Contando rows entre duas grid lines](#13-contando-rows-entre-duas-grid-lines)
+14. [A ideia do `span`](#14-a-ideia-do-span)
+15. [`grid-row: 1 / span 3`](#15-grid-row-1--span-3)
+16. [`grid-row: 2 / span 3`](#16-grid-row-2--span-3)
+17. [`2 / 5` versus `2 / span 3`](#17-2--5-versus-2--span-3)
+18. [`grid-row: span 2`](#18-grid-row-span-2)
+19. [`grid-row-start`](#19-grid-row-start)
+20. [`grid-row-end`](#20-grid-row-end)
+21. [Linhas positivas](#21-linhas-positivas)
+22. [Linhas negativas](#22-linhas-negativas)
+23. [`grid-row: 1 / -1`](#23-grid-row-1---1)
+24. [Por que `-1` é útil?](#24-por-que--1-é-útil)
+25. [Grid explícito](#25-grid-explícito)
+26. [Grid implícito](#26-grid-implícito)
+27. [Como `grid-row` pode levar à criação de rows implícitas](#27-como-grid-row-pode-levar-à-criação-de-rows-implícitas)
+28. [`grid-auto-rows`](#28-grid-auto-rows)
+29. [E se `grid-auto-rows` não for definido?](#29-e-se-grid-auto-rows-não-for-definido)
+30. [Exemplo completo com rows implícitas](#30-exemplo-completo-com-rows-implícitas)
+31. [Linhas nomeadas](#31-linhas-nomeadas)
+32. [Utilizando uma linha nomeada](#32-utilizando-uma-linha-nomeada)
+33. [Nomes em `grid-row-start` e `grid-row-end`](#33-nomes-em-grid-row-start-e-grid-row-end)
+34. [Linhas com múltiplos nomes](#34-linhas-com-múltiplos-nomes)
+35. [Nomes repetidos](#35-nomes-repetidos)
+36. [`grid-template-areas`](#36-grid-template-areas)
+37. [Áreas nomeadas geram linhas nomeadas](#37-áreas-nomeadas-geram-linhas-nomeadas)
+38. [Utilizando uma área com `grid-row`](#38-utilizando-uma-área-com-grid-row)
+39. [`grid-row: footer`](#39-grid-row-footer)
+40. [`grid-area` e `grid-row`](#40-grid-area-e-grid-row)
+41. [Auto-placement](#41-auto-placement)
+42. [`grid-auto-flow`](#42-grid-auto-flow)
+43. [O que acontece quando movemos um item?](#43-o-que-acontece-quando-movemos-um-item)
+44. [Espaços vazios](#44-espaços-vazios)
+45. [`grid-auto-flow: dense`](#45-grid-auto-flow-dense)
+46. [`dense` não ignora posicionamento explícito](#46-dense-não-ignora-posicionamento-explícito)
+47. [Exemplos com três colunas](#47-exemplos-com-três-colunas)
+48. [Exemplo com `grid-template-rows`](#48-exemplo-com-grid-template-rows)
+49. [`grid-row` define posição e extensão](#49-grid-row-define-posição-e-extensão)
+50. [Como ler qualquer `grid-row`](#50-como-ler-qualquer-grid-row)
+51. [Modelo mental completo](#51-modelo-mental-completo)
+52. [Regra de ouro](#52-regra-de-ouro)
+53. [Diferença entre `grid-row` e `grid-column`](#53-diferença-entre-grid-row-e-grid-column)
+54. [Posicionamento bidimensional](#54-posicionamento-bidimensional)
+55. [Exemplo de layout com `grid-row`](#55-exemplo-de-layout-com-grid-row)
+56. [Exemplo com linhas nomeadas](#56-exemplo-com-linhas-nomeadas)
+57. [Exemplo com `grid-template-areas`](#57-exemplo-com-grid-template-areas)
+58. [Linha nomeada inexistente](#58-linha-nomeada-inexistente)
+59. [`auto` em `grid-row`](#59-auto-em-grid-row)
+60. [Os principais formatos de `grid-row`](#60-os-principais-formatos-de-grid-row)
+61. [Comparação rápida](#61-comparação-rápida)
+62. [Perguntas para testar a compreensão](#62-perguntas-para-testar-a-compreensão)
+63. [Erros conceituais que devemos evitar](#63-erros-conceituais-que-devemos-evitar)
+64. [`grid-row` e acessibilidade](#64-grid-row-e-acessibilidade)
+65. [Exemplo final completo](#65-exemplo-final-completo)
+66. [Exemplo usando `span`](#66-exemplo-usando-span)
+67. [Mapa mental final](#67-mapa-mental-final)
+68. [Referência rápida](#68-referência-rápida)
+69. [Tabela de fixação](#69-tabela-de-fixação)
+70. [Checklist mental](#70-checklist-mental)
+71. [O conteúdo essencial para guardar](#71-o-conteúdo-essencial-para-guardar)
+72. [Referências técnicas](#72-referências-técnicas)
+73. [GitHub](#73-github)
 
 ---
 
-# 1. Antes de entender `grid-row`
+## 1. Antes de entender `grid-row`
 
-Para compreender `grid-row`, primeiro precisamos entender como um elemento participa de um Grid.
+Para compreender `grid-row`, primeiro é preciso entender como um elemento participa de um Grid.
 
 Quando um elemento recebe:
 
@@ -15,13 +90,9 @@ Quando um elemento recebe:
 .container {
   display: grid;
 }
-````
+```
 
-ele se torna um **grid container**.
-
-Os seus **filhos diretos** tornam-se **grid items**.
-
-Exemplo:
+ele se torna um **grid container**. Os seus **filhos diretos** tornam-se **grid items**.
 
 ```html
 <div class="grid">
@@ -37,8 +108,6 @@ Exemplo:
 }
 ```
 
-Podemos representar:
-
 ```text
 .grid
 │
@@ -46,8 +115,6 @@ Podemos representar:
 ├── Item 2  ← grid item
 └── Item 3  ← grid item
 ```
-
-Portanto:
 
 ```text
 GRID CONTAINER
@@ -57,31 +124,19 @@ FILHOS DIRETOS
 GRID ITEMS
 ```
 
-É sobre esses `grid items` que propriedades como:
-
-```css
-grid-row
-grid-row-start
-grid-row-end
-```
-
-atuam.
+É sobre esses grid items que propriedades como `grid-row`, `grid-row-start` e `grid-row-end` atuam.
 
 ---
 
-# 2. CSS Grid possui dois eixos
+## 2. CSS Grid possui dois eixos
 
-O CSS Grid é um sistema de layout bidimensional.
-
-Isso significa que ele trabalha com:
+O CSS Grid é um sistema de layout bidimensional. Ele trabalha com:
 
 ```text
 colunas
 +
 rows
 ```
-
-Visualmente:
 
 ```text
                  COLUNAS
@@ -96,8 +151,6 @@ ROW 3      │        │        │
       ─────┼────────┼────────┼─────
 ```
 
-Podemos pensar:
-
 ```text
 grid-column
      ↓
@@ -108,33 +161,28 @@ grid-row
 posicionamento no eixo das rows
 ```
 
-No modo de escrita mais comum, `horizontal-tb`, as rows são horizontais e o posicionamento entre elas ocorre visualmente de cima para baixo.
-
-Por isso, durante o estudo inicial, é comum associar:
+No modo de escrita mais comum, `horizontal-tb`, as rows são horizontais e se sucedem visualmente de cima para baixo. Por isso, no estudo inicial, é comum associar:
 
 ```text
 grid-row → eixo vertical
 ```
 
-Mas o conceito técnico mais preciso é:
+O conceito tecnicamente mais preciso é:
 
 ```text
 grid-row → eixo das rows
 ```
 
-Isso evita problemas quando começarmos a estudar `writing-mode` e outros modos de escrita.
+Isso evita confusão quando começarmos a estudar `writing-mode` e outros modos de escrita.
 
 ---
 
-# 3. O que é uma `row`?
+## 3. O que é uma row?
 
 Uma **grid row** é uma **track horizontal** do Grid.
 
-Por exemplo:
-
 ```text
 ┌──────────┬──────────┬──────────┐
-│          │          │          │
 │          │          │          │
 │  ROW 1   │  ROW 1   │  ROW 1   │
 │          │          │          │
@@ -149,27 +197,15 @@ Por exemplo:
 └──────────┴──────────┴──────────┘
 ```
 
-Aqui temos:
-
-```text
-3 row tracks
-```
-
-ou, de forma mais informal:
-
-```text
-3 rows
-```
-
-Tecnicamente, uma row é o espaço entre duas grid lines horizontais.
+Aqui temos 3 row tracks (ou, informalmente, 3 rows). Tecnicamente, uma row é o espaço entre duas grid lines horizontais.
 
 ---
 
-# 4. O que é uma `grid line`?
+## 4. O que é uma grid line?
 
 Uma **grid line** é uma linha estrutural do Grid que delimita as tracks.
 
-Se temos três rows:
+Com três rows:
 
 ```text
 grid line 1
@@ -193,25 +229,13 @@ grid line 3
 grid line 4
 ```
 
-Portanto:
-
-```text
-3 rows
-↓
-4 grid lines
-```
-
-Essa relação é fundamental.
-
 ```text
 3 row tracks = 4 grid lines
 ```
 
 ---
 
-# 5. `row` e `grid line` não são a mesma coisa
-
-Essa distinção precisa ficar muito clara.
+## 5. `row` e `grid line` não são a mesma coisa
 
 ```text
 ROW
@@ -223,8 +247,6 @@ GRID LINE
 é uma linha que delimita as tracks
 ```
 
-Visualmente:
-
 ```text
 grid line
     ↓
@@ -235,8 +257,6 @@ grid line
 grid line
 ```
 
-Portanto:
-
 ```text
 GRID LINE ≠ ROW
 ```
@@ -245,9 +265,7 @@ Uma row existe **entre duas grid lines**.
 
 ---
 
-# 6. A relação entre rows e grid lines
-
-Considere um Grid com três rows:
+## 6. A relação entre rows e grid lines
 
 ```text
 grid line 1
@@ -271,12 +289,10 @@ grid line 3
 grid line 4
 ```
 
-Podemos escrever:
-
 ```text
-ROW 1 = espaço entre linhas 1 e 2
-ROW 2 = espaço entre linhas 2 e 3
-ROW 3 = espaço entre linhas 3 e 4
+ROW 1 = espaço entre as linhas 1 e 2
+ROW 2 = espaço entre as linhas 2 e 3
+ROW 3 = espaço entre as linhas 3 e 4
 ```
 
 Por isso:
@@ -285,52 +301,26 @@ Por isso:
 grid-row: 1 / 4;
 ```
 
-significa:
+atravessa as três rows:
 
 ```text
-linha 1
-   ↓
-ROW 1
-   ↓
-linha 2
-   ↓
-ROW 2
-   ↓
-linha 3
-   ↓
-ROW 3
-   ↓
-linha 4
+linha 1 → ROW 1 → linha 2 → ROW 2 → linha 3 → ROW 3 → linha 4
 ```
 
-Resultado:
-
-```text
-3 rows
-```
+Resultado: 3 rows.
 
 ---
 
-# 7. A propriedade `grid-row`
+## 7. A propriedade `grid-row`
 
-A propriedade:
-
-```css
-grid-row
-```
-
-é um **shorthand** utilizado para definir o posicionamento de um grid item no eixo das rows.
-
-Ela permite informar:
+`grid-row` é um **shorthand** que define o posicionamento de um grid item no eixo das rows. Ela aceita:
 
 ```text
-uma linha
+um número de linha
 um span
 um nome de linha
-ou posicionamento automático
+posicionamento automático
 ```
-
-Exemplos:
 
 ```css
 grid-row: 2;
@@ -354,16 +344,9 @@ grid-row: span 2;
 
 ---
 
-# 8. `grid-row` é um shorthand
+## 8. `grid-row` é um shorthand
 
-`grid-row` reúne:
-
-```css
-grid-row-start
-grid-row-end
-```
-
-Portanto:
+`grid-row` reúne `grid-row-start` e `grid-row-end`.
 
 ```css
 grid-row: 2 / 4;
@@ -376,8 +359,6 @@ grid-row-start: 2;
 grid-row-end: 4;
 ```
 
-Podemos visualizar:
-
 ```text
                  grid-row
                     │
@@ -387,31 +368,19 @@ Podemos visualizar:
  grid-row-start       grid-row-end
 ```
 
-Mentalmente:
-
 ```text
-grid-row
-   =
-START / END
+grid-row = START / END
 ```
 
 ---
 
-# 9. O significado da `/`
-
-Na declaração:
+## 9. O significado da barra `/`
 
 ```css
 grid-row: 1 / 4;
 ```
 
-a barra:
-
-```text
-/
-```
-
-separa:
+A barra separa:
 
 ```text
 START / END
@@ -423,26 +392,11 @@ ou:
 INÍCIO / FIM
 ```
 
-Portanto:
-
-```css
-grid-row: 1 / 4;
-```
-
-equivale conceitualmente a:
-
-```css
-grid-row-start: 1;
-grid-row-end: 4;
-```
-
-A barra não significa uma divisão matemática.
+Não é uma divisão matemática.
 
 ---
 
-# 10. `grid-row: 2`
-
-Podemos definir somente um valor:
+## 10. `grid-row: 2`
 
 ```css
 .item {
@@ -450,17 +404,12 @@ Podemos definir somente um valor:
 }
 ```
 
-A declaração informa uma posição inicial:
+Quando o valor único é um **número**, ele define a linha inicial. A linha final fica como `auto`, e o item ocupa uma única row:
 
 ```text
 START = 2
+END   = auto  (ocupa 1 row)
 ```
-
-A outra extremidade permanece em comportamento automático.
-
-Um caso comum é o item ocupar uma row.
-
-Visualmente:
 
 ```text
 grid line 1
@@ -475,17 +424,13 @@ grid line 3
 ────────────────────────
 ```
 
-O item foi colocado na:
+O item foi colocado na ROW 2.
 
-```text
-ROW 2
-```
+> **Nota:** o comportamento é diferente quando o valor único é um **nome** (como `footer`). Isso é explicado na seção [`grid-row: footer`](#39-grid-row-footer).
 
 ---
 
-# 11. Exemplo básico
-
-HTML:
+## 11. Exemplo básico
 
 ```html
 <div class="grid">
@@ -495,17 +440,11 @@ HTML:
 </div>
 ```
 
-CSS:
-
 ```css
 .grid {
   display: grid;
-
-  grid-template-columns:
-    repeat(3, 1fr);
-
-  grid-template-rows:
-    repeat(3, 100px);
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 100px);
 }
 
 .item-1 {
@@ -513,31 +452,17 @@ CSS:
 }
 ```
 
-A ideia é:
-
 ```text
 ITEM 1
    ↓
-começa na grid line 2
+começa na grid line 2 (ocupa a ROW 2)
 ```
 
-Enquanto sua posição nas colunas continua sendo determinada separadamente.
+A posição do item nas colunas continua sendo determinada separadamente.
 
 ---
 
-# 12. `grid-row` não controla a coluna
-
-Esta propriedade:
-
-```css
-grid-row
-```
-
-não diz em qual coluna o item ficará.
-
-Ela trabalha apenas no eixo das rows.
-
-Portanto:
+## 12. `grid-row` não controla a coluna
 
 ```css
 .item {
@@ -545,25 +470,13 @@ Portanto:
 }
 ```
 
-não significa:
-
-```text
-"coloque o item na segunda coluna"
-```
-
-Significa:
+não significa "coloque o item na segunda coluna". Significa:
 
 ```text
 "posicione o item a partir da grid line 2 do eixo das rows"
 ```
 
-A posição nas colunas é controlada por:
-
-```css
-grid-column
-```
-
-Podemos separar:
+A posição nas colunas é controlada por `grid-column`:
 
 ```text
 grid-column
@@ -577,62 +490,15 @@ posição no eixo das rows
 
 ---
 
-# 13. `grid-row: 1 / 4`
+## 13. Contando rows entre duas grid lines
 
-Agora podemos definir início e fim:
-
-```css
-.item {
-  grid-row: 1 / 4;
-}
-```
-
-Isso significa:
+Com números, a quantidade de rows ocupadas é:
 
 ```text
-START = grid line 1
-END   = grid line 4
+quantidade de rows = linha final − linha inicial
 ```
 
-Visualmente:
-
-```text
-grid line 1
-──────────────┐
-              │
-              │
-              │
-              │   ITEM
-              │
-              │
-              │
-──────────────┘
-grid line 4
-```
-
-O item ocupa:
-
-```text
-ROW 1
-ROW 2
-ROW 3
-```
-
-Portanto:
-
-```text
-1 / 4 = 3 rows
-```
-
----
-
-# 14. Entendendo `1 / 2`
-
-```css
-grid-row: 1 / 2;
-```
-
-Resultado:
+### `grid-row: 1 / 2`
 
 ```text
 grid line 1
@@ -642,21 +508,9 @@ grid line 1
 grid line 2
 ```
 
-O item ocupa:
+1 row.
 
-```text
-1 row
-```
-
----
-
-# 15. Entendendo `1 / 3`
-
-```css
-grid-row: 1 / 3;
-```
-
-Resultado:
+### `grid-row: 1 / 3`
 
 ```text
 grid line 1
@@ -668,27 +522,9 @@ grid line 1
 grid line 3
 ```
 
-O item ocupa:
+2 rows (`3 − 1`).
 
-```text
-2 rows
-```
-
-Porque:
-
-```text
-3 - 1 = 2
-```
-
----
-
-# 16. Entendendo `1 / 4`
-
-```css
-grid-row: 1 / 4;
-```
-
-Resultado:
+### `grid-row: 1 / 4`
 
 ```text
 grid line 1
@@ -702,88 +538,33 @@ grid line 1
 grid line 4
 ```
 
-O item ocupa:
+3 rows (`4 − 1`).
 
-```text
-3 rows
-```
-
-Porque:
-
-```text
-4 - 1 = 3
-```
-
----
-
-# 17. Regra mental para números
-
-Quando estivermos utilizando grid lines numéricas:
-
-```text
-quantidade de rows =
-linha final - linha inicial
-```
-
-Exemplos:
+### Resumo
 
 ```text
 1 / 2 = 1 row
-
 1 / 3 = 2 rows
-
 1 / 4 = 3 rows
-
 2 / 5 = 3 rows
-
 3 / 6 = 3 rows
 ```
 
-Essa conta é extremamente útil para interpretar rapidamente uma declaração.
-
 ---
 
-# 18. A ideia do `span`
+## 14. A ideia do `span`
 
-A palavra:
-
-```css
-span
-```
-
-indica uma quantidade de tracks que o item deve ocupar.
-
-Em:
-
-```css
-grid-row
-```
-
-essa quantidade corresponde a:
-
-```text
-row tracks
-```
-
-Exemplo:
+`span` indica uma **quantidade de tracks** que o item deve ocupar. Em `grid-row`, são row tracks:
 
 ```css
 grid-row: span 3;
 ```
 
-significa:
-
 ```text
 ocupe 3 row tracks
 ```
 
-Não significa:
-
-```text
-"ocupe 3 grid lines"
-```
-
-A diferença é:
+Não significa "ocupe 3 grid lines".
 
 ```text
 grid line
@@ -797,9 +578,7 @@ quantidade de tracks atravessadas
 
 ---
 
-# 19. `grid-row: 1 / span 3`
-
-Considere:
+## 15. `grid-row: 1 / span 3`
 
 ```css
 .item {
@@ -807,15 +586,11 @@ Considere:
 }
 ```
 
-Leia assim:
-
 ```text
 comece na grid line 1
 +
 ocupe 3 rows
 ```
-
-Visualmente:
 
 ```text
 grid line 1
@@ -830,8 +605,6 @@ grid line 1
 grid line 4
 ```
 
-Portanto:
-
 ```text
 START = 1
 SPAN  = 3
@@ -840,9 +613,7 @@ END   = 4
 
 ---
 
-# 20. `grid-row: 2 / span 3`
-
-Agora:
+## 16. `grid-row: 2 / span 3`
 
 ```css
 .item {
@@ -850,14 +621,10 @@ Agora:
 }
 ```
 
-Temos:
-
 ```text
 START = 2
 SPAN  = 3
 ```
-
-O Grid precisa atravessar:
 
 ```text
 2 → 3
@@ -865,13 +632,7 @@ O Grid precisa atravessar:
 4 → 5
 ```
 
-Logo:
-
-```text
-END = 5
-```
-
-Visualmente:
+Logo, `END = 5`.
 
 ```text
 grid line 1
@@ -890,21 +651,17 @@ grid line 5
 
 ---
 
-# 21. `2 / 5` versus `2 / span 3`
-
-Estas duas declarações podem produzir a mesma área:
+## 17. `2 / 5` versus `2 / span 3`
 
 ```css
 grid-row: 2 / 5;
 ```
 
-e:
-
 ```css
 grid-row: 2 / span 3;
 ```
 
-Porque:
+Ambas produzem a mesma área:
 
 ```text
 2 → 3 = 1 row
@@ -914,39 +671,21 @@ Porque:
 total = 3 rows
 ```
 
-Mas a intenção é expressada de maneira diferente.
-
-## `2 / 5`
+Mas a intenção é diferente:
 
 ```text
-COMECE NA LINHA 2
-TERMINE NA LINHA 5
+2 / 5
+→ COMECE NA LINHA 2 e TERMINE NA LINHA 5
+
+2 / span 3
+→ COMECE NA LINHA 2 e OCUPE 3 ROWS
 ```
 
-## `2 / span 3`
-
-```text
-COMECE NA LINHA 2
-OCUPE 3 ROWS
-```
-
-Essa diferença é importante quando queremos pensar no layout como:
-
-```text
-posição + tamanho
-```
-
-em vez de somente:
-
-```text
-posição inicial + posição final
-```
+Em outras palavras: `2 / 5` expressa posição inicial + posição final, enquanto `2 / span 3` expressa posição inicial + tamanho.
 
 ---
 
-# 22. `grid-row: span 2`
-
-Também podemos utilizar:
+## 18. `grid-row: span 2`
 
 ```css
 .item {
@@ -954,17 +693,11 @@ Também podemos utilizar:
 }
 ```
 
-Aqui estamos dizendo principalmente:
-
 ```text
 ocupe 2 row tracks
 ```
 
-Sem informar explicitamente uma linha inicial.
-
-Quando o item participa do auto-placement, a posição inicial pode ser resolvida pelo algoritmo de posicionamento automático.
-
-Mentalmente:
+Sem linha inicial informada, a posição de partida é resolvida pelo auto-placement:
 
 ```text
 posição inicial → automática
@@ -973,17 +706,9 @@ tamanho         → 2 rows
 
 ---
 
-# 23. `grid-row-start`
+## 19. `grid-row-start`
 
-A propriedade:
-
-```css
-grid-row-start
-```
-
-define a posição inicial do grid item no eixo das rows.
-
-Exemplo:
+`grid-row-start` define a linha inicial do item no eixo das rows.
 
 ```css
 .item {
@@ -991,13 +716,9 @@ Exemplo:
 }
 ```
 
-Interpretação:
-
 ```text
 START = grid line 2
 ```
-
-Visualmente:
 
 ```text
 grid line 1
@@ -1014,17 +735,9 @@ grid line 3
 
 ---
 
-# 24. `grid-row-end`
+## 20. `grid-row-end`
 
-A propriedade:
-
-```css
-grid-row-end
-```
-
-define a posição final do item no eixo das rows.
-
-Exemplo:
+`grid-row-end` define a linha final do item no eixo das rows.
 
 ```css
 .item {
@@ -1032,13 +745,11 @@ Exemplo:
 }
 ```
 
-Interpretação:
-
 ```text
 END = grid line 4
 ```
 
-Podemos utilizar as duas propriedades:
+Juntas:
 
 ```css
 .item {
@@ -1047,7 +758,7 @@ Podemos utilizar as duas propriedades:
 }
 ```
 
-que equivale a:
+equivalem a:
 
 ```css
 .item {
@@ -1055,42 +766,13 @@ que equivale a:
 }
 ```
 
----
-
-# 25. Por que `grid-row-start` e `grid-row-end` são importantes?
-
-Porque `grid-row` não é uma propriedade isolada.
-
-Ela resume duas propriedades:
-
-```text
-grid-row
-│
-├── grid-row-start
-│
-└── grid-row-end
-```
-
-Isso significa que, quando você aprende:
-
-```css
-grid-row: 2 / 5;
-```
-
-está, ao mesmo tempo, aprendendo:
-
-```css
-grid-row-start: 2;
-grid-row-end: 5;
-```
+`grid-row` não é uma propriedade isolada: ela resume essas duas.
 
 ---
 
-# 26. Linhas positivas
+## 21. Linhas positivas
 
-As grid lines são numeradas a partir do lado inicial do Grid.
-
-Exemplo com três rows:
+As grid lines são numeradas a partir do início do eixo das rows.
 
 ```text
 grid line 1
@@ -1114,8 +796,6 @@ grid line 3
 grid line 4
 ```
 
-Portanto:
-
 ```text
 1 → início
 2 → próxima linha
@@ -1125,35 +805,16 @@ Portanto:
 
 ---
 
-# 27. Linhas negativas
+## 22. Linhas negativas
 
-Também podemos contar grid lines a partir da extremidade final do grid explícito.
-
-Exemplo:
+Também é possível contar a partir da extremidade final do **grid explícito**:
 
 ```text
-1
-│
-2
-│
-3
-│
-4
+1  ──────  -4
+2  ──────  -3
+3  ──────  -2
+4  ──────  -1
 ```
-
-Com a numeração negativa:
-
-```text
--4
-│
--3
-│
--2
-│
--1
-```
-
-Assim:
 
 ```text
 grid line 4 = -1
@@ -1162,25 +823,9 @@ grid line 2 = -3
 grid line 1 = -4
 ```
 
-Exemplo:
-
-```css
-grid-row: 1 / -1;
-```
-
-significa:
-
-```text
-primeira grid line
-até
-última grid line do grid explícito
-```
-
 ---
 
-# 28. `grid-row: 1 / -1`
-
-Considere:
+## 23. `grid-row: 1 / -1`
 
 ```css
 .item {
@@ -1188,14 +833,10 @@ Considere:
 }
 ```
 
-Podemos interpretar:
-
 ```text
 START = primeira grid line
 END   = última grid line do grid explícito
 ```
-
-Visualmente:
 
 ```text
 grid line 1
@@ -1211,84 +852,49 @@ grid line 1
                      -1
 ```
 
-Esse padrão é muito útil quando um item deve atravessar todas as rows explícitas.
+Esse padrão é útil quando um item deve atravessar todas as rows explícitas.
 
 ---
 
-# 29. Por que `-1` é útil?
-
-Imagine:
+## 24. Por que `-1` é útil?
 
 ```css
-grid-template-rows:
-  repeat(3, 100px);
+grid-template-rows: repeat(3, 100px);
 ```
-
-Temos:
 
 ```text
 3 rows
 4 grid lines
 ```
 
-Se escrevemos:
+`grid-row: 1 / 4` funciona. Mas, se o Grid mudar para:
 
 ```css
-grid-row: 1 / 4;
+grid-template-rows: repeat(6, 100px);
 ```
-
-funciona.
-
-Mas depois podemos alterar para:
-
-```css
-grid-template-rows:
-  repeat(6, 100px);
-```
-
-Agora temos:
 
 ```text
 6 rows
 7 grid lines
 ```
 
-Se mantivermos:
-
-```css
-grid-row: 1 / 4;
-```
-
-o item não ocupará mais todo o Grid.
-
-Porém:
+`grid-row: 1 / 4` já não ocupa todo o Grid. Já:
 
 ```css
 grid-row: 1 / -1;
 ```
 
-continua representando:
-
-```text
-primeira linha
-até
-última linha do grid explícito
-```
+continua representando "da primeira linha até a última linha do grid explícito".
 
 ---
 
-# 30. Grid explícito
-
-Quando definimos:
+## 25. Grid explícito
 
 ```css
-grid-template-rows:
-  repeat(3, 100px);
+grid-template-rows: repeat(3, 100px);
 ```
 
-estamos criando explicitamente três row tracks.
-
-Visualmente:
+cria explicitamente três row tracks:
 
 ```text
 grid line 1
@@ -1306,47 +912,22 @@ ROW 3
 grid line 4
 ```
 
-Essas rows fazem parte do:
-
-```text
-GRID EXPLÍCITO
-```
+Essas rows fazem parte do **grid explícito**.
 
 ---
 
-# 31. Grid implícito
+## 26. Grid implícito
 
-O CSS Grid também pode criar rows que não foram declaradas diretamente.
-
-Essas são as:
-
-```text
-ROWS IMPLÍCITAS
-```
-
-Imagine:
+O Grid também cria rows que não foram declaradas diretamente: as **rows implícitas**.
 
 ```css
 .grid {
   display: grid;
-
-  grid-template-rows:
-    100px
-    100px;
+  grid-template-rows: 100px 100px;
 }
 ```
 
-Você definiu:
-
-```text
-2 rows explícitas
-```
-
-Mas determinado posicionamento pode exigir mais espaço.
-
-O navegador pode então criar uma row implícita.
-
-Visualmente:
+São 2 rows explícitas. Se algum posicionamento exigir mais espaço, o navegador cria uma row implícita:
 
 ```text
 ROWS EXPLÍCITAS
@@ -1374,16 +955,12 @@ necessidade de mais espaço
 
 ---
 
-# 32. Como `grid-row` pode levar à criação de rows implícitas
-
-Considere:
+## 27. Como `grid-row` pode levar à criação de rows implícitas
 
 ```css
 .grid {
   display: grid;
-
-  grid-template-rows:
-    repeat(2, 100px);
+  grid-template-rows: repeat(2, 100px);
 }
 
 .item {
@@ -1391,33 +968,21 @@ Considere:
 }
 ```
 
-O item começa na grid line 2 e precisa ocupar:
+O item ocupa as rows:
 
 ```text
-3 rows
+2 → 3   (ROW 2, explícita)
+3 → 4   (ROW 3, implícita)
+4 → 5   (ROW 4, implícita)
 ```
 
-O intervalo será:
-
-```text
-2 → 3
-3 → 4
-4 → 5
-```
-
-Portanto, ele precisa alcançar uma região além das duas rows inicialmente definidas.
-
-O Grid pode criar rows implícitas para acomodar a colocação.
-
-Mentalmente:
+Como o grid explícito termina na linha 3, o Grid cria duas rows implícitas.
 
 ```text
 GRID EXPLÍCITO
     ↓
 não é suficiente
-
-        ↓
-
+    ↓
 GRID IMPLÍCITO
     ↓
 novas tracks são criadas
@@ -1425,43 +990,22 @@ novas tracks são criadas
 
 ---
 
-# 33. `grid-auto-rows`
+## 28. `grid-auto-rows`
 
-Quando rows implícitas são criadas, seu tamanho pode ser controlado por:
-
-```css
-grid-auto-rows
-```
-
-Exemplo:
+O tamanho das rows implícitas é controlado por `grid-auto-rows`:
 
 ```css
 .grid {
   display: grid;
-
-  grid-template-rows:
-    100px
-    100px;
-
+  grid-template-rows: 100px 100px;
   grid-auto-rows: 50px;
 }
 ```
 
-Temos:
-
 ```text
-rows explícitas:
-100px
-100px
-
-rows implícitas:
-50px
-50px
-50px
-...
+rows explícitas:  100px, 100px
+rows implícitas:  50px, 50px, 50px, ...
 ```
-
-Podemos visualizar:
 
 ```text
 ┌────────────────────┐
@@ -1477,21 +1021,9 @@ Podemos visualizar:
 
 ---
 
-# 34. O que acontece se `grid-auto-rows` não for definido?
+## 29. E se `grid-auto-rows` não for definido?
 
-Se não definirmos:
-
-```css
-grid-auto-rows
-```
-
-as rows implícitas não recebem automaticamente um tamanho fixo escolhido por nós.
-
-Seu tamanho será determinado pelas regras de dimensionamento automático do Grid e pelo conteúdo.
-
-Por isso, dependendo do cenário, uma row implícita pode parecer muito pequena.
-
-O ponto importante é:
+O valor inicial de `grid-auto-rows` é `auto`: as rows implícitas se ajustam ao conteúdo. Se a row implícita estiver vazia, ela pode ficar com altura zero e parecer inexistente.
 
 ```text
 grid-template-rows
@@ -1505,19 +1037,13 @@ controla rows implícitas
 
 ---
 
-# 35. Exemplo completo com rows implícitas
+## 30. Exemplo completo com rows implícitas
 
 ```css
 .grid {
   display: grid;
-
-  grid-template-columns:
-    repeat(3, 1fr);
-
-  grid-template-rows:
-    100px
-    100px;
-
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 100px 100px;
   grid-auto-rows: 50px;
 }
 
@@ -1526,82 +1052,49 @@ controla rows implícitas
 }
 ```
 
-O item precisa atravessar:
+O item ocupa as rows:
 
 ```text
-2 → 3
-3 → 4
-4 → 5
-5 → 6
+2 → 3   (ROW 2, explícita, 100px)
+3 → 4   (ROW 3, implícita, 50px)
+4 → 5   (ROW 4, implícita, 50px)
+5 → 6   (ROW 5, implícita, 50px)
 ```
 
-Se as linhas 5 e 6 exigirem tracks ainda não definidas no grid explícito, o Grid poderá criar tracks implícitas para satisfazer o posicionamento.
-
-Essas tracks poderão usar:
-
-```css
-grid-auto-rows: 50px;
-```
+O grid explícito tem duas rows. As rows 3, 4 e 5 são criadas implicitamente e recebem `50px` de `grid-auto-rows`.
 
 ---
 
-# 36. Linhas nomeadas
+## 31. Linhas nomeadas
 
-Não precisamos utilizar somente números.
-
-Podemos nomear grid lines.
-
-Exemplo:
+Grid lines podem receber nomes entre colchetes. O nome vem **antes** da track cuja linha inicial ele identifica:
 
 ```css
 .grid {
   display: grid;
-
   grid-template-rows:
     [inicio] 100px
     [meio] 100px
-    [fim] 100px;
+    [fim] 100px
+    [final];
 }
 ```
 
-Agora temos:
-
 ```text
-[inicio]
-    │
-    ├───────────────
-          ROW
-    ├───────────────
-    │
-[meio]
-    │
-    ├───────────────
-          ROW
-    ├───────────────
-    │
-[fim]
-    │
-    ├───────────────
-          ROW
-    ├───────────────
-    │
+[inicio]   → linha 1
+   ├── ROW 1 ──┤
+[meio]     → linha 2
+   ├── ROW 2 ──┤
+[fim]      → linha 3
+   ├── ROW 3 ──┤
+[final]    → linha 4
 ```
 
 Esses nomes podem ser usados nas propriedades de posicionamento.
 
 ---
 
-# 37. Utilizando uma linha nomeada
-
-Em vez de:
-
-```css
-.item {
-  grid-row: 1 / 3;
-}
-```
-
-podemos ter:
+## 32. Utilizando uma linha nomeada
 
 ```css
 .item {
@@ -1609,120 +1102,78 @@ podemos ter:
 }
 ```
 
-A intenção fica mais descritiva:
+equivale a:
 
-```text
-inicio
-   ↓
-primeira referência
-
-fim
-   ↓
-segunda referência
+```css
+.item {
+  grid-row: 1 / 3;
+}
 ```
 
-Em layouts grandes, nomes podem facilitar a leitura do código.
+O item ocupa 2 rows. Para ocupar as três, use `inicio / final`, que equivale a `1 / 4`.
+
+Em layouts grandes, nomes facilitam a leitura do código.
 
 ---
 
-# 38. `grid-row-start` com nome
-
-Podemos escrever:
+## 33. Nomes em `grid-row-start` e `grid-row-end`
 
 ```css
 .item {
   grid-row-start: inicio;
-}
-```
-
-O significado é:
-
-```text
-começar na grid line associada ao nome "inicio"
-```
-
-A especificação de posicionamento permite usar um `<custom-ident>` para procurar linhas nomeadas.
-
-Quando esse nome corresponde a uma área nomeada, o Grid pode resolver automaticamente a linha `nome-start`.
-
----
-
-# 39. `grid-row-end` com nome
-
-Da mesma maneira:
-
-```css
-.item {
   grid-row-end: fim;
 }
 ```
 
-indica uma linha nomeada para a extremidade final.
-
-Se existir uma linha com:
+Ao receber um nome (`<custom-ident>`), o Grid procura uma linha com esse nome. Se não existir, procura uma linha de área nomeada:
 
 ```text
-fim-end
+grid-row-start: nome  →  linha "nome"  ou  "nome-start"
+grid-row-end:   nome  →  linha "nome"  ou  "nome-end"
 ```
-
-ela pode ser utilizada conforme as regras de resolução de nomes do Grid.
 
 ---
 
-# 40. Linhas com múltiplos nomes
+## 34. Linhas com múltiplos nomes
 
-Uma mesma grid line pode receber vários nomes.
-
-Exemplo:
+Uma mesma grid line pode receber vários nomes:
 
 ```css
 .grid {
   display: grid;
-
   grid-template-rows:
-    [header-end main-start] 100px
-    [main-end] 1fr;
+    [header-start] 100px
+    [header-end main-start] 1fr
+    [main-end];
 }
 ```
 
-A linha pode ser identificada por:
-
 ```text
-header-end
+[header-start]
+      │
+      ├──── 100px ────┤
+[header-end main-start]
+      │
+      ├───── 1fr ─────┤
+[main-end]
 ```
 
-e também:
-
-```text
-main-start
-```
-
-Isso permite representar diferentes significados estruturais para a mesma linha.
+A linha do meio pode ser chamada de `header-end` ou de `main-start`: ela é, ao mesmo tempo, o fim do header e o início do conteúdo principal.
 
 ---
 
-# 41. Nomes repetidos
+## 35. Nomes repetidos
 
-Também podemos ter várias linhas com o mesmo nome.
-
-Exemplo:
+Várias linhas podem ter o mesmo nome:
 
 ```css
 .grid {
   display: grid;
-
-  grid-template-rows:
-    repeat(4, [row-start] 100px);
+  grid-template-rows: repeat(4, [row-start] 100px);
 }
 ```
 
-Agora existem várias linhas chamadas:
-
-```text
-row-start
-```
-
-Podemos especificar uma ocorrência:
+Para escolher uma ocorrência, informe o número depois do nome:
 
 ```css
 .item {
@@ -1730,40 +1181,27 @@ Podemos especificar uma ocorrência:
 }
 ```
 
-A ideia é:
-
 ```text
 nome da linha
 +
 número da ocorrência
 ```
 
-Isso é útil quando a mesma nomenclatura se repete ao longo de um Grid.
+Aqui o item vai da 2ª linha chamada `row-start` (linha 2) até a 4ª (linha 4): 2 rows.
 
 ---
 
-# 42. `grid-template-areas`
-
-Outra forma de nomear a estrutura do Grid é:
-
-```css
-grid-template-areas
-```
-
-Exemplo:
+## 36. `grid-template-areas`
 
 ```css
 .grid {
   display: grid;
-
   grid-template-areas:
     "header"
     "content"
     "footer";
 }
 ```
-
-Visualmente:
 
 ```text
 ┌────────────────────┐
@@ -1775,26 +1213,13 @@ Visualmente:
 └────────────────────┘
 ```
 
-As áreas nomeadas podem ser utilizadas pelas propriedades de posicionamento do Grid.
+As áreas nomeadas podem ser usadas nas propriedades de posicionamento.
 
 ---
 
-# 43. Áreas nomeadas geram linhas nomeadas
+## 37. Áreas nomeadas geram linhas nomeadas
 
-Quando uma área recebe o nome:
-
-```text
-header
-```
-
-o Grid possui linhas associadas às bordas dessa área, como:
-
-```text
-header-start
-header-end
-```
-
-No eixo das rows:
+Uma área chamada `header` gera automaticamente as linhas nomeadas `header-start` e `header-end`:
 
 ```text
 header-start
@@ -1806,24 +1231,11 @@ header-start
 header-end
 ```
 
-O mesmo princípio pode ocorrer para:
-
-```text
-content
-footer
-sidebar
-nav
-```
-
-e outros nomes definidos pelo autor.
+O mesmo vale para `content`, `footer`, `sidebar` e qualquer outro nome de área.
 
 ---
 
-# 44. Utilizando uma área com `grid-row`
-
-Podemos aproveitar essas linhas nomeadas.
-
-Exemplo:
+## 38. Utilizando uma área com `grid-row`
 
 ```css
 .item {
@@ -1831,23 +1243,17 @@ Exemplo:
 }
 ```
 
-Isso significa:
-
 ```text
-começar na linha que delimita o início da área content
+começa na linha que delimita o início da área content
 +
-terminar na linha que delimita o fim da área content
+termina na linha que delimita o fim da área content
 ```
-
-Dessa maneira, o nome da estrutura pode ser mais legível do que utilizar somente números.
 
 ---
 
-# 45. `grid-row: footer`
+## 39. `grid-row: footer`
 
-Aqui precisamos de uma precisão importante.
-
-Quando escrevemos:
+Quando `grid-row` recebe um único **nome** (e não um número), a linha final copia o mesmo nome:
 
 ```css
 .item {
@@ -1855,32 +1261,15 @@ Quando escrevemos:
 }
 ```
 
-não devemos simplesmente memorizar:
-
-```text
-"footer = ocupe toda a área footer"
-```
-
-O comportamento técnico de `grid-row` trata esse valor como um `<custom-ident>` usado no posicionamento baseado em linhas.
-
-No contexto de áreas nomeadas, os nomes:
-
-```text
-footer-start
-footer-end
-```
-
-são relevantes para determinar as bordas dessa área.
-
-Quando a intenção é deixar explícito que queremos a área completa, a forma mais direta geralmente é:
+equivale a:
 
 ```css
 .item {
-  grid-area: footer;
+  grid-row: footer / footer;
 }
 ```
 
-Enquanto:
+Se `footer` for uma área nomeada, o Grid resolve esses nomes para `footer-start` e `footer-end`. O item ocupa, portanto, as rows da área `footer`:
 
 ```css
 .item {
@@ -1888,27 +1277,22 @@ Enquanto:
 }
 ```
 
-deixa claro que estamos trabalhando especificamente com as duas linhas horizontais que delimitam `footer`.
+```text
+número sozinho   → grid-row: 2       →  2 / auto
+nome sozinho     → grid-row: footer   →  footer / footer
+```
+
+Se a intenção é posicionar o item na área completa, nos dois eixos, a forma mais direta é `grid-area: footer`.
 
 ---
 
-# 46. `grid-area` e `grid-row`
-
-É importante não confundir:
+## 40. `grid-area` e `grid-row`
 
 ```css
 grid-area
 ```
 
-com:
-
-```css
-grid-row
-```
-
-`grid-area` pode definir uma área inteira.
-
-Sua ordem completa de valores é:
+pode definir uma área inteira. A ordem dos valores do shorthand é:
 
 ```text
 grid-row-start
@@ -1917,25 +1301,12 @@ grid-row-end
 grid-column-end
 ```
 
-Enquanto:
-
-```css
-grid-row
-```
-
-controla somente:
-
-```text
-grid-row-start
-grid-row-end
-```
-
-Portanto:
+Já `grid-row` controla somente `grid-row-start` e `grid-row-end`:
 
 ```text
 grid-area
 ↓
-linha + coluna
+rows + colunas
 
 grid-row
 ↓
@@ -1944,13 +1315,9 @@ rows
 
 ---
 
-# 47. Auto-placement
+## 41. Auto-placement
 
-Nem todos os itens precisam receber uma posição manual.
-
-Quando não há posicionamento explícito suficiente, o Grid pode utilizar o algoritmo de **auto-placement**.
-
-Exemplo:
+Nem todos os itens precisam de posição manual. Sem posicionamento explícito suficiente, o Grid usa o algoritmo de **auto-placement**.
 
 ```html
 <div class="grid">
@@ -1966,18 +1333,10 @@ Exemplo:
 ```css
 .grid {
   display: grid;
-
-  grid-template-columns:
-    repeat(3, 1fr);
-
-  grid-template-rows:
-    repeat(2, 100px);
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 100px);
 }
 ```
-
-O navegador posiciona automaticamente os itens.
-
-Visualmente:
 
 ```text
 ┌─────┬─────┬─────┐
@@ -1989,31 +1348,21 @@ Visualmente:
 
 ---
 
-# 48. `grid-auto-flow`
+## 42. `grid-auto-flow`
 
-O comportamento de auto-placement é influenciado por:
-
-```css
-grid-auto-flow
-```
-
-O valor inicial é:
+O auto-placement é influenciado por `grid-auto-flow`. O valor inicial é:
 
 ```css
 grid-auto-flow: row;
 ```
 
-No comportamento mais comum, o algoritmo procura preencher o Grid seguindo as rows.
-
-Podemos imaginar:
+O algoritmo preenche o Grid seguindo as rows:
 
 ```text
 → → →
 → → →
 → → →
 ```
-
-Ou seja:
 
 ```text
 primeira row
@@ -2025,139 +1374,7 @@ terceira row
 
 ---
 
-# 49. O que acontece quando movemos um item?
-
-Imagine:
-
-```css
-.item-1 {
-  grid-row: 2;
-}
-```
-
-Agora o item 1 foi colocado explicitamente em uma row diferente.
-
-Os outros itens, que continuam sem posicionamento explícito completo, precisam ser processados pelo auto-placement.
-
-Por isso:
-
-```text
-alterar um item
-       ↓
-pode alterar a disposição dos demais
-```
-
-O Grid não está simplesmente "movendo somente aquele item".
-
-Ele está executando novamente as regras de colocação necessárias para organizar todo o conjunto.
-
----
-
-# 50. Espaços vazios
-
-Podemos encontrar situações como:
-
-```text
-┌───────┬───────┬───────┐
-│       │   1   │       │
-├───────┼───────┼───────┤
-│   2   │   3   │   4   │
-└───────┴───────┴───────┘
-```
-
-O espaço vazio não significa necessariamente erro.
-
-Ele pode existir porque:
-
-```text
-um item foi posicionado explicitamente
-+
-os demais seguiram o auto-placement
-```
-
-A partir disso, o preenchimento natural pode deixar lacunas.
-
----
-
-# 51. `grid-auto-flow: dense`
-
-Podemos utilizar:
-
-```css
-.grid {
-  grid-auto-flow: dense;
-}
-```
-
-O valor:
-
-```text
-dense
-```
-
-faz o algoritmo de auto-placement tentar preencher espaços anteriores que ficaram disponíveis, quando um item posterior couber naquela posição.
-
-Conceitualmente:
-
-```text
-SEM dense
-
-┌───────┬───────┬───────┐
-│   1   │   2   │       │
-├───────┼───────┼───────┤
-│   3   │       │       │
-└───────┴───────┴───────┘
-```
-
-Com uma disposição compatível:
-
-```text
-COM dense
-
-┌───────┬───────┬───────┐
-│   1   │   2   │   4   │
-├───────┼───────┼───────┤
-│   3   │       │       │
-└───────┴───────┴───────┘
-```
-
-O objetivo é:
-
-```text
-aproveitar melhor os espaços
-```
-
----
-
-# 52. `dense` não ignora posicionamento explícito
-
-Uma interpretação incorreta seria:
-
-```text
-dense
-↓
-"o navegador pode ignorar minhas posições"
-```
-
-Não é isso.
-
-O `dense` influencia o algoritmo de **auto-placement** dos itens que ainda precisam ser posicionados automaticamente.
-
-Podemos pensar:
-
-```text
-posição explícita
-      ↓
-continua sendo respeitada
-
-auto-placement
-      ↓
-pode procurar lacunas anteriores
-```
-
----
-
-# 53. Exemplo: `grid-row` com três columns
+## 43. O que acontece quando movemos um item?
 
 ```html
 <div class="grid">
@@ -2171,12 +1388,8 @@ pode procurar lacunas anteriores
 ```css
 .grid {
   display: grid;
-
-  grid-template-columns:
-    repeat(3, 1fr);
-
-  grid-template-rows:
-    repeat(3, 100px);
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 100px);
 }
 
 .item-1 {
@@ -2184,13 +1397,116 @@ pode procurar lacunas anteriores
 }
 ```
 
-O item 1 começa na segunda row.
+O item 1 tem a row definida (2) e a coluna automática, então ocupa a primeira coluna livre da row 2. Os demais seguem o auto-placement a partir do início do Grid:
 
-A posição das colunas continua sendo tratada pelo posicionamento das colunas e pelo auto-placement.
+```text
+┌─────┬─────┬─────┐
+│  2  │  3  │  4  │
+├─────┼─────┼─────┤
+│  1  │     │     │
+├─────┼─────┼─────┤
+│     │     │     │
+└─────┴─────┴─────┘
+```
+
+```text
+alterar um item
+       ↓
+pode alterar a disposição dos demais
+```
+
+O Grid não move apenas aquele item: ele reaplica as regras de colocação ao conjunto.
 
 ---
 
-# 54. Exemplo: item ocupando várias rows
+## 44. Espaços vazios
+
+Posicionamentos explícitos ou itens maiores podem deixar lacunas. Exemplo com 3 colunas, em que o item 3 ocupa duas colunas:
+
+```css
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.item-3 {
+  grid-column: span 2;
+}
+```
+
+Os itens 1 e 2 ocupam as duas primeiras colunas da row 1. O item 3 precisa de duas colunas e não cabe na coluna restante, então vai para a row 2:
+
+```text
+┌───────┬───────┬───────┐
+│   1   │   2   │       │  ← lacuna
+├───────┴───────┼───────┤
+│       3       │   4   │
+└───────────────┴───────┘
+```
+
+A lacuna não é erro: é consequência do auto-placement.
+
+---
+
+## 45. `grid-auto-flow: dense`
+
+```css
+.grid {
+  grid-auto-flow: dense;
+}
+```
+
+Com `dense`, o algoritmo procura lacunas anteriores e as preenche com itens posteriores que couberem. No exemplo anterior, o item 4 volta e ocupa a lacuna:
+
+```text
+┌───────┬───────┬───────┐
+│   1   │   2   │   4   │
+├───────┴───────┼───────┤
+│       3       │       │
+└───────────────┴───────┘
+```
+
+> **⚠️ Atenção**
+>
+> Com `dense`, a ordem visual deixa de acompanhar a ordem do HTML (o item 4 aparece antes do 3). Isso pode atrapalhar a navegação por teclado e leitores de tela.
+
+---
+
+## 46. `dense` não ignora posicionamento explícito
+
+```text
+dense
+↓
+"o navegador pode ignorar minhas posições"   ← interpretação errada
+```
+
+O `dense` influencia apenas os itens que ainda precisam de auto-placement.
+
+```text
+posição explícita
+      ↓
+continua sendo respeitada
+
+auto-placement
+      ↓
+pode procurar lacunas anteriores
+```
+
+---
+
+## 47. Exemplos com três colunas
+
+Todos os exemplos abaixo usam:
+
+```css
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 100px);
+}
+```
+
+### Item ocupando várias rows
 
 ```css
 .item-1 {
@@ -2198,30 +1514,22 @@ A posição das colunas continua sendo tratada pelo posicionamento das colunas e
 }
 ```
 
-Visualmente:
-
 ```text
 ┌──────────┬──────────┬──────────┐
 │  ITEM 1  │          │          │
 │          │          │          │
-├──────────┼──────────┼──────────┤
+├──────────┤          │          │
 │  ITEM 1  │          │          │
 │          │          │          │
-├──────────┼──────────┼──────────┤
+├──────────┤          │          │
 │  ITEM 1  │          │          │
 │          │          │          │
 └──────────┴──────────┴──────────┘
 ```
 
-O item ocupa:
+O item ocupa 3 rows. Na imagem acima, os demais itens (omitidos por clareza) ocupariam as outras colunas.
 
-```text
-3 rows
-```
-
----
-
-# 55. Exemplo: `span`
+### Equivalente com `span`
 
 ```css
 .item-1 {
@@ -2229,33 +1537,21 @@ O item ocupa:
 }
 ```
 
-Podemos ler:
-
 ```text
 comece na grid line 1
 +
 ocupe 3 rows
 ```
 
-Resultado equivalente neste exemplo:
+Neste exemplo, é equivalente a `grid-row: 1 / 4`.
 
-```css
-.item-1 {
-  grid-row: 1 / 4;
-}
-```
-
----
-
-# 56. Exemplo: iniciar depois e expandir
+### Iniciar depois e expandir
 
 ```css
 .item-1 {
   grid-row: 2 / span 3;
 }
 ```
-
-Visualização:
 
 ```text
 grid line 1
@@ -2264,26 +1560,24 @@ grid line 1
 grid line 2
      ┌───────────────┐
      │     ITEM      │
-     │     ROW 1     │
-     ├───────────────┤
      │     ROW 2     │
      ├───────────────┤
      │     ROW 3     │
+     ├───────────────┤
+     │     ROW 4     │
      └───────────────┘
 grid line 5
 ```
 
----
+Como o grid explícito tem 3 rows, a row 4 é criada implicitamente.
 
-# 57. Exemplo: ocupar toda a estrutura explícita
+### Ocupar toda a estrutura explícita
 
 ```css
 .item {
   grid-row: 1 / -1;
 }
 ```
-
-Visualmente:
 
 ```text
 ┌─────────────────────────┐
@@ -2292,11 +1586,8 @@ Visualmente:
 │          ITEM           │
 │                         │
 │                         │
-│                         │
 └─────────────────────────┘
 ```
-
-Esse padrão significa:
 
 ```text
 primeira grid line
@@ -2308,44 +1599,31 @@ todas as rows explícitas
 
 ---
 
-# 58. Exemplo com `grid-template-rows`
+## 48. Exemplo com `grid-template-rows`
 
 ```css
 .grid {
   display: grid;
-
-  grid-template-columns:
-    repeat(3, 1fr);
-
-  grid-template-rows:
-    100px
-    150px
-    200px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 100px 150px 200px;
 }
 ```
-
-Temos:
 
 ```text
 grid line 1
 ──────────────
-ROW 1
-100px
+ROW 1 (100px)
 ──────────────
 grid line 2
 ──────────────
-ROW 2
-150px
+ROW 2 (150px)
 ──────────────
 grid line 3
 ──────────────
-ROW 3
-200px
+ROW 3 (200px)
 ──────────────
 grid line 4
 ```
-
-Se fizermos:
 
 ```css
 .item {
@@ -2353,27 +1631,17 @@ Se fizermos:
 }
 ```
 
-o item atravessará as três rows, independentemente do fato de elas possuírem alturas diferentes.
+O item atravessa as três rows, independentemente de elas terem alturas diferentes (450px no total, mais os gaps, se existirem).
 
 ---
 
-# 59. `grid-row` define posição e extensão
-
-Esse é um ponto importante.
-
-Ao escrever:
+## 49. `grid-row` define posição e extensão
 
 ```css
 grid-row: 2 / 5;
 ```
 
-não estamos apenas dizendo:
-
-```text
-"coloque o item na row 2"
-```
-
-Estamos definindo:
+não diz apenas "coloque o item na row 2". Define:
 
 ```text
 onde começa
@@ -2389,104 +1657,41 @@ posição
 extensão
 ```
 
-O resultado será uma área composta por várias row tracks.
+O resultado é uma área composta por várias row tracks.
+
+```text
+2 / 5       → posição inicial + posição final
+2 / span 3  → posição inicial + tamanho
+```
 
 ---
 
-# 60. `span` como expressão de tamanho
+## 50. Como ler qualquer `grid-row`
 
-Podemos observar uma diferença interessante:
-
-```css
-grid-row: 2 / 5;
-```
-
-expressa:
-
-```text
-posição inicial + posição final
-```
-
-Enquanto:
-
-```css
-grid-row: 2 / span 3;
-```
-
-expressa:
-
-```text
-posição inicial + tamanho
-```
-
-Essa distinção pode parecer pequena, mas ajuda muito quando começamos a construir layouts dinâmicos.
-
----
-
-# 61. Um modelo mental poderoso
-
-Quando encontrar:
-
-```css
-grid-row: A / B;
-```
-
-pense:
-
-```text
-1. Qual é a grid line inicial?
-2. Qual é a grid line final?
-3. Quantas rows existem entre elas?
-```
-
-Exemplo:
+### Com números
 
 ```css
 grid-row: 2 / 6;
 ```
 
-Primeiro:
-
 ```text
-START = 2
+1. START = 2
+2. END   = 6
+3. 6 − 2 = 4
 ```
 
-Depois:
+Resultado: 4 rows.
 
-```text
-END = 6
-```
-
-Depois:
-
-```text
-6 - 2 = 4
-```
-
-Resultado:
-
-```text
-4 rows
-```
-
----
-
-# 62. Modelo mental para `span`
-
-Quando encontrar:
+### Com `span`
 
 ```css
 grid-row: 3 / span 4;
 ```
 
-pense:
-
 ```text
 START = 3
 SPAN  = 4 rows
 ```
-
-Agora percorra:
 
 ```text
 3 → 4
@@ -2495,17 +1700,38 @@ Agora percorra:
 6 → 7
 ```
 
-Então:
+Então `END = 7`.
+
+### Uma imagem para lembrar
 
 ```text
-END = 7
+────────────────────────  ← grid line 1
+        ROW 1
+────────────────────────  ← grid line 2
+        ROW 2
+────────────────────────  ← grid line 3
+        ROW 3
+────────────────────────  ← grid line 4
 ```
+
+`grid-row: 1 / 3` aponta os **limites** da área (linha 1 e linha 3), e não as rows em si:
+
+```text
+linha 1
+   ↓
+┌──────────────┐
+│    ITEM      │
+│              │
+└──────────────┘
+   ↑
+linha 3
+```
+
+Ao ler `grid-row: 2 / 5`, não pense "da segunda até a quinta linha". Pense: começa na grid line 2, atravessa 3 row tracks e termina na grid line 5.
 
 ---
 
-# 63. Modelo mental completo
-
-O raciocínio pode ser:
+## 51. Modelo mental completo
 
 ```text
                     GRID
@@ -2540,50 +1766,7 @@ O raciocínio pode ser:
 
 ---
 
-# 64. Outra forma de pensar
-
-Imagine o Grid como uma parede dividida por linhas horizontais:
-
-```text
-────────────────────────  ← grid line 1
-        ROW 1
-────────────────────────  ← grid line 2
-        ROW 2
-────────────────────────  ← grid line 3
-        ROW 3
-────────────────────────  ← grid line 4
-```
-
-Se você diz:
-
-```css
-grid-row: 1 / 3;
-```
-
-está apontando:
-
-```text
-linha 1
-   ↓
-┌──────────────┐
-│    ITEM      │
-│              │
-└──────────────┘
-   ↑
-linha 3
-```
-
-Não está contando rows diretamente.
-
-Está indicando:
-
-```text
-os limites da área
-```
-
----
-
-# 65. Regra de ouro
+## 52. Regra de ouro
 
 ```text
 ╔══════════════════════════════════════════════╗
@@ -2599,35 +1782,21 @@ os limites da área
 ╚══════════════════════════════════════════════╝
 ```
 
-Portanto:
-
 ```css
 grid-row: 1 / 4;
 ```
 
-pode ser lido como:
-
 ```text
 linha 1
 ↓
-atravesse as rows
+atravesse 3 rows
 ↓
 linha 4
 ```
 
-Resultado:
-
-```text
-3 rows
-```
-
-E:
-
 ```css
 grid-row: 2 / span 3;
 ```
-
-pode ser lido como:
 
 ```text
 comece na linha 2
@@ -2639,9 +1808,7 @@ termine na linha 5
 
 ---
 
-# 66. Diferença entre `grid-row` e `grid-column`
-
-Podemos resumir os dois conceitos:
+## 53. Diferença entre `grid-row` e `grid-column`
 
 ```text
 grid-column
@@ -2653,16 +1820,12 @@ grid-row
 └── trabalha no eixo das rows
 ```
 
-Exemplo:
-
 ```css
 .item {
   grid-column: 2 / 4;
   grid-row: 1 / 3;
 }
 ```
-
-Isso significa:
 
 ```text
 COLUNAS
@@ -2676,8 +1839,6 @@ ROWS
 2 row tracks
 ```
 
-Resultado:
-
 ```text
 ┌───────┬───────┬───────┐
 │       │ ITEM  │ ITEM  │
@@ -2690,21 +1851,7 @@ Resultado:
 
 ---
 
-# 67. Posicionamento bidimensional
-
-Como Grid é bidimensional, podemos combinar:
-
-```css
-grid-column
-```
-
-com:
-
-```css
-grid-row
-```
-
-Por exemplo:
+## 54. Posicionamento bidimensional
 
 ```css
 .card {
@@ -2713,30 +1860,18 @@ Por exemplo:
 }
 ```
 
-Interpretando:
-
 ```text
-horizontal:
-2 → 4
-= 2 columns
-
-vertical:
-2 → 5
-= 3 rows
+horizontal:  2 → 4  =  2 colunas
+vertical:    2 → 5  =  3 rows
 ```
 
-Assim:
-
 ```text
-Área do item =
-2 columns × 3 rows
+Área do item = 2 colunas × 3 rows
 ```
 
 ---
 
-# 68. Exemplo completo de layout
-
-Considere:
+## 55. Exemplo de layout com `grid-row`
 
 ```text
 ┌───────────────────────────────────┐
@@ -2751,7 +1886,15 @@ Considere:
 └───────────────────────────────────┘
 ```
 
-Podemos controlar o eixo das rows assim:
+```css
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 80px 1fr 1fr 80px;
+}
+```
+
+Eixo das rows:
 
 ```css
 .header {
@@ -2771,7 +1914,7 @@ Podemos controlar o eixo das rows assim:
 }
 ```
 
-E o eixo das colunas separadamente:
+Eixo das colunas, separadamente:
 
 ```css
 .header,
@@ -2788,16 +1931,15 @@ E o eixo das colunas separadamente:
 }
 ```
 
-Assim podemos controlar as duas dimensões independentemente.
+As duas dimensões são controladas de forma independente.
 
 ---
 
-# 69. Exemplo com linhas nomeadas
+## 56. Exemplo com linhas nomeadas
 
 ```css
 .grid {
   display: grid;
-
   grid-template-rows:
     [header-start] 80px
     [header-end content-start] 1fr
@@ -2806,41 +1948,19 @@ Assim podemos controlar as duas dimensões independentemente.
 }
 ```
 
-Agora podemos utilizar:
-
 ```css
 .content {
-  grid-row:
-    content-start /
-    content-end;
+  grid-row: content-start / content-end;
 }
 ```
-
-O código comunica melhor:
-
-```text
-CONTENT START
-      ↓
-     ITEM
-      ↓
-CONTENT END
-```
-
-em vez de depender apenas de números.
-
----
-
-# 70. Por que nomes podem ser melhores?
 
 Compare:
 
 ```css
 .item {
-  grid-row: 2 / 4;
+  grid-row: 2 / 3;
 }
 ```
-
-com:
 
 ```css
 .item {
@@ -2848,43 +1968,27 @@ com:
 }
 ```
 
-A primeira forma descreve:
-
 ```text
-posição numérica
+números → posição numérica
+nomes   → estrutura semântica
 ```
 
-A segunda descreve:
-
-```text
-estrutura semântica
-```
-
-Em layouts simples, números são suficientes.
-
-Em layouts maiores, nomes podem facilitar manutenção e leitura.
+Em layouts simples, números bastam. Em layouts maiores, nomes facilitam a manutenção.
 
 ---
 
-# 71. Exemplo com `grid-template-areas`
+## 57. Exemplo com `grid-template-areas`
 
 ```css
 .grid {
   display: grid;
-
-  grid-template-rows:
-    100px
-    1fr
-    80px;
-
+  grid-template-rows: 100px 1fr 80px;
   grid-template-areas:
     "header"
     "content"
     "footer";
 }
 ```
-
-Visualmente:
 
 ```text
 ┌──────────────────┐
@@ -2897,8 +2001,6 @@ Visualmente:
 │      FOOTER      │
 └──────────────────┘
 ```
-
-Podemos fazer:
 
 ```css
 .header {
@@ -2914,94 +2016,13 @@ Podemos fazer:
 }
 ```
 
----
-
-# 72. Linhas geradas pelas áreas
-
-A área:
-
-```text
-header
-```
-
-possui bordas associadas:
-
-```text
-header-start
-header-end
-```
-
-A área:
-
-```text
-content
-```
-
-possui:
-
-```text
-content-start
-content-end
-```
-
-E:
-
-```text
-footer
-```
-
-possui:
-
-```text
-footer-start
-footer-end
-```
-
-Podemos imaginar:
-
-```text
-header-start
-      ↓
-┌──────────────────┐
-│      HEADER      │
-└──────────────────┘
-      ↑
-header-end
-
-content-start
-      ↓
-┌──────────────────┐
-│     CONTENT      │
-└──────────────────┘
-      ↑
-content-end
-
-footer-start
-      ↓
-┌──────────────────┐
-│      FOOTER      │
-└──────────────────┘
-      ↑
-footer-end
-```
-
-Essas linhas nomeadas podem ser utilizadas no posicionamento baseado em linhas.
-
----
-
-# 73. `grid-row` e áreas nomeadas
-
-Podemos fazer:
+As áreas geram as linhas `header-start`, `header-end`, `content-start`, `content-end`, `footer-start` e `footer-end`, que podem ser usadas em `grid-row`:
 
 ```css
 .item {
-  grid-row:
-    content-start /
-    content-end;
+  grid-row: content-start / content-end;
 }
 ```
-
-Isso deixa explícito que o item deve ocupar:
 
 ```text
 do início da área content
@@ -3009,172 +2030,78 @@ até
 o fim da área content
 ```
 
-Enquanto:
-
-```css
-.item {
-  grid-area: content;
-}
-```
-
-associa o item diretamente à área `content`.
+Enquanto `grid-area: content` associa o item diretamente à área `content`, nos dois eixos.
 
 ---
 
-# 74. Linha nomeada inexistente
-
-Existe uma sutileza importante.
-
-Imagine:
+## 58. Linha nomeada inexistente
 
 ```css
 .grid {
   display: grid;
-
   grid-template-rows:
     [row1] 100px
     [row2] 100px
     [row3] 100px;
 }
-```
 
-Agora escrevemos:
-
-```css
 .item {
   grid-row: row4;
 }
 ```
 
-Mas:
+O nome `row4` não existe. O Grid não o interpreta como "a quarta linha". Pelas regras de resolução de nomes, quando a linha não é encontrada, as linhas **implícitas** são tratadas como se tivessem esse nome. O item vai parar além do grid explícito, o que cria rows implícitas.
 
-```text
-row4
-```
-
-não existe.
-
-O CSS Grid não interpreta isso simplesmente como:
-
-```text
-"use a quarta linha porque o nome é parecido"
-```
-
-Nomes de linhas possuem regras específicas de resolução.
-
-Quando não existe uma linha correspondente ao nome informado, o comportamento passa pelas regras de `<custom-ident>` e pode envolver a busca por linhas implícitas.
-
-Por isso, ao utilizar linhas nomeadas, seja consistente com os nomes realmente definidos.
-
----
-
-# 75. Consistência com linhas nomeadas
-
-Se definimos:
-
-```css
-grid-template-rows:
-  [header] 100px
-  [content] 1fr
-  [footer] 80px;
-```
-
-não devemos depois inventar:
-
-```css
-grid-row: sidebar;
-```
-
-esperando que o navegador encontre automaticamente uma linha existente.
-
-A ideia é:
+Por isso, use sempre nomes que realmente foram definidos:
 
 ```text
 NOME DEFINIDO
       ↓
 NOME UTILIZADO
       ↓
-deve fazer sentido dentro das regras de resolução do Grid
+devem corresponder
 ```
 
 ---
 
-# 76. `auto` em `grid-row`
-
-A propriedade também aceita:
+## 59. `auto` em `grid-row`
 
 ```css
 grid-row: auto;
 ```
 
-O valor:
-
-```text
-auto
-```
-
-indica que essa parte da posição deve permanecer automática.
-
-Por isso, quando encontramos:
+`auto` mantém essa parte da posição automática. Por isso:
 
 ```css
 grid-row: 2;
 ```
 
-a outra extremidade não foi explicitamente definida.
-
-Podemos pensar:
+equivale a:
 
 ```text
 START = 2
-END = auto
+END   = auto
 ```
 
 ---
 
-# 77. Os principais valores de `grid-row`
-
-Os formatos mais importantes são:
+## 60. Os principais formatos de `grid-row`
 
 ```css
 grid-row: auto;
-```
-
-```css
 grid-row: 2;
-```
-
-```css
 grid-row: 2 / 5;
-```
-
-```css
 grid-row: 2 / -1;
-```
-
-```css
 grid-row: 2 / span 3;
-```
-
-```css
 grid-row: span 3;
-```
-
-```css
 grid-row: inicio / fim;
 ```
-
-Cada um comunica uma intenção diferente.
-
----
-
-# 78. Resumo dos formatos
 
 ```text
 grid-row: 2;
 
 → começa na grid line 2
-→ fim automático
+→ fim automático (1 row)
 
 
 grid-row: 2 / 5;
@@ -3199,7 +2126,7 @@ grid-row: 2 / span 3;
 grid-row: span 3;
 
 → ocupa 3 rows
-→ posição inicial pode ser automática
+→ posição inicial automática
 
 
 grid-row: inicio / fim;
@@ -3209,60 +2136,45 @@ grid-row: inicio / fim;
 
 ---
 
-# 79. Comparação rápida
+## 61. Comparação rápida
 
-| Declaração               | Significado                                                  |
-| ------------------------ | ------------------------------------------------------------ |
-| `grid-row: 2`            | começa na grid line 2 e deixa a outra extremidade automática |
-| `grid-row: 1 / 3`        | da grid line 1 até a 3                                       |
-| `grid-row: 1 / 4`        | ocupa 3 row tracks                                           |
-| `grid-row: 2 / 5`        | ocupa 3 row tracks                                           |
-| `grid-row: 1 / -1`       | da primeira até a última linha do grid explícito             |
-| `grid-row: 2 / span 3`   | começa em 2 e ocupa 3 rows                                   |
-| `grid-row: span 2`       | ocupa 2 rows                                                 |
-| `grid-row: inicio / fim` | utiliza linhas nomeadas                                      |
-| `grid-row-start: 2`      | define a linha inicial                                       |
-| `grid-row-end: 4`        | define a linha final                                         |
+| Declaração | Significado |
+| --- | --- |
+| `grid-row: 2` | começa na grid line 2 e a outra extremidade fica automática (1 row) |
+| `grid-row: 1 / 3` | da grid line 1 até a 3 (2 rows) |
+| `grid-row: 1 / 4` | ocupa 3 row tracks |
+| `grid-row: 2 / 5` | ocupa 3 row tracks |
+| `grid-row: 1 / -1` | da primeira até a última linha do grid explícito |
+| `grid-row: 2 / span 3` | começa em 2 e ocupa 3 rows |
+| `grid-row: span 2` | ocupa 2 rows |
+| `grid-row: footer` | usa a área nomeada `footer` (de `footer-start` até `footer-end`) |
+| `grid-row: inicio / fim` | utiliza linhas nomeadas |
+| `grid-row-start: 2` | define a linha inicial |
+| `grid-row-end: 4` | define a linha final |
 
 ---
 
-# 80. Perguntas para testar a compreensão
+## 62. Perguntas para testar a compreensão
 
-## Quantas grid lines existem em um Grid com 3 rows?
+### Quantas grid lines existem em um Grid com 3 rows?
 
 ```text
 4 grid lines
 ```
 
-Porque:
-
 ```text
 rows + 1 = grid lines
 ```
 
----
-
-## O que existe entre duas grid lines?
+### O que existe entre duas grid lines?
 
 ```text
 uma grid track
 ```
 
-No eixo das rows:
+No eixo das rows: uma row track.
 
-```text
-uma row track
-```
-
----
-
-## O que faz:
-
-```css
-grid-row: 1 / 4;
-```
-
-Resposta mental:
+### O que faz `grid-row: 1 / 4`?
 
 ```text
 linha 1 → linha 4
@@ -3270,15 +2182,7 @@ linha 1 → linha 4
 3 rows
 ```
 
----
-
-## O que faz:
-
-```css
-grid-row: 2 / span 3;
-```
-
-Resposta mental:
+### O que faz `grid-row: 2 / span 3`?
 
 ```text
 começa na linha 2
@@ -3286,15 +2190,7 @@ começa na linha 2
 ocupa 3 rows
 ```
 
----
-
-## O que faz:
-
-```css
-grid-row: 1 / -1;
-```
-
-Resposta mental:
+### O que faz `grid-row: 1 / -1`?
 
 ```text
 primeira grid line
@@ -3302,17 +2198,13 @@ até
 última grid line do grid explícito
 ```
 
----
-
-## Qual propriedade controla as rows implícitas?
+### Qual propriedade controla as rows implícitas?
 
 ```css
 grid-auto-rows
 ```
 
----
-
-## Qual propriedade controla o fluxo automático?
+### Qual propriedade controla o fluxo automático?
 
 ```css
 grid-auto-flow
@@ -3320,35 +2212,16 @@ grid-auto-flow
 
 ---
 
-# 81. Erros conceituais que devemos evitar
+## 63. Erros conceituais que devemos evitar
 
-## Erro 1 — pensar que row e grid line são a mesma coisa
-
-Errado:
+### Erro 1 — pensar que row e grid line são a mesma coisa
 
 ```text
-3 rows = 3 grid lines
+errado:   3 rows = 3 grid lines
+correto:  3 rows = 4 grid lines
 ```
 
-Correto:
-
-```text
-3 rows = 4 grid lines
-```
-
----
-
-## Erro 2 — pensar que `1 / 4` significa quatro rows
-
-Errado:
-
-```text
-grid-row: 1 / 4
-↓
-4 rows
-```
-
-Correto:
+### Erro 2 — pensar que `1 / 4` significa quatro rows
 
 ```text
 1 → 2
@@ -3358,99 +2231,54 @@ Correto:
 = 3 rows
 ```
 
----
-
-## Erro 3 — pensar que `span 3` significa três grid lines
-
-Errado:
-
-```text
-span 3 = 3 grid lines
-```
-
-Correto:
+### Erro 3 — pensar que `span 3` significa três grid lines
 
 ```text
 span 3 = 3 tracks
 ```
 
-No `grid-row`:
+No `grid-row`: 3 row tracks.
+
+### Erro 4 — pensar que `grid-row` define a coluna
 
 ```text
-span 3 = 3 row tracks
+grid-row    → eixo das rows
+grid-column → eixo das colunas
+```
+
+### Erro 5 — pensar que `-1` é "qualquer última linha"
+
+```text
+-1 → última linha do grid explícito
+```
+
+Rows implícitas ficam fora dessa contagem.
+
+### Erro 6 — pensar que `dense` muda posições explícitas
+
+```text
+dense → atua no auto-placement
+```
+
+### Erro 7 — pensar que `grid-row: footer` é só a linha inicial
+
+```text
+grid-row: footer → footer-start / footer-end
 ```
 
 ---
 
-## Erro 4 — pensar que `grid-row` define a coluna
+## 64. `grid-row` e acessibilidade
 
-Errado:
-
-```text
-grid-row
-↓
-coluna
-```
-
-Correto:
-
-```text
-grid-row
-↓
-eixo das rows
-```
-
-E:
-
-```text
-grid-column
-↓
-eixo das colunas
-```
-
----
-
-## Erro 5 — pensar que `-1` é sempre "qualquer última linha"
-
-Melhor modelo:
-
-```text
--1
-↓
-última linha do grid explícito
-```
-
-Isso evita confundir a numeração negativa com qualquer linha que possa surgir posteriormente em um grid implícito.
-
----
-
-## Erro 6 — pensar que `dense` muda posições explícitas
-
-Não.
-
-```text
-dense
-↓
-atua no auto-placement
-```
-
----
-
-# 82. `grid-row` e acessibilidade
-
-Mover visualmente um elemento com Grid não significa que você deve ignorar a ordem do HTML.
-
-A estrutura HTML deve continuar fazendo sentido para:
+Mover visualmente um elemento com Grid não significa que a ordem do HTML possa ser ignorada. A estrutura HTML deve continuar fazendo sentido para:
 
 ```text
 leitura
 acessibilidade
 tecnologias assistivas
-navegação
+navegação por teclado
 manutenção
 ```
-
-Por isso:
 
 ```text
 HTML
@@ -3462,56 +2290,27 @@ CSS Grid
 organização visual
 ```
 
-é um bom modelo mental.
-
-O fato de `grid-row` permitir reorganizar elementos visualmente não significa que devemos construir um HTML desordenado e utilizar Grid para "consertá-lo" visualmente.
+Não construa um HTML desordenado para "consertar" a ordem com `grid-row`.
 
 ---
 
-# 83. Exemplo final completo
-
-HTML:
+## 65. Exemplo final completo
 
 ```html
 <div class="layout">
-  <header class="header">
-    Header
-  </header>
-
-  <nav class="nav">
-    Navegação
-  </nav>
-
-  <main class="content">
-    Conteúdo
-  </main>
-
-  <aside class="aside">
-    Aside
-  </aside>
-
-  <footer class="footer">
-    Footer
-  </footer>
+  <header class="header">Header</header>
+  <nav class="nav">Navegação</nav>
+  <main class="content">Conteúdo</main>
+  <aside class="aside">Aside</aside>
+  <footer class="footer">Footer</footer>
 </div>
 ```
-
-CSS:
 
 ```css
 .layout {
   display: grid;
-
-  grid-template-columns:
-    200px
-    1fr
-    200px;
-
-  grid-template-rows:
-    80px
-    1fr
-    80px;
-
+  grid-template-columns: 200px 1fr 200px;
+  grid-template-rows: 80px 1fr 80px;
   gap: 16px;
 }
 
@@ -3541,16 +2340,14 @@ CSS:
 }
 ```
 
-Estrutura visual:
-
 ```text
                     COLUNAS
         1             2             3
         │             │             │
         ▼             ▼             ▼
-┌────────────┬─────────────────┬────────────┐
+┌───────────────────────────────────────────┐
 │                  HEADER                   │
-├────────────┼─────────────────┼────────────┤
+├────────────┬─────────────────┬────────────┤
 │            │                 │            │
 │    NAV     │     CONTENT     │   ASIDE    │
 │            │                 │            │
@@ -3559,127 +2356,79 @@ Estrutura visual:
 └───────────────────────────────────────────┘
 ```
 
-Aqui temos:
-
 ```text
-HEADER
-grid-row: 1
-
-NAV
-grid-row: 2
-
-CONTENT
-grid-row: 2
-
-ASIDE
-grid-row: 2
-
-FOOTER
-grid-row: 3
-```
-
-O eixo das colunas é controlado separadamente por:
-
-```text
-grid-column
-```
-
-e o eixo das rows por:
-
-```text
-grid-row
+HEADER  → grid-row: 1
+NAV     → grid-row: 2
+CONTENT → grid-row: 2
+ASIDE   → grid-row: 2
+FOOTER  → grid-row: 3
 ```
 
 ---
 
-# 84. Exemplo usando `span`
+## 66. Exemplo usando `span`
 
-Podemos alterar:
+Para fazer o conteúdo ocupar duas rows, o Grid precisa de uma row a mais. O footer desce para a row 4, para não se sobrepor ao conteúdo:
 
 ```css
+.layout {
+  display: grid;
+  grid-template-columns: 200px 1fr 200px;
+  grid-template-rows: 80px 1fr 1fr 80px;
+  gap: 16px;
+}
+
+.header {
+  grid-column: 1 / -1;
+  grid-row: 1;
+}
+
+.nav {
+  grid-column: 1;
+  grid-row: 2;
+}
+
 .content {
   grid-column: 2;
   grid-row: 2 / span 2;
 }
+
+.aside {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.footer {
+  grid-column: 1 / -1;
+  grid-row: 4;
+}
 ```
-
-Agora o conteúdo ocupa:
-
-```text
-ROW 2
-+
-ROW 3
-```
-
-Visualmente:
 
 ```text
 ┌───────────┬───────────────┬───────────┐
+│                 HEADER                │
+├───────────┼───────────────┼───────────┤
 │           │               │           │
-│    NAV    │    CONTENT    │   ASIDE   │
+│    NAV    │               │   ASIDE   │
 │           │               │           │
-├───────────┤               ├───────────┤
+├───────────┤    CONTENT    ├───────────┤
 │           │               │           │
-│           │    CONTENT    │           │
+│  (vazio)  │               │  (vazio)  │
 │           │               │           │
-└───────────┴───────────────┴───────────┘
+├───────────┴───────────────┴───────────┤
+│                 FOOTER                │
+└───────────────────────────────────────┘
 ```
 
-Esse exemplo mostra por que `span` é útil:
+O conteúdo ocupa as rows 2 e 3.
 
-```text
-posição inicial
-+
-quantidade de tracks
-```
+> **⚠️ Atenção**
+>
+> Se o footer permanecesse em `grid-row: 3`, ele se sobreporia ao conteúdo, já que ambos ocupariam a row 3 em colunas que se cruzam. Ao ampliar um item com `span`, confira sempre o que já ocupa as rows atravessadas.
 
 ---
 
-# 85. Modelo mental definitivo
-
-Quando você olhar para:
-
-```css
-grid-row: 2 / 5;
-```
-
-não pense imediatamente:
-
-```text
-"segunda até quinta linha"
-```
-
-Pense:
-
-```text
-GRID LINE 2
-     ↓
- ┌───────────┐
- │   ROW     │
- ├───────────┤
- │   ROW     │
- ├───────────┤
- │   ROW     │
- └───────────┘
-     ↑
-GRID LINE 5
-```
-
-Depois conte:
-
-```text
-5 - 2 = 3
-```
-
-Resultado:
-
-```text
-3 row tracks
-```
-
----
-
-# 86. Mapa mental final
+## 67. Mapa mental final
 
 ```text
 CSS GRID
@@ -3728,84 +2477,13 @@ CSS GRID
 
 ---
 
-# 87. Regra de ouro para memorizar
-
-```text
-┌───────────────────────────────────────────────┐
-│                                               │
-│             GRID-ROW                          │
-│                                               │
-│   trabalha com o eixo das ROWS                │
-│                                               │
-│   START → onde começa                         │
-│   END   → onde termina                        │
-│   SPAN  → quantas tracks atravessa            │
-│                                               │
-│   GRID LINE = limite                          │
-│   ROW TRACK = espaço entre limites            │
-│                                               │
-└───────────────────────────────────────────────┘
-```
-
-Se você lembrar somente de uma imagem, lembre desta:
-
-```text
-GRID LINE 1
-───────────────
-      ROW 1
-───────────────
-GRID LINE 2
-───────────────
-      ROW 2
-───────────────
-GRID LINE 3
-───────────────
-      ROW 3
-───────────────
-GRID LINE 4
-```
-
-Então:
-
-```css
-grid-row: 1 / 4;
-```
-
-significa:
-
-```text
-linha 1
-↓
-3 ROW TRACKS
-↓
-linha 4
-```
-
-E:
-
-```css
-grid-row: 2 / span 2;
-```
-
-significa:
-
-```text
-linha 2
-↓
-2 ROW TRACKS
-↓
-linha 4
-```
-
----
-
-# 88. Referência rápida
+## 68. Referência rápida
 
 ```css
 /* Posicionamento automático */
 grid-row: auto;
 
-/* Começa na linha 2 */
+/* Começa na linha 2 (1 row) */
 grid-row: 2;
 
 /* Da linha 1 até a linha 4 */
@@ -3823,6 +2501,9 @@ grid-row: span 2;
 /* Linhas nomeadas */
 grid-row: inicio / fim;
 
+/* Área nomeada (footer-start / footer-end) */
+grid-row: footer;
+
 /* Longhands */
 grid-row-start: 2;
 grid-row-end: 4;
@@ -3830,38 +2511,32 @@ grid-row-end: 4;
 
 ---
 
-# 89. Tabela de fixação
+## 69. Tabela de fixação
 
-| Conceito              | O que significa                                       | Exemplo             |
-| --------------------- | ----------------------------------------------------- | ------------------- |
-| `grid-row`            | shorthand de `grid-row-start` e `grid-row-end`        | `grid-row: 1 / 4`   |
-| `grid-row-start`      | define a linha inicial                                | `grid-row-start: 2` |
-| `grid-row-end`        | define a linha final                                  | `grid-row-end: 4`   |
-| `row`                 | row track no eixo das rows                            | `ROW 1`             |
-| `grid line`           | linha estrutural que delimita tracks                  | `1`, `2`, `3`, `4`  |
-| `grid track`          | espaço entre duas grid lines                          | `1 → 2`             |
-| `span`                | quantidade de tracks                                  | `span 3`            |
-| `-1`                  | última grid line do grid explícito                    | `1 / -1`            |
-| número positivo       | conta linhas a partir do início                       | `2`                 |
-| número negativo       | conta linhas a partir da extremidade final            | `-1`                |
-| linha nomeada         | grid line identificada por um nome                    | `[content-start]`   |
-| `grid-template-rows`  | define rows explícitas                                | `repeat(3, 100px)`  |
-| `grid-auto-rows`      | define o tamanho das rows implícitas                  | `50px`              |
-| `grid-template-areas` | define áreas nomeadas                                 | `"header"`          |
-| `grid-auto-flow`      | controla o auto-placement                             | `row`               |
-| `dense`               | permite procurar lacunas anteriores no auto-placement | `dense`             |
+| Conceito | O que significa | Exemplo |
+| --- | --- | --- |
+| `grid-row` | shorthand de `grid-row-start` e `grid-row-end` | `grid-row: 1 / 4` |
+| `grid-row-start` | define a linha inicial | `grid-row-start: 2` |
+| `grid-row-end` | define a linha final | `grid-row-end: 4` |
+| `row` | row track no eixo das rows | `ROW 1` |
+| `grid line` | linha estrutural que delimita tracks | `1`, `2`, `3`, `4` |
+| `grid track` | espaço entre duas grid lines | `1 → 2` |
+| `span` | quantidade de tracks | `span 3` |
+| `-1` | última grid line do grid explícito | `1 / -1` |
+| número positivo | conta linhas a partir do início | `2` |
+| número negativo | conta linhas a partir da extremidade final | `-1` |
+| linha nomeada | grid line identificada por um nome | `[content-start]` |
+| `grid-template-rows` | define rows explícitas | `repeat(3, 100px)` |
+| `grid-auto-rows` | define o tamanho das rows implícitas | `50px` |
+| `grid-template-areas` | define áreas nomeadas | `"header"` |
+| `grid-auto-flow` | controla o auto-placement | `row` |
+| `dense` | permite ao auto-placement preencher lacunas anteriores | `dense` |
 
 ---
 
-# 90. Checklist mental
+## 70. Checklist mental
 
-Antes de escrever:
-
-```css
-grid-row: ...;
-```
-
-pergunte:
+Antes de escrever `grid-row: ...`, pergunte:
 
 ```text
 □ Qual é a row que quero atingir?
@@ -3877,11 +2552,12 @@ pergunte:
 □ Os outros itens continuam no auto-placement?
 □ A colocação pode exigir rows implícitas?
 □ As rows implícitas precisam de um tamanho definido por grid-auto-rows?
+□ O item vai se sobrepor a outro?
 ```
 
 ---
 
-# 91. O conteúdo essencial para guardar
+## 71. O conteúdo essencial para guardar
 
 ```text
 1. Grid é bidimensional.
@@ -3918,49 +2594,45 @@ pergunte:
 13. grid-template-areas cria áreas nomeadas
     e linhas associadas às bordas dessas áreas.
 
-14. Rows implícitas podem ser criadas quando necessárias.
+14. grid-row: 2 → 2 / auto.
+    grid-row: nome → nome / nome.
 
-15. grid-auto-rows controla o dimensionamento das
+15. Rows implícitas podem ser criadas quando necessárias.
+
+16. grid-auto-rows controla o dimensionamento das
     rows implícitas.
 
-16. Itens não posicionados explicitamente podem
-    ser organizados pelo auto-placement.
+17. Itens não posicionados explicitamente são
+    organizados pelo auto-placement.
 
-17. grid-auto-flow controla esse comportamento.
+18. grid-auto-flow controla esse comportamento.
 
-18. dense permite ao auto-placement procurar
-    oportunidades de preencher lacunas anteriores.
+19. dense permite ao auto-placement preencher
+    lacunas anteriores, mas altera a ordem visual.
 ```
 
 ---
 
-# 92. Referências técnicas
+## 72. Referências técnicas
 
-## MDN Web Docs
+### MDN Web Docs
 
-[`grid-row`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/grid-row)
+- [`grid-row`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/grid-row)
+- [`grid-row-start`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/grid-row-start)
+- [`grid-row-end`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/grid-row-end)
+- [`grid-template-rows`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/grid-template-rows)
+- [`grid-template-areas`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/grid-template-areas)
+- [Grid layout — Basic concepts](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Grid_layout/Basic_concepts)
+- [Grid layout — Line-based placement](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Grid_layout/Line-based_placement)
+- [Grid layout — Named grid lines](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Grid_layout/Named_grid_lines)
 
-[`grid-row-start`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/grid-row-start)
+### Especificação
 
-[`grid-row-end`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/grid-row-end)
-
-[`grid-template-rows`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/grid-template-rows)
-
-[`grid-template-areas`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/grid-template-areas)
-
-[`Grid layout — Basic concepts`](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Grid_layout/Basic_concepts)
-
-[`Grid layout — Line-based placement`](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Grid_layout/Line-based_placement)
-
-[`Grid layout — Named grid lines`](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Grid_layout/Named_grid_lines)
-
-## Especificação
-
-[`CSS Grid Layout Module Level 2 — W3C`](https://www.w3.org/TR/css-grid-2/)
+- [CSS Grid Layout Module Level 2 — W3C](https://www.w3.org/TR/css-grid-2/)
 
 ---
 
-# 93. GitHub
+## 73. GitHub
 
 <div align="center">
 
@@ -3983,4 +2655,3 @@ Gabriel Felipe de Oliveira Rateiro
 > Entenda as grid lines, as row tracks e a área que o item ocupa.
 
 </div>
-```

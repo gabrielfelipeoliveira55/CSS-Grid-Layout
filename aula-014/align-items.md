@@ -1,10 +1,21 @@
 # Grid Layout: `align-items`
 
+## Índice
+
+1. [O que é](#o-que-é)
+2. [Sintaxe](#sintaxe)
+3. [Quando funciona](#quando-funciona)
+4. [Valores](#valores)
+5. [Grid vs Flexbox](#grid-vs-flexbox)
+6. [Mapa mental](#mapa-mental)
+7. [Revisão Rápida](#revisão-rápida)
+8. [Referências oficiais](#referências-oficiais)
+
 ---
 
 ## O que é
 
-A propriedade `align-items` define como os **itens de um grid** são alinhados no **eixo de bloco** (eixo Y, na vertical) dentro da própria **área da célula** onde estão posicionados.
+A propriedade `align-items` define como os **itens de um grid** são alinhados no **eixo de bloco** (eixo Y, na vertical) dentro da própria **área** onde estão posicionados: a célula, ou o conjunto de células que o item ocupa.
 
 Ela é a contraparte vertical do `justify-items`, que faz o mesmo trabalho no eixo horizontal (eixo X).
 
@@ -35,9 +46,9 @@ align-items: start;
 
 ## Quando funciona
 
-O `align-items` só tem efeito visível quando **sobra espaço vertical** na célula. Ou seja, a linha precisa ser mais alta do que o conteúdo do item.
+O `align-items` só tem efeito visível quando **sobra espaço vertical** na área do item. Ou seja, a linha precisa ser mais alta do que o conteúdo do item.
 
-Se a altura da linha for definida pelo próprio conteúdo (`auto`), a célula tem exatamente a altura do item e não há espaço para alinhar nada.
+Se a altura da linha for definida pelo próprio conteúdo (`auto`), a linha tem a altura do maior item dela, e os itens menores não têm espaço para se mover.
 
 Por isso, nos exemplos desta página, as linhas têm altura fixa:
 
@@ -80,7 +91,7 @@ Com linhas de `100px`, cada célula tem 100px de altura. Se o item for menor que
 
 ### `stretch` (padrão)
 
-Estica o item para ocupar **toda a altura da célula**. É o comportamento padrão (`normal` se comporta como `stretch` em itens de grid).
+Estica o item para ocupar **toda a altura da célula**, desde que o item tenha `height: auto`. É o comportamento padrão (`normal` se comporta como `stretch` em itens de grid).
 
 ```css
 align-items: stretch;
@@ -110,14 +121,16 @@ Centraliza os itens **verticalmente** na célula.
 align-items: center;
 ```
 
-### Comparativo visual (linha de 100px, item com 40px de altura)
+### Comparativo visual (linha de 100px, item cujo conteúdo ocupa 40px)
 
 | Valor | Posição do item na célula | Altura final do item |
 |---|---|---|
-| `stretch` | Preenche tudo | 100px (esticado) |
+| `stretch` | Preenche tudo | 100px (esticado, com `height: auto`) |
 | `start` | Colado no topo | 40px |
 | `center` | No meio | 40px |
 | `end` | Colado na base | 40px |
+
+> Se o item tiver `height: 40px` declarado, o `stretch` não o estica: ele permanece com 40px, colado no topo.
 
 ### Exemplo completo
 
@@ -198,10 +211,10 @@ mindmap
 
 | Conceito | Resumo |
 |---|---|
-| **O que faz** | Alinha os itens do grid no eixo Y (vertical) dentro da célula |
+| **O que faz** | Alinha os itens do grid no eixo Y (vertical) dentro da área que ocupam |
 | **Onde se aplica** | No contêiner com `display: grid` |
 | **Valor padrão** | `normal`, que se comporta como `stretch` |
-| **Quando tem efeito** | Só quando a célula é maior que o conteúdo do item |
+| **Quando tem efeito** | Só quando a área do item é maior que o conteúdo dele |
 | **`stretch`** | Estica o item até preencher a altura da célula (se `height: auto`) |
 | **`start`** | Alinha ao topo |
 | **`end`** | Alinha à base |
