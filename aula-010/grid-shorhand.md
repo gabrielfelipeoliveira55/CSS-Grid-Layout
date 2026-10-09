@@ -1,4 +1,4 @@
-# CSS Grid — Propriedade `grid`
+# CSS Grid Layout — Propriedade `grid`
 
 A propriedade `grid` é uma **shorthand**, ou seja, uma propriedade abreviada capaz de configurar diferentes propriedades do CSS Grid em uma única declaração.
 

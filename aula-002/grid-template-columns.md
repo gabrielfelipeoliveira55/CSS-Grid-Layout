@@ -1,4 +1,4 @@
-# CSS Grid — `grid-template-columns`, `minmax()`, `repeat()`, `auto-fit` e `auto-fill`
+# CSS Grid Layout — `grid-template-columns`, `minmax()`, `repeat()`, `auto-fit` e `auto-fill`
 
 ## Índice
 

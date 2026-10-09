@@ -1,4 +1,4 @@
-# CSS Grid — `grid-auto-flow`
+# CSS Grid Layout — `grid-auto-flow`
 
 ## Índice
 

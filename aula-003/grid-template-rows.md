@@ -1,4 +1,4 @@
-# CSS Grid — `grid-template-rows`
+# CSS Grid Layout — `grid-template-rows`
 
 A propriedade `grid-template-rows` define as **linhas explícitas** de um Grid e especifica como cada uma dessas linhas deve ser dimensionada.
 

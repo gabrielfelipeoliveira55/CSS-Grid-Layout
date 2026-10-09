@@ -1,4 +1,4 @@
-# CSS Grid — `grid-template`
+# CSS Grid Layout — `grid-template`
 
 ## Índice
 

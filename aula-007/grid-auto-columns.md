@@ -1,4 +1,4 @@
-# CSS Grid — `grid-auto-columns`
+# CSS Grid Layout — `grid-auto-columns`
 
 ## Índice
 

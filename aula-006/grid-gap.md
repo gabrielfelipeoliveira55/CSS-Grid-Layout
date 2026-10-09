@@ -1,4 +1,4 @@
-# CSS Grid — `gap`, `row-gap` e `column-gap`
+# CSS Grid Layout — `gap`, `row-gap` e `column-gap`
 
 ## Índice
 

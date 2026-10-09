@@ -1,4 +1,4 @@
-# Grid Layout: `align-items`
+# CSS Grid Layout - `align-items`
 
 ## Índice
 

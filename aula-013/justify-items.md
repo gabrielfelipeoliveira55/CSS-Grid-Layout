@@ -1,4 +1,4 @@
-# `justify-items` no CSS Grid
+# CSS Grid Layout - `justify-items`
 
 ## Índice
 

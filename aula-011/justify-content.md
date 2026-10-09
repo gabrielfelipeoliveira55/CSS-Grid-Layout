@@ -1,4 +1,4 @@
-# CSS Grid — `justify-content`
+# CSS Grid Layout — `justify-content`
 
 ## Índice
 
