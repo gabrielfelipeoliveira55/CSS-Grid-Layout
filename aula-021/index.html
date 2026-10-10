@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+  <head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learnig CSS Grid Layout (place-content)">
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="author" content="Gabriel Felipe de Oliveira Rateiro">
+
+    <!-- ? Favicon Icon for project -->
+    <link rel="favicon Icon" sizes="64x64" href="./assets/icons/GFOR-grid-favicon.svg" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="64x64" href="./assets/icons/GFOR-grid-favicon.svg" type="image/png" />
+
+    <!-- ? Link for Font IBM Plex Mono: [400] - [500] - [600] - [700] -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- ? Link for Font Nunito All -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+
+    <!-- ? Link for stylesheet -->
+    <link rel="stylesheet" href="./components/css/style.css">
+
+    <title>CSS Grid Layout [place-content]</title>
+
+  </head>
+
+  <body>
+
+    <!-- ? header -->
+    <header class="header">
+
+      <div class="container-logo">
+
+        <div class="logo"><a href="./index.html">gfor</a></div>
+
+      </div>
+
+      <div class="container-title">
+
+        <h1 class="title">Learning to use the <span class="accent" title="O place-content: É uma propriedade shorthand para align-content e justify-content: distribui o espaço livre do contêiner entre as linhas e colunas do grid, nos eixos vertical e horizontal ao mesmo tempo. O primeiro valor define o align-content e o segundo o justify-content. Se só um valor for informado, ele vale para os dois.">place-content</span>.</h1>
+
+      </div>
+      
+      <div class="icon-container">
+
+        <div class="icon-container-box">
+
+          <img src="./assets/icons/GFOR-grid-favicon.svg" alt="Icone Grid">
+          
+        </div>
+
+      </div>
+
+    </header>
+
+    <!-- ? main -->
+    <main class="main">
+
+      <!-- ? section 1 -->
+      <section class="section">
+
+        <h2 class="title-section">place-content: start;</h2>
+
+        <div class="grid start">
+      
+          <div class="item item-1">1</div>
+          <div class="item item-2">2</div>
+          <div class="item item-3">3</div>
+          <div class="item item-4">4</div>
+          <div class="item item-5">5</div>
+          <div class="item item-6">6</div>
+          <div class="item item-7">7</div>
+          <div class="item item-8">8</div>
+          <div class="item item-9">9</div>
+      
+        </div>
+      
+      </section>
+
+      <!-- ? section 2 -->
+      <section class="section">
+
+        <h2 class="title-section">place-content: center;</h2>
+
+        <div class="grid center">
+      
+          <div class="item item-1">1</div>
+          <div class="item item-2">2</div>
+          <div class="item item-3">3</div>
+          <div class="item item-4">4</div>
+          <div class="item item-5">5</div>
+          <div class="item item-6">6</div>
+          <div class="item item-7">7</div>
+          <div class="item item-8">8</div>
+          <div class="item item-9">9</div>
+      
+        </div>
+      
+      </section>
+
+      <!-- ? section 3 -->
+      <section class="section">
+
+        <h2 class="title-section">place-content: end;</h2>
+
+        <div class="grid end">
+      
+          <div class="item item-1">1</div>
+          <div class="item item-2">2</div>
+          <div class="item item-3">3</div>
+          <div class="item item-4">4</div>
+          <div class="item item-5">5</div>
+          <div class="item item-6">6</div>
+          <div class="item item-7">7</div>
+          <div class="item item-8">8</div>
+          <div class="item item-9">9</div>
+      
+        </div>
+      
+      </section>
+
+      <!-- ? section 4 -->
+      <section class="section">
+
+        <h2 class="title-section">place-content: space-between;</h2>
+
+        <div class="grid space-between">
+      
+          <div class="item item-1">1</div>
+          <div class="item item-2">2</div>
+          <div class="item item-3">3</div>
+          <div class="item item-4">4</div>
+          <div class="item item-5">5</div>
+          <div class="item item-6">6</div>
+          <div class="item item-7">7</div>
+          <div class="item item-8">8</div>
+          <div class="item item-9">9</div>
+      
+        </div>
+      
+      </section>
+
+      <!-- ? section 5 -->
+      <section class="section">
+
+        <h2 class="title-section">place-content: space-around;</h2>
+
+        <div class="grid space-around">
+      
+          <div class="item item-1">1</div>
+          <div class="item item-2">2</div>
+          <div class="item item-3">3</div>
+          <div class="item item-4">4</div>
+          <div class="item item-5">5</div>
+          <div class="item item-6">6</div>
+          <div class="item item-7">7</div>
+          <div class="item item-8">8</div>
+          <div class="item item-9">9</div>
+      
+        </div>
+      
+      </section>
+
+      <!-- ? section 6 -->
+      <section class="section">
+
+        <h2 class="title-section">place-content: space-evenly;</h2>
+
+        <div class="grid space-evenly">
+      
+          <div class="item item-1">1</div>
+          <div class="item item-2">2</div>
+          <div class="item item-3">3</div>
+          <div class="item item-4">4</div>
+          <div class="item item-5">5</div>
+          <div class="item item-6">6</div>
+          <div class="item item-7">7</div>
+          <div class="item item-8">8</div>
+          <div class="item item-9">9</div>
+      
+        </div>
+      
+      </section>
+
+      <!-- ? section 7 -->
+      <section class="section">
+
+        <h2 class="title-section">place-content: stretch;</h2>
+
+        <div class="grid stretch">
+      
+          <div class="item item-1">1</div>
+          <div class="item item-2">2</div>
+          <div class="item item-3">3</div>
+          <div class="item item-4">4</div>
+          <div class="item item-5">5</div>
+          <div class="item item-6">6</div>
+          <div class="item item-7">7</div>
+          <div class="item item-8">8</div>
+          <div class="item item-9">9</div>
+      
+        </div>
+      
+      </section>
+
+      <!-- ? section 8 -->
+      <section class="section">
+
+        <h2 class="title-section">place-content: start end;</h2>
+        <p class="description">Agora usando dos valores diferentes para, align-content e justify-content, vejamos: </p>
+
+        <div class="grid start-end">
+      
+          <div class="item item-1">1</div>
+          <div class="item item-2">2</div>
+          <div class="item item-3">3</div>
+          <div class="item item-4">4</div>
+          <div class="item item-5">5</div>
+          <div class="item item-6">6</div>
+          <div class="item item-7">7</div>
+          <div class="item item-8">8</div>
+          <div class="item item-9">9</div>
+      
+        </div>
+      
+      </section>
+
+      <!-- ? section 9 -->
+      <section class="section">
+
+        <h2 class="title-section">place-content: center start;</h2>
+
+        <div class="grid center-start">
+      
+          <div class="item item-1">1</div>
+          <div class="item item-2">2</div>
+          <div class="item item-3">3</div>
+          <div class="item item-4">4</div>
+          <div class="item item-5">5</div>
+          <div class="item item-6">6</div>
+          <div class="item item-7">7</div>
+          <div class="item item-8">8</div>
+          <div class="item item-9">9</div>
+      
+        </div>
+      
+      </section>
+
+      <!-- ? section 10 -->
+      <section class="section">
+
+        <h2 class="title-section">place-content: end center;</h2>
+
+        <div class="grid end-center">
+      
+          <div class="item item-1">1</div>
+          <div class="item item-2">2</div>
+          <div class="item item-3">3</div>
+          <div class="item item-4">4</div>
+          <div class="item item-5">5</div>
+          <div class="item item-6">6</div>
+          <div class="item item-7">7</div>
+          <div class="item item-8">8</div>
+          <div class="item item-9">9</div>
+      
+        </div>
+      
+      </section>
+
+      <!-- ? section 11 -->
+      <section class="section">
+
+        <h2 class="title-section">place-content: space-between space-evenly;</h2>
+
+        <div class="grid space-between-space-evenly">
+      
+          <div class="item item-1">1</div>
+          <div class="item item-2">2</div>
+          <div class="item item-3">3</div>
+          <div class="item item-4">4</div>
+          <div class="item item-5">5</div>
+          <div class="item item-6">6</div>
+          <div class="item item-7">7</div>
+          <div class="item item-8">8</div>
+          <div class="item item-9">9</div>
+      
+        </div>
+      
+      </section>
+
+      <!-- ? section 11 -->
+      <section class="section">
+
+        <h2 class="title-section">place-content: space-evenly space-around;</h2>
+
+        <div class="grid space-evenly-space-around">
+      
+          <div class="item item-1">1</div>
+          <div class="item item-2">2</div>
+          <div class="item item-3">3</div>
+          <div class="item item-4">4</div>
+          <div class="item item-5">5</div>
+          <div class="item item-6">6</div>
+          <div class="item item-7">7</div>
+          <div class="item item-8">8</div>
+          <div class="item item-9">9</div>
+      
+        </div>
+      
+      </section>
+
+      <!-- ? section 12 -->
+      <section class="section">
+
+        <h2 class="title-section">place-content: space-around space-between;</h2>
+
+        <div class="grid space-around-space-between">
+      
+          <div class="item item-1">1</div>
+          <div class="item item-2">2</div>
+          <div class="item item-3">3</div>
+          <div class="item item-4">4</div>
+          <div class="item item-5">5</div>
+          <div class="item item-6">6</div>
+          <div class="item item-7">7</div>
+          <div class="item item-8">8</div>
+          <div class="item item-9">9</div>
+      
+        </div>
+      
+      </section>
+
+      <!-- ? section 13 -->
+      <section class="section">
+
+        <h2 class="title-section">place-content: stretch space-between;</h2>
+
+        <div class="grid stretch-space-between">
+      
+          <div class="item item-1">1</div>
+          <div class="item item-2">2</div>
+          <div class="item item-3">3</div>
+          <div class="item item-4">4</div>
+          <div class="item item-5">5</div>
+          <div class="item item-6">6</div>
+          <div class="item item-7">7</div>
+          <div class="item item-8">8</div>
+          <div class="item item-9">9</div>
+      
+        </div>
+      
+      </section>
+
+      <!-- ? section 14 -->
+      <section class="section">
+
+        <h2 class="title-section">place-content: space-evenly stretch;</h2>
+
+        <div class="grid space-evenly-stretch">
+      
+          <div class="item item-1">1</div>
+          <div class="item item-2">2</div>
+          <div class="item item-3">3</div>
+          <div class="item item-4">4</div>
+          <div class="item item-5">5</div>
+          <div class="item item-6">6</div>
+          <div class="item item-7">7</div>
+          <div class="item item-8">8</div>
+          <div class="item item-9">9</div>
+      
+        </div>
+      
+      </section>
+
+    </main>
+
+    <!-- ? footer -->
+    <footer class="container-footer">
+
+      <p class="copyright"> Todos os direitos reservados a <a href="https://github.com/gabrielfelipeoliveira55" target="_blank" class="accent link-github" >Gabriel Felipe de Oliveira Rateiro</a> | <strong class="accent">&copy;</strong> 2026.</>
+
+    </footer>
+    
+  </body>
+
+</html>
