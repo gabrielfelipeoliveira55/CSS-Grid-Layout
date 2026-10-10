@@ -181,12 +181,6 @@ body {
 
 }
 
-.item:nth-child(-n+9):not(.item-2) {
-
-  opacity: 0.3;
-
-}
-
 .title-section {
 
   text-align: center;
@@ -205,71 +199,71 @@ body {
 
 }
 
-/* ? Using place-self */
+/* ? Using place-items */
 
-/* ? Using place-self with auto in item-2 */
-.auto .item-2 {
+/* ? Using place-items with auto */
+.auto {
 
-  place-self: auto; /* Aqui estou definindo valor auto pra as propriedades align-self e justify-self */
-/* place-self: auto auto; */
+  place-items: auto; /* Aqui estou definindo valor auto pra as propriedades align-items e justify-items */
+  /* place-items: auto auto; */
             /*  /    \ */
-     /* align-self justify-self */
+     /* align-items justify-items */
 
 }
 
-/* ? Using place-self with normal in item-2 */
-.normal .item-2 {
+/* ? Using place-items with normal */
+.normal {
 
-  place-self: normal; /* Aqui estou definindo valor auto pra as propriedades align-self e justify-self */
-
-}
-
-/* ? Using place-self with start in item-2 */
-.start .item-2 {
-
-  place-self: start;
+  place-items: normal; /* Aqui estou definindo valor auto pra as propriedades align-items e justify-items */
 
 }
 
-/* ? Using place-self with center in item-2 */
-.center .item-2 {
+/* ? Using place-items with start */
+.start {
 
-  place-self: center;
+  place-items: start;
 
 }
 
-/* ? Using place-self with end in item-2 */
-.end .item-2 {
+/* ? Using place-items with center */
+.center {
 
-  place-self: end;
+  place-items: center;
+
+}
+
+/* ? Using place-items with end */
+.end {
+
+  place-items: end;
   
 }
 
-/* ? Using place-self with stretch in item-2 */
-.stretch .item-2 {
+/* ? Using place-items with stretch */
+.stretch {
 
-  place-self: stretch;
-
-}
-
-/* ? Using place-self with start & end in item-2 */
-.start-end .item-2 {
-
-  place-self: start end;
+  place-items: stretch;
 
 }
 
-/* ? Using place-self with center & start in item-2 */
-.center-start .item-2 {
+/* ? Using place-items with start & end */
+.start-end {
 
-  place-self: center start;  
+  place-items: start end;
 
 }
 
-/* ? Using place-self with end & center in item-2 */
-.end-center .item-2 {
+/* ? Using place-items with center & start */
+.center-start {
 
-  place-self: end center;
+  place-items: center start;  
+
+}
+
+/* ? Using place-items with end & center */
+.end-center {
+
+  place-items: end center;
 
 }
 
